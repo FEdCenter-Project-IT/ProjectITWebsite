@@ -14,7 +14,7 @@
 <div class="login-wrapper">
     <form action="" class="form">
       <img src="img/FedCenter_Wolf-removebg-preview.png" alt="">
-      <h2>Intern Login</h2>
+      <h2>Admin Login</h2>
       <div class="input-group">
         <input type="text" name="loginUser" id="loginUser" required>
         <label for="loginUser">User email</label>
