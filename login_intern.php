@@ -1,3 +1,43 @@
+<?php
+session_start(); // Call session_start() before any output is sent
+
+// Connect to the database
+$serverName = "LAPTOP-GBO9I3B3\SQL";
+$connectionOptions = [
+    "Database" => "DLSUD",
+    "Uid" => "",
+    "PWD" => ""
+];
+
+$conn = sqlsrv_connect($serverName, $connectionOptions);
+
+// Check the connection
+if (!$conn) {
+    die("Connection failed: " . sqlsrv_errors());
+}
+
+$loginerr = ''; // Initialize login error message
+
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
+    $form_id_log = isset($_POST["username"]) ? $_POST["username"] : '';
+    $user_pass_log = isset($_POST["userpassword"]) ? $_POST["userpassword"] : '';
+    // Select the FORM_ID and USER_PASSWORD from the users table
+    $sql = "SELECT USERNAME, USER_PASSWORD FROM FEDCENTER_INTERN_LOGIN WHERE USERNAME=? AND USER_PASSWORD=?";
+    $params = array($form_id_log, $user_pass_log);
+    $result = sqlsrv_query($conn, $sql, $params);
+    // Fetch the data from the database
+ 
+    if (sqlsrv_has_rows($result) ) {
+        echo "<script>alert('WELCOME INTERN!');</script>";
+        exit();
+    } else {
+        $loginerr ="Invalid Username/Password.";
+    }
+}
+?>
+
+<!-- Samboy -->
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
