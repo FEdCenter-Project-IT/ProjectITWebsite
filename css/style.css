@@ -161,36 +161,43 @@ body {
   body {
     height: 100vh;
     display: flex;
-    justify-content: center;
-    align-items:center;
-    background: #f2efef;
+    background-color: black;
   }
 
   .datetime{
     color: #fff;
-    background: #ea7c4a;
+    background-color: #fb4f00;
     font-family: "Segoe UI" , sans-serif;
-    width: 340px;
-    padding: 15px 20px;
-    border: 3px solid #ee3400;
-    border-radius: 5px;
-  
+    width: 250px;
+    height: 220px;
+    padding: 25px;
+    margin: 20px;
+    border-radius: 50%;
+    margin-left: 40%;
+    margin-top: 2%;
   }
 
   .datetime:hover{
-    background: #e3a172;
+    background: black;
     box-shadow: 0 0 30px #eea27a;
+  }
+  #dayname {
+    position: absolute;
+    top: 21%;
+    margin-left: 10px;
   }
   
   .date{
     font-size: 20px;
-    font-weight: 600px;
+    font-weight: bold;
     text-align: center;
     letter-spacing: 3px;
+    padding-top: 30px;
+   
   }
 
   .time{
-    font-size: 60px;
+    font-size: 39px;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -205,7 +212,7 @@ body {
   }
 
   .time span:last-child{
-    background: #502503;
+    background: brown;
     font-size: 30px;
     font-weight: 600;
     text-transform: uppercase;
@@ -214,7 +221,100 @@ body {
     border-radius: 3px;
   }
 
+.mainlogo
+{
+  position: absolute;
+}
+.mainlogo img {
+  height: 50%;
+  width: 50%;
+}
 
+.timein {
+  position: absolute;
+  border-radius: 50px;
+  font-size: 30px;
+  border: none;
+  cursor: pointer;
+  font-weight: 600;
+  width: 150px;
 
+  left: 34%;
+  top: 32%;
+  box-shadow: 10px 10px 10px rgba(10, 99, 169, 0.16),
+  -10px -10px 10px -1px rgba(255, 255, 255, 0.70);
+  -webkit-transition-duration: 0.3s;
+  transition-duration: 0.3s;
+  -webkit-transition-property: box-shadow, transform;
+  transition-property: box-shadow, transform;
+}
+.timein:hover, .timein:focus, .timein:active {
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
+  -webkit-transform: scale(1.1);
+  transform: scale(1.1);
 
+}
+.timeout {
+  position: absolute;
+  border-radius: 50px;
+  font-size: 30px;
+  border: none;
+  cursor: pointer;
+  font-weight: 600;
+  width: 150px;
+  color: #ed0000;
+  left: 52%;
+  top: 32%;
+  box-shadow: inset 10px 10px 10px -1px rgba(10, 99, 169, 0.16),
+  inset -10px -10px 10px -1px rgba(255, 255, 255, 0.70);
+  -webkit-transition-duration: 0.3s;
+  transition-duration: 0.3s;
+  -webkit-transition-property: box-shadow, transform;
+  transition-property: box-shadow, transform;
+}
+.timeout:hover, .timeout:focus, .timeout:active {
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
+  -webkit-transform: scale(1.1);
+  transform: scale(1.1);
+ 
+}
+
+.userinfo {
+  position: absolute;
+  top: 45%;
+  font-family: Arial, Helvetica, sans-serif;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  width: 40%;
   
+}
+.info {
+
+  text-align: justify;
+  margin-left: 15px;
+  display: block;
+  font-size: 20px;  
+  letter-spacing: 1px;
+  padding: 2px;
+  justify-content: right;
+}
+.tableuser {
+  margin: 50px;
+  position: absolute;
+  top: 70%;
+ text-align: center;
+ justify-content: center;
+ left: 0%;
+
+}
+table {
+  font-size: 20px;
+ 
+}
+.table thead th{
+  background-color: #fb4f00;
+  color: white;
+  font-weight: bold ;
+  width: 10%;
+  
+}
+

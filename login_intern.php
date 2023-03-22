@@ -68,7 +68,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
       <input type="submit" value="Login" class="submit-btn">
       <a href="#forgot-pw" class="forgot-pw">Forgot Password?</a>
     </form>
-
+                                    
     <div id="forgot-pw">
       <form action="" class="form">
         <a href="#" class="close">&times;</a>

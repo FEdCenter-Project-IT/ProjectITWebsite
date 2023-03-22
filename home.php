@@ -6,19 +6,33 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" type="text/css" href="css/style.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.3.0/css/all.min.css" integrity="sha512-SzlrxWUlpfuzQ+pcUCosxcglQRNAq/DZjVsC0lE40xsADsfeQoEypE+enwcOiGjk/bSuGGKHEyjSoQ1zVisanQ==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-GLhlTQ8iRABdZLl6O3oVMWSktQOp6b7In1Zl3/Jr59b6EGGoI1aFkw7cmDA6j6gD" crossorigin="anonymous">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.3/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
     <title>Intern Interface</title>
     
 </head>
+
 <body onload="initClock()">
 
+    
+</div>
+
+
+<div class="mainlogo">
+<img src="img/FedCenter_Logo-removebg-preview.png" alt="">
+</div>
+
+
+    
 <!-- Digital Clock Start -->
 <div class="datetime">
     <div class="date">
-        <span id = "dayname"> Day </span>,
+        <span id = "dayname"> Day </span>
         <span id = "month"> Month </span>
         <span id = "daynum"> 00 </span>,
         <span id = "year"> Year </span>
-    </div>git commit -m "comments"
+    </div>
     <div class="time">
         <span id = "hour"> 00 </span>:
         <span id = "minutes"> 00</span>:
@@ -26,6 +40,56 @@
         <span id = "period"> AM </span> 
     </div>
 </div>
+
+<button type="button" class="timein">Time in</button>
+<button type="button" class="timeout">Time out</button>
+
+<!--1st table-->
+<table class="userinfo">
+<tr>
+<th class="info">NAME:</th>
+<th class="info">FID:</th>
+<th class="info">PROJECTS:</th>
+<th class="info">TOTAL HOURS:</th>
+<th class="info">REQUIRED HOURS:</th>
+<th class="info"> REMAINING TIME:</th>
+</tr>
+</table>
+
+
+<!--2nd Table-->
+
+<section class="tableuser table-bordered">
+<table class="table">
+<thead>
+    <tr>
+        <th>NO</th>
+        <th>DATE</th>
+        <th>IN</th>
+        <th>OUT</th>
+        <th>HOURS</th>
+        <th>MINS</th>
+        <th>SPECIAL EVENT</th>
+    </tr>
+</thead>
+
+<!--Sample Output for the database-->
+<tbody>
+    <td>1</td>
+    <td>March 22, 2023</td>
+    <td>1:00PM</td>
+    <td>6:00PM</td>
+    <td>5</td>
+    <td>0</td>
+    <td>Typing</td>
+</tbody>
+</table>
+</section>
+
+
+
+
+
 
 <script type="text/javascript">
     function updateClock() {
