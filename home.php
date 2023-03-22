@@ -18,7 +18,7 @@
         <span id = "month"> Month </span>
         <span id = "daynum"> 00 </span>,
         <span id = "year"> Year </span>
-    </div>
+    </div>git commit -m "comments"
     <div class="time">
         <span id = "hour"> 00 </span>:
         <span id = "minutes"> 00</span>:
