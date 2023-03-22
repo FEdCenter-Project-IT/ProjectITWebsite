@@ -50,18 +50,17 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 </head>
 <body>
 
-
 <div class="login-wrapper">
-    <form action="" class="form">
+    <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="POST" class="form">
       <img src="img/FedCenter_Wolf-removebg-preview.png" alt="">
-      <h2>Intern Login</h2>
+      <h2>Admin Login</h2>
       <div class="input-group">
-        <input type="text" name="loginUser" id="loginUser" required>
-        <label for="loginUser">User email</label>
+        <input type="text" name="username" id="username" required>
+        <label for="username">User email</label>
       </div>
       <div class="input-group">
-        <input type="password" name="loginPassword" id="MyInput" required>
-        <label for="loginPassword">Password</label>
+        <input type="password" name="userpassword" id="userpassword" required>
+        <label for="userpassword">Password</label>
         <span class="eye" onclick="myFunction()">
         <i id="hide1" class="fa-solid fa-eye"></i>
         <i id="hide2" class="fa-solid fa-eye-slash"></i></span>
@@ -83,12 +82,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     </div>
   </div>
   
-
-
 <!--Password Hide-->
 <script>
     function myFunction(){
-        var x = document.getElementById("MyInput");
+        var x = document.getElementById("userpassword");
         var y = document.getElementById("hide1");
         var z = document.getElementById("hide2");
 
@@ -103,10 +100,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             z.style.display = "block"
         }
     }
-
 </script>
-
-
 
 </body>
 </html>
+
