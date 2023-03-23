@@ -148,6 +148,8 @@ b {
     letter-spacing: 1px;
     margin-bottom: 1rem;
     color: white;
+    font-weight: 800;
+    font-size: 1.8rem;
     
   }
   .form .input-group {
@@ -404,29 +406,4 @@ table {
   width: 10%;
   
 }
-div.container {
-  width: 100%;
-}
-#example {
-  transform: translate(0px, 350px);
- 
- 
-}
-.dataTables_wrapper .dataTables_paginate .paginate_button {
-  transform: translate(0px, 400px);
-}
-.dataTables_wrapper .dataTables_info {
-  clear: both;
-  float: left;
-  transform: translate(0px, 200px);
-  opacity: 0;
-}
-.dataTables_wrapper .dataTables_filter {
-  float: right;
-  text-align: right;
-  transform: translate(0px, 340px);
-}
-.dataTables_wrapper .dataTables_length {
-  float: left;
-  transform: translate(0px, 340px);
-}
+
