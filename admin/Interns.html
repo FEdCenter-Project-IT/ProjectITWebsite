@@ -8,6 +8,7 @@
 
     <!-- MATERIAL CDN -->
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons+Sharp" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 
     <!-- STYLESHEET -->
     <link rel="stylesheet" href="./style.css">
@@ -25,11 +26,11 @@
                 </div>
             </div>
             <div class="sidebar">
-                <a href="" class="active">
+                <a href="Dashboard.html" >
                     <span class="material-icons-sharp">dashboard</span>
                     <h3>Dashboard</h3>
                 </a>
-                <a href="#">
+                <a href="Interns.html" class="active">
                     <span class="material-icons-sharp">groups</span>
                     <h3>Interns</h3>
                 </a>
@@ -54,73 +55,56 @@
         </aside>
         <!----------------------------- END OF ASIDE --------------------------->
         <main>
-            <h1>Dashboard</h1>
+            <h1>Interns</h1>
 
             <div class="date">
                 <input type="date">
             </div>
 
-            <div class="insights">
-                <div class="total-intern">
-                    <span class="material-icons-sharp">groups</span>
-                    <div class="middle">
-                        <div class="left">
-                            <h3>Total Interns</h3>
-                            <h1>75</h1>
-                        </div>
-                        <div class="progress">
-                            <svg>
-                                <circle cx='38' cy='38' r='36'></circle>
-                            </svg>
-                            <div class="number">
-                                <p>75</p>
-                            </div>
-                        </div>
+            <div class="project">
+                <div class="dropdown">
+                    <button class="dropbtn" onclick="myFunction()"> Project
+                      <i class="fa fa-caret-down"></i>
+                    </button>
+                    <div class="dropdown-content" id="myDropdown">
+                      <a href="#"> All Interns</a>
+                      <a href="#">Project HR</a>
+                      <a href="#"> Project IT</a>
+                      <a href="#">Project Accounting</a>
+                      <a href="#">Project Marketing</a>
+                      <a href="#">Project Alterna</a>
+                      <a href="#">Project GSG</a>
+                      <a href="#">Project JCFAP</a>
+                      <a href="#">Project Fin Ed</a>
+                      <a href="#">Project CEO</a>
                     </div>
-                    <small class="text-muted">Last update</small>
-                </div>
-                <!----------------------------- END OF TOTAL INTERNS --------------------------->
-                <div class="active">
-                    <span class="material-icons-sharp">settings_accessibility</span>
-                    <div class="middle">
-                        <div class="left">
-                            <h3>Active</h3>
-                            <h1>65</h1>
-                        </div>
-                        <div class="progress">
-                            <svg>
-                                <circle cx='38' cy='38' r='36'></circle>
-                            </svg>
-                            <div class="number">
-                                <p>65</p>
-                            </div>
-                        </div>
-                    </div>
-                    <small class="text-muted">Last update</small>
-                </div>
-                <!----------------------------- END OF TOTAL ACTIVE --------------------------->
-                <div class="inactive">
-                    <span class="material-icons-sharp">account_circle</span>
-                    <div class="middle">
-                        <div class="left">
-                            <h3>Inactive</h3>
-                            <h1>10</h1>
-                        </div>
-                        <div class="progress">
-                            <svg>
-                                <circle cx='38' cy='38' r='36'></circle>
-                            </svg>
-                            <div class="number">
-                                <p>10</p>
-                            </div>
-                        </div>
-                    </div>
-                    <small class="text-muted">Last update</small>
-                </div>
-                <!----------------------------- END OF TOTAL INACTIVE --------------------------->
+                </div> 
             </div>
-            <!----------------------------- END OF INSIGHTS --------------------------->
+           
 
+            <script>
+                function myFunction() 
+                 {
+                    document.getElementById("myDropdown").classList.toggle("show");
+                 }
+                window.onclick = function(event)
+                 {
+                    if (!event.target.matches('.dropbtn')) 
+                  {
+                     var dropdowns = document.getElementsByClassName("dropdown-content");
+                     var i;
+                     for (i = 0; i < dropdowns.length; i++) {
+                     var openDropdown = dropdowns[i];
+                     if (openDropdown.classList.contains('show')) 
+                      {
+                          openDropdown.classList.remove('show');
+                      }
+                 }
+                   }
+                    } 
+            </script>
+
+            <!--Table--> 
             <div class="intern-list">
                 <h2>List of Interns</h2>
                 <table>
@@ -171,7 +155,6 @@
                         </tr>
                     </tbody>
                 </table>
-                <a href="#">Show All</a>
             </div>
         </main>
         <!----------------------------- END OF MAIN --------------------------->
