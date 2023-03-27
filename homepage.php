@@ -6,8 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" type="text/css" href="css/style.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.3.0/css/all.min.css" integrity="sha512-SzlrxWUlpfuzQ+pcUCosxcglQRNAq/DZjVsC0lE40xsADsfeQoEypE+enwcOiGjk/bSuGGKHEyjSoQ1zVisanQ==" crossorigin="anonymous" referrerpolicy="no-referrer" />
-
-    <title>Document</title>
+    <title>FIS</title>
 </head>
 <body onload="initClock()">
 
@@ -95,16 +94,8 @@
 
 
 
+<table class="mytable2" id="mytable">
 
-
-
-
-
-<!--Second Table-->
-
-<table class="mytable2">
-
- 
 
  <tr class="infoget">
 
@@ -124,8 +115,8 @@
 
  </tr>
 
-<!--Sample Data Table 2--->
-  <tr>
+<!--Sample data-->
+  <tr class="infoget">
 
  <td>1</td>
 
@@ -143,7 +134,7 @@
 
  </tr>
 
- <tr>
+ <tr class="infoget">
 
  <td>2</td>
 
@@ -161,7 +152,7 @@
 
  </tr>
 
- <tr>
+ <tr class="infoget">
 
  <td>3</td>
 
@@ -179,7 +170,7 @@
 
  </tr>
 
- <tr>
+ <tr class="infoget">
 
  <td>4</td>
 
@@ -196,7 +187,7 @@
  <td>FIS</td>
 
  </tr>
- <tr>
+ <tr class="infoget">
 
 <td>5</td>
 
@@ -213,7 +204,7 @@
 <td>Sleep</td>
 
 </tr>
-<tr>
+<tr class="infoget">
 
 <td>6</td>
 
@@ -230,7 +221,7 @@
 <td>Eat</td>
 
 </tr>
-<tr>
+<tr class="infoget">
 
 <td>7</td>
 
@@ -247,7 +238,7 @@
 <td>Getting info</td>
 
 </tr>
-<tr>
+<tr class="infoget">
 
 <td>8</td>
 
@@ -266,7 +257,7 @@
 </tr>
 
  </table>
-    
+
 
 
 <script type="text/javascript">
@@ -330,6 +321,8 @@ options.forEach(option =>{
     });
 });
     </script>
+
+
 
 <!-- Comment ni Sam -->
 </body>
