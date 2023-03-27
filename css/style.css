@@ -48,7 +48,7 @@ body {
 
 /* DropDown Menu */
 .select-menu{
-  width: 215px;
+  width: 230px;
   margin-left: 10%;
 }
 .select-menu .select-btn{
@@ -431,21 +431,21 @@ b {
     color: #fff;
     background-color: var(--color-primary);
     font-family: "Segoe UI" , sans-serif;
-    width: 250px;
-    height: 200px;
+    width: 240px;
+    height: 190px;
     padding: 25px;
     margin: 20px;
     border-radius: 50%;
-    margin-left: 40%;
-    margin-top: -5%;
+    margin-left: 45%;
+    margin-top: -1%;
+    align-items: center;
   }
 
  
   #dayname {
     position: absolute;
-    top: 19%;
-    margin-left: 35px;
-    color: black;
+    top: 18%;
+    margin-left: 32px;
   }
   
   .date{
@@ -453,7 +453,7 @@ b {
     font-weight: bold;
     text-align: center;
     letter-spacing: 3px;
-    padding-top: 30px;
+    padding-top: 15px;
    
   }
 
@@ -500,7 +500,7 @@ b {
   width: 150px;
   color: #f6f6f9;
   background: green;
-  left: 34%;
+  left: 40%;
   top: 28%;
   box-shadow: 10px 10px 10px rgba(10, 99, 169, 0.16),
   -10px -10px 10px -1px rgba(255, 255, 255, 0.70);
@@ -525,7 +525,7 @@ b {
   width: 150px;
   color: #ffffff;
   background: red;
-  left: 52%;
+  left: 55%;
   top: 28%;
   box-shadow: 10px 10px 10px rgba(10, 99, 169, 0.16),
   -10px -10px 10px -1px rgba(255, 255, 255, 0.70);
@@ -540,7 +540,7 @@ b {
   transform: scale(1.1);
  
 }
-
+/*Table 1*/
 .userinfo {
   position: absolute;
   top: 45%;
@@ -559,24 +559,36 @@ b {
   padding: 2px;
   justify-content: right;
 }
-.tableuser {
-  margin: 50px;
+/*Table 2*/
+.mytable2{
   position: absolute;
-  top: 70%;
- text-align: center;
- justify-content: center;
- left: 0%;
-
-}
-table {
-  font-size: 20px;
- 
-}
-.table thead th{
-  background-color: #fb4f00;
-  color: white;
-  font-weight: bold ;
-  width: 10%;
+  left: 17%;
+  top: 65%;
+  width: 70%;
+  border-spacing: 0;
+  box-shadow: 0 2px 15px rgba(64,64,64,.7);
+  border-radius: 12px 12px 0 0;
+ }
+ td , .infotable2{
+  padding: 15px 20px;
+  text-align: center;
   
-}
-
+ 
+ }
+ .infotable2{
+  background: var(--color-primary);
+  color: #fafafa;
+  font-family: 'Open Sans',Sans-serif;
+  font-weight: 200;
+  text-transform: uppercase;
+  font-weight: 600;
+ 
+ }
+ tr{
+  width: 100%;
+  background-color: #fafafa;
+  font-family: 'Montserrat', sans-serif;
+ }
+ tr:nth-child(even){
+  background-color: #eeeeee;
+ }

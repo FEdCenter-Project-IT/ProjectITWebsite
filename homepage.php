@@ -22,30 +22,30 @@
         <li>
             <div class="select-menu">
         <div class="select-btn">
-            <span class="sBtn-text">Select your Task</span>
+            <span class="sBtn-text">Select your Project</span>
             <i class="fa-solid fa-caret-down"></i>
         </div>
 
         <ul class="options">
             <li class="option">
               
-                <span class="option-text"> <a href="">Github</a> </span>
+                <span class="option-text"> <a href="">Project IT</a> </span>
             </li>
             <li class="option">
                 
-                <span class="option-text"> <a href="">Instagram</a> </span>
+                <span class="option-text"> <a href="">Project 1</a> </span>
             </li>
             <li class="option">
            
-                <span class="option-text"> <a href="">Linkedin</a> </span>
+                <span class="option-text"> <a href="">Project 2</a> </span>
             </li>
             <li class="option">
                
-                <span class="option-text"> <a href=""> facebook</a></span>
+                <span class="option-text"> <a href="">Others</a></span>
             </li>
             <li class="option">
                 
-                <span class="option-text"> <a href="">Twitter</a> </span>
+                <span class="option-text"> <a href="">Feedback</a> </span>
             </li>
         </ul>
     </div> </li>
@@ -85,36 +85,187 @@
 </tr>
 </table>
 
+<!--Sample data 1-->
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 <!--Second Table-->
-<section class="tableuser table-bordered">
-<table class="table">
-<thead>
-    <tr>
-        <th>NO</th>
-        <th>DATE</th>
-        <th>IN</th>
-        <th>OUT</th>
-        <th>HOURS</th>
-        <th>MINS</th>
-        <th>SPECIAL EVENT</th>
-    </tr>
-</thead>
 
+<table class="mytable2">
 
+ 
 
-<tbody>
-    <td>1</td>
-    <td>March 22, 2023</td>
-    <td>1:00PM</td>
-    <td>6:00PM</td>
-    <td>5</td>
-    <td>0</td>
-    <td>Typing</td>
-</tbody>
-</table>
-</section>
+ <tr class="infoget">
+
+ <th class="infotable2">NO</th>
+
+ <th class="infotable2">DATE</th>
+
+ <th class="infotable2">IN</th>
+
+ <th class="infotable2">OUT</th>
+
+ <th class="infotable2">HOURS </th>
+
+ <th class="infotable2">MINUTES</th>
+
+ <th class="infotable2">SPECIAL EVENT</th>
+
+ </tr>
+
+<!--Sample Data Table 2--->
+  <tr>
+
+ <td>1</td>
+
+ <td>March 27, 2023</td>
+
+ <td>8:00AM</td>
+
+ <td>5:00PM</td>
+
+ <td>5</td>
+
+ <td>0</td>
+
+ <td>Typing EVent</td>
+
+ </tr>
+
+ <tr>
+
+ <td>2</td>
+
+ <td>March 28, 2023</td>
+
+ <td>8:00AM</td>
+
+ <td>5:00PM</td>
+
+ <td>5</td>
+
+ <td>0</td>
+
+ <td>WWE</td>
+
+ </tr>
+
+ <tr>
+
+ <td>3</td>
+
+ <td>March 29, 2023</td>
+
+ <td>8:00AM</td>
+
+ <td>5:00PM</td>
+
+ <td>5</td>
+
+ <td>0</td>
+
+ <td>TeamWork</td>
+
+ </tr>
+
+ <tr>
+
+ <td>4</td>
+
+ <td>March 27, 2023</td>
+
+ <td>8:00AM</td>
+
+ <td>5:00PM</td>
+
+ <td>5</td>
+
+ <td>0</td>
+
+ <td>FIS</td>
+
+ </tr>
+ <tr>
+
+<td>5</td>
+
+<td>March 30, 2023</td>
+
+<td>8:00AM</td>
+
+<td>5:00PM</td>
+
+<td>5</td>
+
+<td>0</td>
+
+<td>Sleep</td>
+
+</tr>
+<tr>
+
+<td>6</td>
+
+<td>March 31, 2023</td>
+
+<td>8:00AM</td>
+
+<td>5:00PM</td>
+
+<td>5</td>
+
+<td>0</td>
+
+<td>Eat</td>
+
+</tr>
+<tr>
+
+<td>7</td>
+
+<td>March 27, 2023</td>
+
+<td>8:00AM</td>
+
+<td>5:00PM</td>
+
+<td>5</td>
+
+<td>0</td>
+
+<td>Getting info</td>
+
+</tr>
+<tr>
+
+<td>8</td>
+
+<td>March 27, 2023</td>
+
+<td>8:00AM</td>
+
+<td>5:00PM</td>
+
+<td>5</td>
+
+<td>0</td>
+
+<td>Onboard</td>
+
+</tr>
+
+ </table>
     
 
 

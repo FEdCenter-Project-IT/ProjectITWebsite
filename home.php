@@ -1,62 +1,60 @@
 <!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.3.0/css/all.min.css" integrity="sha512-SzlrxWUlpfuzQ+pcUCosxcglQRNAq/DZjVsC0lE40xsADsfeQoEypE+enwcOiGjk/bSuGGKHEyjSoQ1zVisanQ==" crossorigin="anonymous" referrerpolicy="no-referrer" />
 
-    <link rel="stylesheet" type="text/css" href="css/style.css">
-    <title>Document</title>
+<html>
+
+<head>
+
+ <title>Table layout</title>
+
+ <link rel="stylesheet" href="css/style.css">
+
 </head>
+
 <body>
 
-<div class="select-menu">
-        <div class="select-btn">
-            <span class="sBtn-text">Select your Task</span>
-            <i class="fa-solid fa-caret-down"></i>
-        </div>
+ <table class="mytable2">
 
-        <ul class="options">
-            <li class="option">
-              
-                <span class="option-text">Github</span>
-            </li>
-            <li class="option">
-                
-                <span class="option-text">Instagram</span>
-            </li>
-            <li class="option">
-           
-                <span class="option-text">Linkedin</span>
-            </li>
-            <li class="option">
-               
-                <span class="option-text">Facebook</span>
-            </li>
-            <li class="option">
-                
-                <span class="option-text">Twitter</span>
-            </li>
-        </ul>
-    </div>
-    
-    <script>
-        const optionMenu = document.querySelector(".select-menu"),
-       selectBtn = optionMenu.querySelector(".select-btn"),
-       options = optionMenu.querySelectorAll(".option"),
-       sBtn_text = optionMenu.querySelector(".sBtn-text");
 
-selectBtn.addEventListener("click", () => optionMenu.classList.toggle("active"));       
+ <tr class="mytable2">
 
-options.forEach(option =>{
-    option.addEventListener("click", ()=>{
-        let selectedOption = option.querySelector(".option-text").innerText;
-        sBtn_text.innerText = selectedOption;
+ <th class="infotable2">NO</th>
 
-        optionMenu.classList.remove("active");
-    });
-});
-    </script>
-</body>
+ <th class="infotable2">DATE</th>
+
+ <th class="infotable2">IN</th>
+
+ <th class="infotable2">OUT</th>
+
+ <th class="infotable2">HOURS </th>
+
+ <th class="infotable2">MINUTES</th>
+
+ <th class="infotable2">SPECIAL EVENT</th>
+
+ </tr>
+
+<!--Sample Data--->
+  <tr>
+
+ <td>1</td>
+
+ <td>March 27, 2023</td>
+
+ <td>8:00AM</td>
+
+ <td>5:00PM</td>
+
+ <td>5</td>
+
+ <td>0</td>
+
+ <td>Typing EVent</td>
+
+ </tr>
+
+ </table>
+
+
+ </body>
+
 </html>
