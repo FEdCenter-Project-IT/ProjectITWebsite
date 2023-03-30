@@ -27,6 +27,14 @@
 
     --box-shadow: 0 2rem 3rem var(--color-light);
 }
+.dark-theme-variables {
+  --color-background: #181a1e;
+  --color-white: #202528;
+  --color-dark: #edeffd;
+  --color-dark-variant: #a3bdcc;
+  --color-light: rgba(0, 0, 0, 0.4);
+  --box-shadow: 0 2rem 3rem var(--color-light)
+}
 *{
     margin: 0px;
     padding: 0px;
@@ -52,15 +60,29 @@ nav {
   align-items: center;
   justify-content: space-between;
  position: relative;
+
 }
 .logo {
   width: 400px;
+  padding-bottom: 3%;
+  transform: translate(190%);
+}
+.bear {
+  position: absolute;
+  margin: 0;
+  padding: 0;
+  top: -1%;
+  left: 5%;
+  overflow: hidden;
+  height: 420px;
+  width: 450px;
+  opacity: 0.05;
 }
 .user_pic {
   width: 40px;
   border-radius: 50%;
   cursor: pointer;
-  margin-right: 80px;
+  margin-right: 80px; 
 }
 nav ul {
   width: 100%;
@@ -77,8 +99,8 @@ nav ul li a {
 }
 .sub-menu-wrap {
   position: absolute;
-  top: 100%;
-  right: 5%;
+  top: 65%;
+  right: 0;
   width: 320px;
   max-height: 0px;
   overflow: hidden;
@@ -89,9 +111,10 @@ nav ul li a {
 }
 
 .sub-menu {
-  background: white;
+  background-color: white;
   padding: 20px;
   margin: 10px;
+  border-radius: 10%;
 }
 .user-info {
   display: flex;
@@ -144,6 +167,7 @@ nav ul li a {
 .sub-menu-link:hover p {
   font-weight: 600;
 }
+
 /* DropDown Menu 
 .select-menu{
   width: 230px;
@@ -532,23 +556,16 @@ b {
     color: #fff;
     background-color: var(--color-primary);
     font-family: "Segoe UI" , sans-serif;
-    width: 240px;
-    height: 190px;
-    padding: 25px;
-    margin: 20px;
-    border-radius: 50%;
+    width: 300px;
+    height: 100px;
+    margin: 15px;
+    border-radius: var(--border-radius-2);
     margin-left: 45%;
-    margin-top: -4%;
+    margin-top: 1%;
     align-items: center;
+    text-align: center;
   }
 
- 
-  #dayname {
-    position: absolute;
-    top: 18%;
-    margin-left: 32px;
-  }
-  
   .date{
     font-size: 20px;
     font-weight: bold;
@@ -567,10 +584,11 @@ b {
 
   .time span:not(:last-child){
     position: relative;
-    margin: 0 6px;
+    margin: 0 1px;
     font-weight: 600;
     text-align: center;
     letter-spacing: 3px;
+    text-align: center;
   }
 
   .time span:last-child{
@@ -594,15 +612,17 @@ b {
 .timein {
   position: absolute;
   border-radius: 50px;
-  font-size: 30px;
+  font-family: poppins, sans-serif;
+  font-size: 25px;
   border: none;
   cursor: pointer;
   font-weight: 600;
   width: 150px;
-  color: #f6f6f9;
-  background: green;
-  left: 40%;
-  top: 28%;
+  color: green;
+  background: white;
+  border: 4px solid green;
+  left: 35%;
+  top: 35%;
   box-shadow: 10px 10px 10px rgba(10, 99, 169, 0.16),
   -10px -10px 10px -1px rgba(255, 255, 255, 0.70);
   -webkit-transition-duration: 0.3s;
@@ -618,16 +638,18 @@ b {
 }
 .timeout {
   position: absolute;
+  font-family: poppins, sans-serif;
   border-radius: 50px;
-  font-size: 30px;
+  font-size: 25px;
   border: none;
   cursor: pointer;
   font-weight: 600;
   width: 150px;
-  color: #ffffff;
-  background: red;
-  left: 55%;
-  top: 28%;
+  color: red;
+  background: white;
+  border: 4px solid red;
+  left: 63.5%;
+  top: 35%;
   box-shadow: 10px 10px 10px rgba(10, 99, 169, 0.16),
   -10px -10px 10px -1px rgba(255, 255, 255, 0.70);
   -webkit-transition-duration: 0.3s;
@@ -734,7 +756,7 @@ select{
 i.fa-trash{color: red;}
 
 .Usern_inf:nth-child(even){
-  background-color: #eeeeee;
+  background-color: white;
  }
  .Usern_inf:hover {
   background: transparent;
@@ -744,3 +766,4 @@ i.fa-trash{color: red;}
 .Get_info {
   background-color: orange;
 }
+
