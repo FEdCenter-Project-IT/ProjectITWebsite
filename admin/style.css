@@ -3,16 +3,16 @@
 /* ROOT VARAIBLES <ARNOLD>*/
 
 :root {
-    --color-primary:#ff8800;
+    --color-primary:#f34702;
     --color-danger: #ff7782;
     --color-success:#41f1b6;
     --color-warning:#ffbb55;
     --color-white:#fff;
     --color-info-dark:#7d8da1;
     --color-info-light:#dce1eb;
-    --color-dark:#363949;
+    --color-dark:#424242;
     --color-light: rgba(132, 139, 200, 0.18);
-    --color-primary-variant:#111e88;
+    --color-primary-variant:#4e2507;
     --color-dark-variant:#677483;
     --color-background:#f6f6f9;
 
