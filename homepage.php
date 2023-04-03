@@ -53,52 +53,7 @@
 </nav>
 <img src="img/FedCenter_Logo-removebg-preview.png" class="logo" >
 <img src="img/FedCenter_Wolf-removebg-preview.png" class="bear">
-<!--
-<nav>
-    <input type="checkbox" id="check">
-    <label for="check">
-    <i class="fas fa-bars" id="btn"></i>
-    <i class="fas fa-times" id="cancel"></i>
-    </label>
-    <img src="img/FedCenter_Logo-removebg-preview.png" alt="">
-    <ul>
-        <li>
-            <div class="select-menu">
-        <div class="select-btn">
-            <span class="sBtn-text">Select your Project</span>
-            <i class="fa-solid fa-caret-down"></i>
-        </div>
 
-        <ul class="options">
-            <li class="option">
-              
-                <span class="option-text"> <a href="">Project IT</a> </span>
-            </li>
-            <li class="option">
-                
-                <span class="option-text"> <a href="">Project 1</a> </span>
-            </li>
-            <li class="option">
-           
-                <span class="option-text"> <a href="">Project 2</a> </span>
-            </li>
-            <li class="option">
-               
-                <span class="option-text"> <a href="">Others</a></span>
-            </li>
-            <li class="option">
-                
-                <span class="option-text"> <a href="">Feedback</a> </span>
-            </li>
-        </ul>
-    </div>
- </li>
- 
-        <li><a href="">Logout</a> </li>
-    </ul>
-
-</nav>
--->
 <!-- Digital Clock Start -->
 <div class="datetime">
     <div class="date">
@@ -131,14 +86,15 @@
             </div>
             <div class="search">
                 <h5>Search</h5>
-                <input type="text" name="" id="search" placeholder="search">
+                
+                <input type="text" id="search" onkeyup="searchFunction()" placeholder="Search...">
             </div>
         </section>
         <section class="field">
-            <table class="Table_User">
+            <table class="Table_User" id="searchTable">
                 <thead>
                      <tr class="Usern_inf">
-                      <th class="Get_info">Checkbox</th>
+                
                       <th class="Get_info">NO</th>
                       <th class="Get_info">DATE</th>
                       <th class="Get_info">IN</th>
@@ -153,8 +109,8 @@
                   <!--Sample data-->
                   <tbody>
                      <tr class="Usern_inf">
-                        <td><input type="checkbox"></td>
-                        <td>01</td>
+                      
+                        <td> 01</td>
                         <td>March 28,2023</td>
                         <td>8:00AM</td>
                         <td>5:00PM</td>
@@ -163,162 +119,13 @@
                         <td>Typing Test</td>
            
                     </tr>
-                     <tr class="Usern_inf">
-                        <td><input type="checkbox"></td>
-                        <td>02</td>
-                        <td>March 28,2023</td>
-                        <td>8:00AM</td>
-                        <td>5:00PM</td>
-                        <td>8</td>
-                        <td>0</td>
-                        <td>Typing Test</td>
-                        
-                    </tr>
-                     <tr class="Usern_inf">
-                        <td><input type="checkbox"></td>
-                        <td>03</td>
-                        <td>March 28,2023</td>
-                        <td>8:00AM</td>
-                        <td>5:00PM</td>
-                        <td>8</td>
-                        <td>0</td>
-                        <td>Typing Test</td>
-                        
-                    </tr>
-                     <tr class="Usern_inf">
-                        <td><input type="checkbox"></td>
-                        <td>04</td>
-                        <td>March 28,2023</td>
-                        <td>8:00AM</td>
-                        <td>5:00PM</td>
-                        <td>8</td>
-                        <td>0</td>
-                        <td>Typing Test</td>
-                        
-                    </tr>
-                     <tr class="Usern_inf">
-                        <td><input type="checkbox"></td>
-                        <td>05</td>
-                        <td>March 28,2023</td>
-                        <td>8:00AM</td>
-                        <td>5:00PM</td>
-                        <td>8</td>
-                        <td>0</td>
-                        <td>Typing Test</td>
-                        
-                    </tr>
-                     <tr class="Usern_inf">
-                        <td><input type="checkbox"></td>
-                        <td>06</td>
-                        <td>March 28,2023</td>
-                        <td>8:00AM</td>
-                        <td>5:00PM</td>
-                        <td>8</td>
-                        <td>0</td>
-                        <td>WWE</td>
-                        
-                    </tr>
-                     <tr class="Usern_inf">
-                        <td><input type="checkbox"></td>
-                        <td>07</td>
-                        <td>March 28,2023</td>
-                        <td>8:00AM</td>
-                        <td>5:00PM</td>
-                        <td>8</td>
-                        <td>0</td>
-                        <td>Typing Test</td>
-                    </tr>
-                     <tr class="Usern_inf">
-                        <td><input type="checkbox"></td>
-                        <td>08</td>
-                        <td>March 28,2023</td>
-                        <td>8:00AM</td>
-                        <td>5:00PM</td>
-                        <td>8</td>
-                        <td>0</td>
-                        <td>Typing Test</td>
-                        
-                    </tr>
-                     <tr class="Usern_inf">
-                        <td><input type="checkbox"></td>
-                        <td>09</td>
-                        <td>March 28,2023</td>
-                        <td>8:00AM</td>
-                        <td>5:00PM</td>
-                        <td>8</td>
-                        <td>0</td>
-                        <td>Typing Test</td>
-                        
-                    </tr>
-                     <tr class="Usern_inf">
-                        <td><input type="checkbox"></td>
-                        <td>10</td>
-                        <td>March 28,2023</td>
-                        <td>8:00AM</td>
-                        <td>5:00PM</td>
-                        <td>8</td>
-                        <td>0</td>
-                        <td>Typing Test</td>
-                        
-                    </tr>
-                     <tr class="Usern_inf">
-                        <td><input type="checkbox"></td>
-                        <td>11</td>
-                        <td>March 28,2023</td>
-                        <td>8:00AM</td>
-                        <td>5:00PM</td>
-                        <td>8</td>
-                        <td>0</td>
-                        <td>Typing Test</td>
-                        
-                    </tr>
-                     <tr class="Usern_inf">
-                        <td><input type="checkbox"></td>
-                        <td>12</td>
-                        <td>March 28,2023</td>
-                        <td>8:00AM</td>
-                        <td>5:00PM</td>
-                        <td>8</td>
-                        <td>0</td>
-                        <td>Typing Test</td>
-                        
-                    </tr>
-                     <tr class="Usern_inf">
-                        <td><input type="checkbox"></td>
-                        <td>13</td>
-                        <td>March 28,2023</td>
-                        <td>8:00AM</td>
-                        <td>5:00PM</td>
-                        <td>8</td>
-                        <td>0</td>
-                        <td>Typing Test</td>
-                        
-                    </tr>
-                     <tr class="Usern_inf">
-                        <td><input type="checkbox"></td>
-                        <td>14</td>
-                        <td>March 28,2023</td>
-                        <td>8:00AM</td>
-                        <td>5:00PM</td>
-                        <td>8</td>
-                        <td>0</td>
-                        <td>Typing Test</td>
-                        
-                    </tr>
-                     <tr class="Usern_inf">
-                        <td><input type="checkbox"></td>
-                        <td>15</td>
-                        <td>March 28,2023</td>
-                        <td>8:00AM</td>
-                        <td>5:00PM</td>
-                        <td>8</td>
-                        <td>0</td>
-                        <td>Typing Test</td>
-                        
-                    </tr>
+                     
                    
                   </tbody>
             </table>
+            <div class="Searchbar" id="noResultsMessage" style="display:none; text-align: center; font-size: 30px; font-weight: 600;">
+      No search results found.
+    </div>
             <ul class="pagination">
   <li class="page-item "><a class="page-link" href="#">Previous</a></li>
   <li class="page-item active"><a class="page-link" href="#">1</a></li>
@@ -328,6 +135,7 @@
 </ul>
         </section>
     </main>
+
 
     <!--Profile Intern-->
     <script>
@@ -339,8 +147,47 @@ function toggleMenu() {
 
  </script>
 
+<!--Search-->
+<script>
+      function searchFunction() {
+        // Declare variables
+        var input, filter, table, tr, td, i, j, txtValue, noResultsMessage;
+        input = document.getElementById('search');
+        filter = input.value.toUpperCase();
+        table = document.getElementById('searchTable');
+        tr = table.getElementsByTagName('tr');
+        noResultsMessage = document.getElementById('noResultsMessage');
+
+        // Loop through all table rows, and hide those that don't match the search query
+        var found = false;
+        for (i = 0; i < tr.length; i++) {
+          for (j = 0; j < tr[i].cells.length; j++) {
+            td = tr[i].getElementsByTagName('td')[j];
+            if (td) {
+              txtValue = td.textContent || td.innerText;
+              if (txtValue.toUpperCase().indexOf(filter) > -1) {
+                tr[i].style.display = '';
+                found = true;
+                break;
+              } else {
+                tr[i].style.display = 'none';
+              }
+            }
+          }
+        }
+
+        // Show "no results found" message if search query does not match any rows
+        if (!found) {
+          noResultsMessage.style.display = '';
+        } else {
+          noResultsMessage.style.display = 'none';
+        }
+      }
+      
+    </script>
 
 
+<!--Intern CLock-->
 <script type="text/javascript">
     function updateClock() {
         var now = new Date();
@@ -356,6 +203,7 @@ function toggleMenu() {
             if(hou == 0){
                 hou = 12;
             }
+            
 
             if(hou > 12){
                 hou = hou - 12;
