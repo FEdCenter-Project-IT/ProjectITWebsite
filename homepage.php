@@ -10,15 +10,14 @@
     <title>FIS</title>
 </head>
 <body onload="initClock()">
-<nav>
-  
-  <ul>
-    <li>
 
+
+<!--DrowDown Menu Intern-->
+<nav> 
+  <ul>
    <li>Hello, <b>Raffy</b><br> RAV(2023-32)</li>
   </ul>
   <img src="img/zoomDP.jpg" class="user_pic" onclick="toggleMenu()">
-
   <div class="sub-menu-wrap" id="subMenu">
     <div class="sub-menu">
       <div class="user-info">
@@ -26,7 +25,6 @@
         <h2>Raffy L. Veloria</h2>
       </div>
       <hr>
-
       <a href="" class="sub-menu-link">
       <i class="fa fa-user"></i>
         <p>Edit Profile</p>
@@ -35,7 +33,7 @@
       <a href="" class="sub-menu-link">
       <i class="fa fa-gear"></i>
         <p>Setting & Privacy</p>
-        <span>></span>
+        <span>></span>  
       </a>
       <a href="" class="sub-menu-link">
       <i class="fa-solid fa-circle-question"></i>
@@ -44,17 +42,19 @@
       </a>
       <a href="" class="sub-menu-link">
       <i class="fa-solid fa-right-from-bracket"></i>
-        <p>Logout</p>
-        
+        <p>Logout</p>  
       </a>
     </div>
   </div>
-
 </nav>
 <img src="img/FedCenter_Logo-removebg-preview.png" class="logo" >
-<img src="img/FedCenter_Wolf-removebg-preview.png" class="bear">
+<div class="cam">
+  <video src="" id="video" autoplay muted></video>
+</div>
+
 
 <!-- Digital Clock Start -->
+<center>
 <div class="datetime">
     <div class="date">
         <span id = "dayname"> Day </span>
@@ -69,27 +69,13 @@
         <span id = "period"><h4>AM</h4>  </span> 
     </div>
 </div>
-
+</center>
 <button type="button" class="timein">Time in</button>
 <button type="button" class="timeout">Time out</button>
 
-<main>
-        <section class="header">
-            <div class="items-controller">
-                <h5>Show</h5>
-                <select name="" id="itemperpage">
-                <option value="04">04</option>
-                    <option value="08" selected>08</option>
-                    <option value="15">15</option>
-                </select>
-                <h5>Per Page</h5>
-            </div>
-            <div class="search">
-                <h5>Search</h5>
-                
-                <input type="text" id="search" onkeyup="searchFunction()" placeholder="Search...">
-            </div>
-        </section>
+
+<!--Table For Inter-->
+<main>    
         <section class="field">
             <table class="Table_User" id="searchTable">
                 <thead>
@@ -109,7 +95,6 @@
                   <!--Sample data-->
                   <tbody>
                      <tr class="Usern_inf">
-                      
                         <td> 01</td>
                         <td>March 28,2023</td>
                         <td>8:00AM</td>
@@ -117,25 +102,119 @@
                         <td>8</td>
                         <td>0</td>
                         <td>Typing Test</td>
-           
                     </tr>
-                     
-                   
+                    <tr class="Usern_inf">
+                        <td> 02</td>
+                        <td>March 29,2023</td>
+                        <td>8:00AM</td>
+                        <td>5:00PM</td>
+                        <td>8</td>
+                        <td>0</td>
+                        <td>PGT</td>
+                    </tr>
+                    <tr class="Usern_inf">
+                        <td> 03</td>
+                        <td>March 30,2023</td>
+                        <td>8:00AM</td>
+                        <td>5:00PM</td>
+                        <td>8</td>
+                        <td>0</td>
+                        <td>Singing</td>
+                    </tr>
+                    <tr class="Usern_inf">
+                        <td> 04</td>
+                        <td>March 31,2023</td>
+                        <td>8:00AM</td>
+                        <td>5:00PM</td>
+                        <td>8</td>
+                        <td>0</td>
+                        <td>Dancing</td>
+                    </tr>
+                    <tr class="Usern_inf">
+                        <td> 05</td>
+                        <td>March 32,2023</td>
+                        <td>8:00AM</td>
+                        <td>5:00PM</td>
+                        <td>8</td>
+                        <td>0</td>
+                        <td>Tawag ng Tanghalan</td>
+                    </tr>
+                    <tr class="Usern_inf">
+                        <td> 06</td>
+                        <td>March 33,2023</td>
+                        <td>8:00AM</td>
+                        <td>5:00PM</td>
+                        <td>8</td>
+                        <td>0</td>
+                        <td>Break</td>
+                    </tr>
+                    
+                
                   </tbody>
             </table>
-            <div class="Searchbar" id="noResultsMessage" style="display:none; text-align: center; font-size: 30px; font-weight: 600;">
-      No search results found.
-    </div>
-            <ul class="pagination">
-  <li class="page-item "><a class="page-link" href="#">Previous</a></li>
-  <li class="page-item active"><a class="page-link" href="#">1</a></li>
-  <li class="page-item "><a class="page-link" href="#">2</a></li>
-  <li class="page-item"><a class="page-link" href="#">3</a></li>
-  <li class="page-item"><a class="page-link" href="#">Next</a></li>
-</ul>
+        
+      <!--Pagination-->
+    <div class ="sub-page" id="pagination">
+  <button class ="first-btn" id="first">First</button>
+  <button class="previous-btn" id="previous">Prev</button>
+  <span class ="page-btn" id="currentPage"></span>
+  <button class="nxt-btn" id="next">Next</button>
+  <button class="last-btn" id="last">Last</button>
+</div>
+
         </section>
     </main>
 
+
+    <script> // Pagination
+var table = document.getElementById("searchTable").getElementsByTagName("tbody")[0];
+var rowsPerPage = 5;
+var currentPage = 1;
+var totalPages = Math.ceil(table.rows.length / rowsPerPage);
+
+document.getElementById("currentPage").innerHTML = "Page " + currentPage + " of " + totalPages;
+
+function showRows() {
+  var startIndex = (currentPage - 1) * rowsPerPage;
+  var endIndex = startIndex + rowsPerPage;
+  for (var i = 0; i < table.rows.length; i++) {
+    if (i < startIndex || i >= endIndex) {
+      table.rows[i].style.display = "none";
+    } else {
+      table.rows[i].style.display = "";
+    }
+  }
+  document.getElementById("currentPage").innerHTML = "Page " + currentPage + " of " + totalPages;
+}
+
+showRows();
+
+document.getElementById("first").addEventListener("click", function() {
+  currentPage = 1;
+  showRows();
+});
+
+document.getElementById("previous").addEventListener("click", function() {
+  if (currentPage > 1) {
+    currentPage--;
+    showRows();
+  }
+});
+
+document.getElementById("next").addEventListener("click", function() {
+  if (currentPage < totalPages) {
+    currentPage++;
+    showRows();
+  }
+});
+
+document.getElementById("last").addEventListener("click", function() {
+  currentPage = totalPages;
+  showRows();
+});
+
+
+    </script>
 
     <!--Profile Intern-->
     <script>
@@ -147,44 +226,6 @@ function toggleMenu() {
 
  </script>
 
-<!--Search-->
-<script>
-      function searchFunction() {
-        // Declare variables
-        var input, filter, table, tr, td, i, j, txtValue, noResultsMessage;
-        input = document.getElementById('search');
-        filter = input.value.toUpperCase();
-        table = document.getElementById('searchTable');
-        tr = table.getElementsByTagName('tr');
-        noResultsMessage = document.getElementById('noResultsMessage');
-
-        // Loop through all table rows, and hide those that don't match the search query
-        var found = false;
-        for (i = 0; i < tr.length; i++) {
-          for (j = 0; j < tr[i].cells.length; j++) {
-            td = tr[i].getElementsByTagName('td')[j];
-            if (td) {
-              txtValue = td.textContent || td.innerText;
-              if (txtValue.toUpperCase().indexOf(filter) > -1) {
-                tr[i].style.display = '';
-                found = true;
-                break;
-              } else {
-                tr[i].style.display = 'none';
-              }
-            }
-          }
-        }
-
-        // Show "no results found" message if search query does not match any rows
-        if (!found) {
-          noResultsMessage.style.display = '';
-        } else {
-          noResultsMessage.style.display = 'none';
-        }
-      }
-      
-    </script>
 
 
 <!--Intern CLock-->
@@ -250,6 +291,21 @@ options.forEach(option =>{
     });
 });
     </script>
+
+<script> //camera vision
+
+const video = document.getElementById('video');
+
+function camera() {
+  navigator.getUserMedia({ video: {} },
+  stream => video.srcObject = stream,
+  err => console.error(err)
+  );
+}
+camera()
+
+
+</script>
 
 
 
