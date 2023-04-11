@@ -1,3 +1,45 @@
+<?php
+session_start(); // Call session_start() before any output is sent
+
+// Connect to the database
+$serverName = "LAPTOP-GBO9I3B3\SQL";
+$connectionOptions = [
+    "Database" => "DLSUD",
+    "Uid" => "",
+    "PWD" => ""
+];
+
+$conn = sqlsrv_connect($serverName, $connectionOptions);
+
+// Check the connection
+if (!$conn) {
+    die("Connection failed: " . sqlsrv_errors());
+}
+
+$loginerr = ''; // Initialize login error message
+
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
+    $form_id_log = isset($_POST["userEmail"]) ? $_POST["userEmail"] : '';
+    $user_pass_log = isset($_POST["userPass"]) ? $_POST["userPass"] : '';
+    // Select the FORM_ID and USER_PASSWORD from the users table
+    $sql = "SELECT USER_NAME, USER_PASSWORD FROM ADMINLOGIN WHERE USER_NAME=? AND USER_PASSWORD=?";
+    $params = array($form_id_log, $user_pass_log);
+    $result = sqlsrv_query($conn, $sql, $params);
+    // Fetch the data from the database
+ 
+    if (sqlsrv_has_rows($result) ) {
+        echo "<script>alert('WELCOME ADMIN!');</script>";
+        header("Location: Interns.html");
+        exit();
+    } else {
+        $loginerr ="Invalid Username/Password.";
+    }
+}
+?>
+
+<!-- Samboy -->
+
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -11,8 +53,9 @@
 <body>
 
     <div class="loginbox">
-        <div class="form">
-            <img src="images/Fed Logo.png" alt="">
+    <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="POST" class="form">
+
+            <img src="images/FC Management Consulting.png" alt="">
             <h2>Admin Login</h2>
             <div class="userInput">
                 <input type="text" name="userEmail" id="userEmail" required>
@@ -30,8 +73,9 @@
             </div>
 
             <input type="submit" value="Login" class="loginButton"> 
-        </div>
       
+        </form>
+
     </div>
    
     <script>
@@ -48,4 +92,5 @@
 
 </body>
 </html>
+
 

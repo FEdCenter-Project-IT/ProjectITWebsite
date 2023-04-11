@@ -29,6 +29,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
  
     if (sqlsrv_has_rows($result) ) {
         echo "<script>alert('WELCOME INTERN!');</script>";
+        header("Location: homepage.php");
         exit();
     } else {
         $loginerr ="Invalid Username/Password.";

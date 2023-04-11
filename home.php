@@ -10,7 +10,7 @@
 <body>
 
 <nav>
-  <img src="img/FedCenter_Logo-removebg-preview.png" class="logo" >
+  <img src="img/FC Management Consulting.png" class="logo" >
   <ul>
     <li> <a href="">Home</a> </li>
     <li> <a href="">About</a> </li>

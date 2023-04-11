@@ -71,7 +71,7 @@ $picture = "img/intern_profile.png";
 	</style>
 </head>
 <body>
-<img class="logo" src="img/FedCenter_Logo-removebg-preview.png" alt="Logo">
+<img class="logo" src="img/FC Management Consulting.png" alt="Logo">
 	<div class="main-container">
 		<!-- Left table for profile picture -->
 		<div class="profile-picture-table">

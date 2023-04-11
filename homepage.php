@@ -1,3 +1,43 @@
+<?php
+session_start(); // Call session_start() before any output is sent
+
+if (isset($_POST['submit'])) { // Check if the Time In button has been clicked
+
+    // Connect to the database
+    $serverName = "LAPTOP-GBO9I3B3\SQL";
+    $connectionOptions = [
+        "Database" => "DLSUD",
+        "Uid" => "",
+        "PWD" => ""
+    ];
+    
+    $conn = sqlsrv_connect($serverName, $connectionOptions);
+    
+    // Check the connection
+    if (!$conn) {
+        die("Connection failed: " . sqlsrv_errors());
+    }
+    
+    // Get the current date and time from JavaScript variables
+    $current_date = $_POST['current_date'];
+    $current_time = $_POST['current_time'];
+
+    // Insert the date and time into the database
+    $sql = "INSERT INTO  FEDCENTER_INTERN_LOGS (DATE, TIME_IN) VALUES ('$current_date', '$current_time')";
+
+    // Execute the SQL query
+    $stmt = sqlsrv_query($conn, $sql);
+    
+    if ($stmt) {
+        echo "<script>alert('WELCOME ADMIN!');</script>";
+        echo "New record created successfully";
+    } else {
+        echo "Error: " . $sql . "<br>" . sqlsrv_errors($conn);
+    }
+
+}
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -47,7 +87,7 @@
     </div>
   </div>
 </nav>
-<img src="img/FedCenter_Logo-removebg-preview.png" class="logo" >
+<img src="img/FC Management Consulting.png" class="logo" >
 <div class="cam">
   <video src="" id="video" autoplay muted></video>
 </div>
@@ -70,8 +110,13 @@
     </div>
 </div>
 </center>
-<button type="button" class="timein">Time in</button>
-<button type="button" class="timeout">Time out</button>
+
+<form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="post">
+  <button type="submit " class="timein" name="time_in">Time in</button>
+  <button type=" "class="timeout" >Time out</button>
+
+</form>
+
 
 
 <!--Table For Inter-->
@@ -102,53 +147,7 @@
                         <td>8</td>
                         <td>0</td>
                         <td>Typing Test</td>
-                    </tr>
-                    <tr class="Usern_inf">
-                        <td> 02</td>
-                        <td>March 29,2023</td>
-                        <td>8:00AM</td>
-                        <td>5:00PM</td>
-                        <td>8</td>
-                        <td>0</td>
-                        <td>PGT</td>
-                    </tr>
-                    <tr class="Usern_inf">
-                        <td> 03</td>
-                        <td>March 30,2023</td>
-                        <td>8:00AM</td>
-                        <td>5:00PM</td>
-                        <td>8</td>
-                        <td>0</td>
-                        <td>Singing</td>
-                    </tr>
-                    <tr class="Usern_inf">
-                        <td> 04</td>
-                        <td>March 31,2023</td>
-                        <td>8:00AM</td>
-                        <td>5:00PM</td>
-                        <td>8</td>
-                        <td>0</td>
-                        <td>Dancing</td>
-                    </tr>
-                    <tr class="Usern_inf">
-                        <td> 05</td>
-                        <td>March 32,2023</td>
-                        <td>8:00AM</td>
-                        <td>5:00PM</td>
-                        <td>8</td>
-                        <td>0</td>
-                        <td>Tawag ng Tanghalan</td>
-                    </tr>
-                    <tr class="Usern_inf">
-                        <td> 06</td>
-                        <td>March 33,2023</td>
-                        <td>8:00AM</td>
-                        <td>5:00PM</td>
-                        <td>8</td>
-                        <td>0</td>
-                        <td>Break</td>
-                    </tr>
-                    
+                    </tr>                  
                 
                   </tbody>
             </table>
@@ -232,37 +231,47 @@ function toggleMenu() {
 <script type="text/javascript">
     function updateClock() {
         var now = new Date();
-        var dname =  now.getDay();
+        var dname = now.getDay(),
             mo = now.getMonth(),
-            dnum= now.getDate(),
+            dnum = now.getDate(),
             yr = now.getFullYear();
-            hou = now.getHours();
-            min = now.getMinutes();
+        var hou = now.getHours(),
+            min = now.getMinutes(),
             sec = now.getSeconds();
-            pe = "AM";
+        var pe = "AM";
 
-            if(hou == 0){
-                hou = 12;
-            }
-            
+        if (hou == 0) {
+            hou = 12;
+        }
 
-            if(hou > 12){
-                hou = hou - 12;
-                pe = "PM";
+        if (hou > 12) {
+            hou = hou - 12;
+            pe = "PM";
+        }
 
-            }
-            Number.prototype.pad = function(digits){
-                for (var n= this.toString(); n.length < digits; n= 0 + n);
+        Number.prototype.pad = function (digits) {
+            for (var n = this.toString(); n.length < digits; n = 0 + n);
+        }
 
-            }
-
-            var months = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov","Dec"]
-            var week =["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday","Friday", "Saturday"]
-            var ids = ["dayname", "month","daynum", "year", "hour", "minutes", "seconds", "period"]
-            var values = [week[dname], months[mo], dnum, yr, hou, min, sec, pe];
-            for (var i = 0; i < ids.length; i++)
+        var months = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"]
+        var week = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"]
+        var ids = ["dayname", "month", "daynum", "year", "hour", "minutes", "seconds", "period"]
+        var values = [week[dname], months[mo], dnum, yr, hou, min, sec, pe];
+        for (var i = 0; i < ids.length; i++)
             document.getElementById(ids[i]).firstChild.nodeValue = values[i];
-     }
+
+        // Send date and time values to PHP script
+        var xmlhttp = new XMLHttpRequest();
+        xmlhttp.open("POST", "insert_date_time.php", true);
+        xmlhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+        xmlhttp.onreadystatechange = function () {
+            if (this.readyState == 4 && this.status == 200) {
+                console.log(this.responseText); // You can handle the response from PHP here
+            }
+        };
+        var params = "current_date=" + encodeURIComponent(your_date_variable) + "&current_time=" + encodeURIComponent(your_time_variable);
+        xmlhttp.send(params);
+    }
 
      function initClock() {
      updateClock();
@@ -309,7 +318,6 @@ camera()
 
 
 
-<!-- Comment ni Sam -->
 </body>
 </html>
 
