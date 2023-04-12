@@ -1,43 +1,50 @@
 <?php
-session_start(); // Call session_start() before any output is sent
 
-if (isset($_POST['submit'])) { // Check if the Time In button has been clicked
+if(isset($_POST['submit'])){
+// Connect to database
+$serverName = "LAPTOP-GBO9I3B3\SQL";
+$connectionOptions = [
+    "Database" => "DLSUD",
+    "Uid" => "",
+    "PWD" => ""
+];
 
-    // Connect to the database
-    $serverName = "LAPTOP-GBO9I3B3\SQL";
-    $connectionOptions = [
-        "Database" => "DLSUD",
-        "Uid" => "",
-        "PWD" => ""
-    ];
-    
-    $conn = sqlsrv_connect($serverName, $connectionOptions);
-    
-    // Check the connection
-    if (!$conn) {
-        die("Connection failed: " . sqlsrv_errors());
-    }
-    
-    // Get the current date and time from JavaScript variables
-    $current_date = $_POST['current_date'];
-    $current_time = $_POST['current_time'];
+$conn = sqlsrv_connect($serverName, $connectionOptions);
 
-    // Insert the date and time into the database
-    $sql = "INSERT INTO  FEDCENTER_INTERN_LOGS (DATE, TIME_IN) VALUES ('$current_date', '$current_time')";
+// Check the connection
+if (!$conn) {
+    die("Connection failed: " . sqlsrv_errors());
+}
 
-    // Execute the SQL query
-    $stmt = sqlsrv_query($conn, $sql);
-    
-    if ($stmt) {
-        echo "<script>alert('WELCOME ADMIN!');</script>";
-        echo "New record created successfully";
-    } else {
-        echo "Error: " . $sql . "<br>" . sqlsrv_errors($conn);
-    }
+// Retrieve date and time values from AJAX request
+$dayname = $_POST['dayname'] ?? '';
+$month = $_POST['month'] ?? '';
+$daynum = $_POST['daynum'] ?? '';
+$year = $_POST['year'] ?? '';
+$hour = $_POST['hour'] ?? '';
+$minutes = $_POST['minutes'] ?? '';
+$seconds = $_POST['seconds'] ?? '';
+$period = $_POST['period'] ?? '';
 
+// Construct datetime string
+$datetime_str = $year . "-" . $month . "-" . $daynum;
+$time_str =  $hour . ":" . $minutes . ":" . $seconds . " " . $period;
+
+// Insert date and time values into database
+$sql = "INSERT INTO FEDCENTER_INTERN_LOGS (DATES, TIME_IN) VALUES ('$datetime_str', '$time_str')";
+$params = array($datetime_str, $time_str);
+
+$stmt = sqlsrv_query($conn, $sql, $params);
+
+if ($stmt) {
+    echo "Data stored successfully.";
+} else {
+    echo "Error: " . $sql . "<br>" . sqlsrv_errors();
+}
+
+sqlsrv_close($conn);
 }
 ?>
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -50,7 +57,6 @@ if (isset($_POST['submit'])) { // Check if the Time In button has been clicked
     <title>FIS</title>
 </head>
 <body onload="initClock()">
-
 
 <!--DrowDown Menu Intern-->
 <nav> 
@@ -92,7 +98,6 @@ if (isset($_POST['submit'])) { // Check if the Time In button has been clicked
   <video src="" id="video" autoplay muted></video>
 </div>
 
-
 <!-- Digital Clock Start -->
 <center>
 <div class="datetime">
@@ -112,11 +117,10 @@ if (isset($_POST['submit'])) { // Check if the Time In button has been clicked
 </center>
 
 <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="post">
-  <button type="submit " class="timein" name="time_in">Time in</button>
+  <button type="submit " id="submit" class="timein" name="time_in">Time in</button>
   <button type=" "class="timeout" >Time out</button>
 
 </form>
-
 
 
 <!--Table For Inter-->
@@ -163,7 +167,6 @@ if (isset($_POST['submit'])) { // Check if the Time In button has been clicked
 
         </section>
     </main>
-
 
     <script> // Pagination
 var table = document.getElementById("searchTable").getElementsByTagName("tbody")[0];
@@ -212,7 +215,6 @@ document.getElementById("last").addEventListener("click", function() {
   showRows();
 });
 
-
     </script>
 
     <!--Profile Intern-->
@@ -224,7 +226,6 @@ function toggleMenu() {
 }
 
  </script>
-
 
 
 <!--Intern CLock-->
@@ -262,24 +263,35 @@ function toggleMenu() {
 
         // Send date and time values to PHP script
         var xmlhttp = new XMLHttpRequest();
-        xmlhttp.open("POST", "insert_date_time.php", true);
+        xmlhttp.open("POST", "homepage.php", true);
         xmlhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
         xmlhttp.onreadystatechange = function () {
             if (this.readyState == 4 && this.status == 200) {
                 console.log(this.responseText); // You can handle the response from PHP here
             }
-        };
-        var params = "current_date=" + encodeURIComponent(your_date_variable) + "&current_time=" + encodeURIComponent(your_time_variable);
-        xmlhttp.send(params);
+        }
+
+
+        var xmlhttp = new XMLHttpRequest();
+xmlhttp.open("POST", "homepage.php", true);
+xmlhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+xmlhttp.onreadystatechange = function () {
+    if (this.readyState == 4 && this.status == 200) {
+        console.log(this.responseText); // You can handle the response from PHP here
+    }
+}
+var data = "dayname=" + week[dname] + "&month=" + months[mo] + "&daynum=" + dnum + "&year=" + yr + "&hour=" + hou + "&minutes=" + min + "&seconds=" + sec + "&period=" + pe;
+xmlhttp.send(data);
+
+
+
     }
 
      function initClock() {
      updateClock();
      window.setInterval("updateClock()",1);
 
-
      }
-
 
      </script>
 
@@ -313,12 +325,11 @@ function camera() {
 }
 camera()
 
-
 </script>
-
 
 
 </body>
 </html>
+
 
 
