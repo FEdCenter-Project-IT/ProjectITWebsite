@@ -1,6 +1,6 @@
 <?php
 
-if(isset($_POST['submit'])){
+
 // Connect to database
 $serverName = "LAPTOP-GBO9I3B3\SQL";
 $connectionOptions = [
@@ -16,6 +16,8 @@ if (!$conn) {
     die("Connection failed: " . sqlsrv_errors());
 }
 
+if(isset($_POST['time_in'])){
+
 // Retrieve date and time values from AJAX request
 $dayname = $_POST['dayname'] ?? '';
 $month = $_POST['month'] ?? '';
@@ -27,12 +29,12 @@ $seconds = $_POST['seconds'] ?? '';
 $period = $_POST['period'] ?? '';
 
 // Construct datetime string
-$datetime_str = $year . "-" . $month . "-" . $daynum;
+$date_str = $year . "-" . $month . "-" . $daynum . "-" .$dayname;
 $time_str =  $hour . ":" . $minutes . ":" . $seconds . " " . $period;
 
 // Insert date and time values into database
-$sql = "INSERT INTO FEDCENTER_INTERN_LOGS (DATES, TIME_IN) VALUES ('$datetime_str', '$time_str')";
-$params = array($datetime_str, $time_str);
+$sql = "INSERT INTO FEDCENTER_INTERN_LOGS (DATES, TIME_IN) VALUES ('$date_str', '$time_str')";
+$params = array($date_str, $time_str);
 
 $stmt = sqlsrv_query($conn, $sql, $params);
 
@@ -45,6 +47,7 @@ if ($stmt) {
 sqlsrv_close($conn);
 }
 ?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -116,9 +119,10 @@ sqlsrv_close($conn);
 </div>
 </center>
 
-<form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="post">
+<form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="POST">
   <button type="submit " id="submit" class="timein" name="time_in">Time in</button>
   <button type=" "class="timeout" >Time out</button>
+  
 
 </form>
 
