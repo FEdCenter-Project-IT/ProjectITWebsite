@@ -1,51 +1,57 @@
 <?php
 
-
 // Connect to database
-$serverName = "LAPTOP-GBO9I3B3\SQL";
+$serverName = "TEPANYANG\SQLEXPRESS";
 $connectionOptions = [
-    "Database" => "DLSUD",
-    "Uid" => "",
-    "PWD" => ""
+  "Database" => "DLSUD",
+  "Uid" => "",
+  "PWD" => ""
 ];
-
 $conn = sqlsrv_connect($serverName, $connectionOptions);
 
 // Check the connection
 if (!$conn) {
-    die("Connection failed: " . sqlsrv_errors());
+  die("Connection failed: " . sqlsrv_errors());
 }
 
+//Check if the time in button is pressed
 if(isset($_POST['time_in'])){
 
-// Retrieve date and time values from AJAX request
-$dayname = $_POST['dayname'] ?? '';
-$month = $_POST['month'] ?? '';
-$daynum = $_POST['daynum'] ?? '';
-$year = $_POST['year'] ?? '';
-$hour = $_POST['hour'] ?? '';
-$minutes = $_POST['minutes'] ?? '';
-$seconds = $_POST['seconds'] ?? '';
-$period = $_POST['period'] ?? '';
-
-// Construct datetime string
-$date_str = $year . "-" . $month . "-" . $daynum . "-" .$dayname;
-$time_str =  $hour . ":" . $minutes . ":" . $seconds . " " . $period;
-
-// Insert date and time values into database
-$sql = "INSERT INTO FEDCENTER_INTERN_LOGS (DATES, TIME_IN) VALUES ('$date_str', '$time_str')";
-$params = array($date_str, $time_str);
-
-$stmt = sqlsrv_query($conn, $sql, $params);
-
-if ($stmt) {
+  // Insert date and time values into database
+  $sql = "INSERT INTO FEDCENTER_INTERN_LOGS (DATES, TIME_IN) VALUES (GETDATE(), (SELECT CONVERT(VARCHAR(8), GETDATE(), 108)))";
+  $stmt = sqlsrv_query($conn, $sql);
+  if ($stmt) {
     echo "Data stored successfully.";
-} else {
+  }
+  else {
     echo "Error: " . $sql . "<br>" . sqlsrv_errors();
+  }
+  sqlsrv_close($conn);
+}
+elseif(isset($_POST['time_out'])){
+  if(empty($_POST['time_in'])){
+    // Insert date and time values into database
+    $sqlto = "UPDATE FEDCENTER_INTERN_LOGS 
+    SET TIME_OUT = (SELECT CONVERT(VARCHAR(8), GETDATE(), 108))
+    WHERE LOGS = (
+      SELECT TOP 1 LOGS
+      FROM FEDCENTER_INTERN_LOGS
+      ORDER BY LOGS DESC
+    )";
+    $stmtto = sqlsrv_query($conn, $sqlto);
+    if ($stmtto) {
+      echo "Data stored successfully.";
+    }
+    else {
+      echo "Error: " . $sqlto . "<br>" . sqlsrv_errors();
+    }
+    sqlsrv_close($conn);
+  }
+}
+else{
+  echo "Error: Time-in First!";
 }
 
-sqlsrv_close($conn);
-}
 ?>
 
 <!DOCTYPE html>
@@ -120,218 +126,180 @@ sqlsrv_close($conn);
 </center>
 
 <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="POST">
-  <button type="submit " id="submit" class="timein" name="time_in">Time in</button>
-  <button type=" "class="timeout" >Time out</button>
-  
-
+  <button type="submit" id="time_in" class="timein" name="time_in">Time in</button>
+  <button type="submit" id="time_out" class="timeout" name="time_out" >Time out</button>
 </form>
 
-
-<!--Table For Inter-->
-<main>    
-        <section class="field">
-            <table class="Table_User" id="searchTable">
-                <thead>
-                     <tr class="Usern_inf">
-                
-                      <th class="Get_info">NO</th>
-                      <th class="Get_info">DATE</th>
-                      <th class="Get_info">IN</th>
-                      <th class="Get_info">OUT</th>
-                      <th class="Get_info">HOURS</th>
-                      <th class="Get_info">MINUTES</th>
-                      <th class="Get_info">SPECIAL EVENT</th>
-                      
- 
-                    </tr>
-                  </thead>
-                  <!--Sample data-->
-                  <tbody>
-                     <tr class="Usern_inf">
-                        <td> 01</td>
-                        <td>March 28,2023</td>
-                        <td>8:00AM</td>
-                        <td>5:00PM</td>
-                        <td>8</td>
-                        <td>0</td>
-                        <td>Typing Test</td>
-                    </tr>                  
-                
-                  </tbody>
-            </table>
+<!--Table For Intern-->
+<main>
+  <section class="field">
+    <table class="Table_User" id="searchTable">
+      <thead>
+        <tr class="Usern_inf">
+          <th class="Get_info">NO</th>
+          <th class="Get_info">DATE</th>
+          <th class="Get_info">IN</th>
+          <th class="Get_info">OUT</th>
+          <th class="Get_info">HOURS</th>
+          <th class="Get_info">MINUTES</th>
+          <th class="Get_info">SPECIAL EVENT</th>
+        </tr>
+      </thead>
+      <!--Sample data-->
+      <tbody>
+        <tr class="Usern_inf">
+          <td> 01</td>
+          <td>March 28,2023</td>
+          <td>8:00AM</td>
+          <td>5:00PM</td>
+          <td>8</td>
+          <td>0</td>
+          <td>Typing Test</td>
+        </tr>                        
+      </tbody>
+    </table>
         
-      <!--Pagination-->
+    <!--Pagination-->
     <div class ="sub-page" id="pagination">
-  <button class ="first-btn" id="first">First</button>
-  <button class="previous-btn" id="previous">Prev</button>
-  <span class ="page-btn" id="currentPage"></span>
-  <button class="nxt-btn" id="next">Next</button>
-  <button class="last-btn" id="last">Last</button>
-</div>
+      <button class ="first-btn" id="first">First</button>
+      <button class="previous-btn" id="previous">Prev</button>
+      <span class ="page-btn" id="currentPage"></span>
+      <button class="nxt-btn" id="next">Next</button>
+      <button class="last-btn" id="last">Last</button>
+    </div>
 
-        </section>
-    </main>
+  </section>
+</main>
 
-    <script> // Pagination
-var table = document.getElementById("searchTable").getElementsByTagName("tbody")[0];
-var rowsPerPage = 5;
-var currentPage = 1;
-var totalPages = Math.ceil(table.rows.length / rowsPerPage);
-
-document.getElementById("currentPage").innerHTML = "Page " + currentPage + " of " + totalPages;
-
-function showRows() {
-  var startIndex = (currentPage - 1) * rowsPerPage;
-  var endIndex = startIndex + rowsPerPage;
-  for (var i = 0; i < table.rows.length; i++) {
-    if (i < startIndex || i >= endIndex) {
-      table.rows[i].style.display = "none";
-    } else {
-      table.rows[i].style.display = "";
-    }
-  }
-  document.getElementById("currentPage").innerHTML = "Page " + currentPage + " of " + totalPages;
-}
-
-showRows();
-
-document.getElementById("first").addEventListener("click", function() {
-  currentPage = 1;
-  showRows();
-});
-
-document.getElementById("previous").addEventListener("click", function() {
-  if (currentPage > 1) {
-    currentPage--;
-    showRows();
-  }
-});
-
-document.getElementById("next").addEventListener("click", function() {
-  if (currentPage < totalPages) {
-    currentPage++;
-    showRows();
-  }
-});
-
-document.getElementById("last").addEventListener("click", function() {
-  currentPage = totalPages;
-  showRows();
-});
-
-    </script>
-
-    <!--Profile Intern-->
-    <script>
-let subMenu = document.getElementById("subMenu");
-
-function toggleMenu() {
-  subMenu.classList.toggle("open-menu");
-}
-
- </script>
-
-
-<!--Intern CLock-->
-<script type="text/javascript">
-    function updateClock() {
-        var now = new Date();
-        var dname = now.getDay(),
-            mo = now.getMonth(),
-            dnum = now.getDate(),
-            yr = now.getFullYear();
-        var hou = now.getHours(),
-            min = now.getMinutes(),
-            sec = now.getSeconds();
-        var pe = "AM";
-
-        if (hou == 0) {
-            hou = 12;
-        }
-
-        if (hou > 12) {
-            hou = hou - 12;
-            pe = "PM";
-        }
-
-        Number.prototype.pad = function (digits) {
-            for (var n = this.toString(); n.length < digits; n = 0 + n);
-        }
-
-        var months = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"]
-        var week = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"]
-        var ids = ["dayname", "month", "daynum", "year", "hour", "minutes", "seconds", "period"]
-        var values = [week[dname], months[mo], dnum, yr, hou, min, sec, pe];
-        for (var i = 0; i < ids.length; i++)
-            document.getElementById(ids[i]).firstChild.nodeValue = values[i];
-
-        // Send date and time values to PHP script
-        var xmlhttp = new XMLHttpRequest();
-        xmlhttp.open("POST", "homepage.php", true);
-        xmlhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
-        xmlhttp.onreadystatechange = function () {
-            if (this.readyState == 4 && this.status == 200) {
-                console.log(this.responseText); // You can handle the response from PHP here
-            }
-        }
-
-
-        var xmlhttp = new XMLHttpRequest();
-xmlhttp.open("POST", "homepage.php", true);
-xmlhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
-xmlhttp.onreadystatechange = function () {
-    if (this.readyState == 4 && this.status == 200) {
-        console.log(this.responseText); // You can handle the response from PHP here
-    }
-}
-var data = "dayname=" + week[dname] + "&month=" + months[mo] + "&daynum=" + dnum + "&year=" + yr + "&hour=" + hou + "&minutes=" + min + "&seconds=" + sec + "&period=" + pe;
-xmlhttp.send(data);
-
-
-
-    }
-
-     function initClock() {
-     updateClock();
-     window.setInterval("updateClock()",1);
-
-     }
-
-     </script>
-
+<!-- PAGINATION -->
 <script>
-        const optionMenu = document.querySelector(".select-menu"),
-       selectBtn = optionMenu.querySelector(".select-btn"),
-       options = optionMenu.querySelectorAll(".option"),
-       sBtn_text = optionMenu.querySelector(".sBtn-text");
+  var table = document.getElementById("searchTable").getElementsByTagName("tbody")[0];
+  var rowsPerPage = 5;
+  var currentPage = 1;
+  var totalPages = Math.ceil(table.rows.length / rowsPerPage);
+  document.getElementById("currentPage").innerHTML = "Page " + currentPage + " of " + totalPages;
+  function showRows() {
+    var startIndex = (currentPage - 1) * rowsPerPage;
+    var endIndex = startIndex + rowsPerPage;
+    for (var i = 0; i < table.rows.length; i++) {
+      if (i < startIndex || i >= endIndex) {
+        table.rows[i].style.display = "none";
+      }
+      else {
+        table.rows[i].style.display = "";
+      }
+    }
+    document.getElementById("currentPage").innerHTML = "Page " + currentPage + " of " + totalPages;
+  }
+  showRows();
+  
+  document.getElementById("first").addEventListener("click", function() {
+    currentPage = 1;
+    showRows();
+  });
+  
+  document.getElementById("previous").addEventListener("click", function() {
+    if (currentPage > 1) {
+      currentPage--;
+      showRows();
+    }
+  });
 
-selectBtn.addEventListener("click", () => optionMenu.classList.toggle("active"));       
+  document.getElementById("next").addEventListener("click", function() {
+    if (currentPage < totalPages) {
+      currentPage++;
+      showRows();
+    }
+  });
 
-options.forEach(option =>{
-    option.addEventListener("click", ()=>{
-        let selectedOption = option.querySelector(".option-text").innerText;
-        sBtn_text.innerText = selectedOption;
-
-        optionMenu.classList.remove("active");
-    });
-});
-    </script>
-
-<script> //camera vision
-
-const video = document.getElementById('video');
-
-function camera() {
-  navigator.getUserMedia({ video: {} },
-  stream => video.srcObject = stream,
-  err => console.error(err)
-  );
-}
-camera()
+  document.getElementById("last").addEventListener("click", function() {
+    currentPage = totalPages;
+    showRows();
+  });
 
 </script>
 
+<!--Profile Intern-->
+<script>
+  let subMenu = document.getElementById("subMenu");
 
+  function toggleMenu() {
+    subMenu.classList.toggle("open-menu");
+  }
+
+</script>
+
+<!--Intern CLock-->
+<script type="text/javascript">
+  function updateClock() {
+    var now = new Date();
+    var dname = now.getDay(), mo = now.getMonth(), dnum = now.getDate(), yr = now.getFullYear();
+    var hou = now.getHours(), min = now.getMinutes(), sec = now.getSeconds();
+    var pe = "AM";
+    if (hou == 0) {
+      hou = 12;
+    }
+    if (hou > 12) {
+      hou = hou - 12;
+      pe = "PM";
+    }
+    Number.prototype.pad = function (digits) {
+      for (var n = this.toString(); n.length < digits; n = 0 + n);
+    }
+    var months = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"]
+    var week = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"]
+    var ids = ["dayname", "month", "daynum", "year", "hour", "minutes", "seconds", "period"]
+    var values = [week[dname], months[mo], dnum, yr, hou, min, sec, pe];
+    for (var i = 0; i < ids.length; i++)
+      document.getElementById(ids[i]).firstChild.nodeValue = values[i];
+      // Send date and time values to PHP script
+      var xmlhttp = new XMLHttpRequest();
+      xmlhttp.open("POST", "homepage.php", true);
+      xmlhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+      xmlhttp.onreadystatechange = function () {
+        if (this.readyState == 4 && this.status == 200) {
+          console.log(this.responseText); // You can handle the response from PHP here
+        }
+      }
+      var xmlhttp = new XMLHttpRequest();
+      xmlhttp.open("POST", "homepage.php", true);
+      xmlhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+      xmlhttp.onreadystatechange = function () {
+        if (this.readyState == 4 && this.status == 200) {
+          console.log(this.responseText); // You can handle the response from PHP here
+        }
+      }
+      var data = "dayname=" + week[dname] + "&month=" + months[mo] + "&daynum=" + dnum + "&year=" + yr + "&hour=" + hou + "&minutes=" + min + "&seconds=" + sec + "&period=" + pe;
+      xmlhttp.send(data);
+  }
+  function initClock() {
+    updateClock();
+    window.setInterval("updateClock()",1);
+  }
+</script>
+
+<script>
+  const optionMenu = document.querySelector(".select-menu"), selectBtn = optionMenu.querySelector(".select-btn"), options = optionMenu.querySelectorAll(".option"), sBtn_text = optionMenu.querySelector(".sBtn-text");
+  selectBtn.addEventListener("click", () => optionMenu.classList.toggle("active"));
+  options.forEach(option =>{
+    option.addEventListener("click", ()=>{
+      let selectedOption = option.querySelector(".option-text").innerText;
+      sBtn_text.innerText = selectedOption;
+      optionMenu.classList.remove("active");
+    });
+  });
+</script>
+
+<!-- CAMERA VISION -->
+<script>
+  const video = document.getElementById('video');
+  function camera() {
+    navigator.getUserMedia({ video: {} },
+    stream => video.srcObject = stream,
+    err => console.error(err));
+  }
+  camera()
+</script>
 </body>
 </html>
 
