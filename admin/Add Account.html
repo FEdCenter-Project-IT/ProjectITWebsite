@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FIS Admin</title>
+
+    <!-- MATERIAL CDN -->
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons+Sharp" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
+    <!-- STYLESHEET -->
+    <link rel="stylesheet" href="./style.css">
+</head>
+<body>
+    <div class="container">
+        <aside>
+            <div class="top">
+                <div class="logo">
+                    <img src="./images/logo1.jpg">
+                    <h2>Admin <span  class="primary">Panel</span> </h2>
+                </div>
+                <div class="close" id="close-btn">
+                    <span class="material-icons-sharp">close</span>
+                </div>
+            </div>
+            <div class="sidebar">
+                <a href="Dashboard.html" >
+                    <span class="material-icons-sharp">dashboard</span>
+                    <h3>Dashboard</h3>
+                </a>
+                <a href="Interns.html" >
+                    <span class="material-icons-sharp">groups</span>
+                    <h3>Interns</h3>
+                </a>
+                <a href="Reports.html">
+                    <span class="material-icons-sharp">description</span>
+                    <h3>Reports</h3>
+                </a>
+                <a href="Accounts.html" class="active">
+                    <span class="material-icons-sharp">dashboard</span>
+                    <h3>List of Accounts</h3>
+                </a>
+                <a href="#">
+                    <span class="material-icons-sharp">assignment_ind</span>
+                    <h3>OT Request</h3>
+                    <span class="message-count">32</span>
+                </a>
+                <a href="#">
+                    <span class="material-icons-sharp">logout</span>
+                    <h3>Logout</h3>
+                </a>
+            </div>
+        </aside>
+        <!----------------------------- END OF ASIDE --------------------------->
+        <main>
+            <h1>Interns</h1>
+
+            <div class="date">
+                <input type="date">
+            </div>
+
+                <div class="Back to Intern">
+                    <a href="Accounts.html">
+                       <button class="backbtn"> Back </button>
+                    </a>
+                </div>
+           
+
+            <div class="Addpage">
+
+                <h1>Input Intern Information</h1>
+
+                <form>
+                    <h3>Full Name: </h3>
+                    <input type="text" name="Full Name" id="Full Name" required>
+
+                    <h3>FEd Center Intern Number: </h3>
+                    <input type="text" name="FIN" id="FIN" required>
+
+                    <h3>Email: </h3>
+                    <input type="text" name="Email" id="Email" required>
+
+                    <h3>Password: </h3>
+                    <input type="text" name="Password" id="Password" required>
+
+                    <h3>Project/s: </h3>
+                    <input type="text" name="Project" id="Project" required>
+
+                    <h3>School: </h3>
+                    <input type="text" name="School" id="School" required>
+
+                    <h3> Required Hours: </h3>
+                    <input type="number" name="Required hrs" id="Required hrs" required>
+
+                    <h3> Start Date: </h3>
+                    <input type="date" name="Start" id="Start" required>
+
+                    <h3> Estimated Date of Completion: </h3>
+                    <input type="date" name="Completion" id="Completion" required>
+                    <br>
+
+                    <input type="submit" value="Add Intern">
+                    
+                </form>   
+                      
+            </div>
+
+           
+        </main>
+        <!----------------------------- END OF MAIN --------------------------->
+        <div class="right">
+            <div class="top">
+                
+            </div>
+        </div>
+    </div>
+    
+</body>
+</html>

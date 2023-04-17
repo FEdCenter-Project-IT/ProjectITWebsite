@@ -3,16 +3,16 @@
 /* ROOT VARAIBLES <ARNOLD>*/
 
 :root {
-    --color-primary:#f34702;
+    --color-primary: #F34702;
     --color-danger: #ff7782;
     --color-success:#41f1b6;
     --color-warning:#ffbb55;
     --color-white:#fff;
     --color-info-dark:#7d8da1;
     --color-info-light:#dce1eb;
-    --color-dark:#424242;
+    --color-dark:#363949;
     --color-light: rgba(132, 139, 200, 0.18);
-    --color-primary-variant:#4e2507;
+    --color-primary-variant:#111e88;
     --color-dark-variant:#677483;
     --color-background:#f6f6f9;
 
@@ -36,6 +36,7 @@
     --color-light: rgba(0, 0, 0, 0.4);
     --box-shadow: 0 2rem 3rem var(--color-light)
 }
+
 
 * {
     margin: 0;
@@ -402,62 +403,6 @@ main .intern-list a {
     color: var(--color-primary);
 }
 
-
-/* ========================= Interns Tab ========================= */
-
-/* dropdown project*/
-
-.dropbtn 
-{
-    background-color: var(--color-light);
-    width: 9rem;
-    color: var(--color-dark);
-    padding: 12px;
-    font-size: 15px;
-    margin-top: 1.8rem;
-    border: none;
-    cursor: pointer;
-}
-  
-.dropbtn:hover, .dropbtn:focus 
-  {
-    background-color: var(--color-primary);
-  }
-  
-.dropdown 
-  {
-    position: relative;
-    display: inline-block;
-  }
-  
-.dropdown-content 
-  {
-    display: none;
-    position: absolute;
-    background-color: #f1f1f1;
-    min-width: 200px;
-    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
-    z-index: 1;
-  }
-  
-.dropdown-content a 
-  {
-    color: black;
-    padding: 12px 16px;
-    text-decoration: none;
-    display: block;
-  }
-  
-.dropdown-content a:hover 
-  {
-    background-color: var(--color-primary);
-  }
-
-.show 
-  {
-    display:block;
-  }
-
 /* ============ RIGHT <ARNOLD>============ */
 .right {
     margin-top: 1.4rem;
@@ -557,7 +502,7 @@ main .intern-list a {
     }
   }
 
-/* ============ MEDIA QUERIES FOR MOBILES <ARNOLD>============ */
+  /* ============ MEDIA QUERIES FOR MOBILES <ARNOLD>============ */
 @media screen and (max-width: 768px) {
     .container {
         width: 100%;
@@ -666,3 +611,175 @@ main .intern-list a {
 
 }
 
+  /* ========================= Interns Tab <ALEX>========================= */
+
+/* dropdown project*/
+
+.dropbtn 
+{
+    background-color: var(--color-light);
+    width: 9rem;
+    color: var(--color-dark);
+    padding: 12px;
+    font-size: 15px;
+    margin-top: 1.8rem;
+    border: none;
+    cursor: pointer;
+}
+  
+.dropbtn:hover, .dropbtn:focus 
+  {
+    background-color: var(--color-primary);
+  }
+  
+.dropdown 
+  {
+    position: relative;
+    display: inline-block;
+  }
+  
+.dropdown-content 
+  {
+    display: none;
+    position: absolute;
+    background-color: #f1f1f1;
+    min-width: 200px;
+    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+    z-index: 1;
+  }
+  
+.dropdown-content a 
+  {
+    color: black;
+    padding: 12px 16px;
+    text-decoration: none;
+    display: block;
+  }
+  
+.dropdown-content a:hover 
+  {
+    background-color: var(--color-primary);
+  }
+
+.show 
+  {
+    display:block;
+  }
+
+/* ================ ADD INTERN BTN<ALEX> ================*/
+
+.subheader
+{
+    display: grid;
+    grid-template-columns: repeat(2, 12rem);  
+}
+
+.addbtn
+{
+    margin-top: 1.8rem;
+    background-color: var(--color-light);
+    width: 12rem;
+    color: var(--color-dark);
+    padding: 12px;
+    font-size: 15px;
+    margin-top: 1.8rem;
+    border: none;
+    cursor: pointer;
+}
+
+.addbtn:hover, .addbtn:focus 
+  {
+    background-color: var(--color-primary);
+  }
+
+  /* ================ BACK BTN <ALEX> ================*/
+
+  .backbtn
+  {
+      margin-top: 1.8rem;
+      background-color: var(--color-light);
+      width: 9rem;
+      color: var(--color-dark);
+      padding: 12px;
+      font-size: 15px;
+      margin-top: 1.8rem;
+      border: none;
+      cursor: pointer;
+  }
+  
+  .backbtn:hover, .backbtn:focus 
+    {
+      background-color: var(--color-primary);
+    }
+
+/* ================ ADD INTERN FORM <ALEX> ================*/
+
+.Addpage
+{
+    margin-top: 1rem;
+}
+
+h1
+{
+    margin-bottom: 1rem;
+}
+
+label
+{
+    font-size: 1rem;
+}
+
+form
+{
+   width: 40rem;
+   background-color: var(--color-primary);
+   padding: 2rem;
+   
+}
+
+input[type=text], input[type=date], input[type=number]
+{
+    width: 100%;
+    padding: 5px;
+    margin:  5px;
+    border: none;
+    background: #f1f1f1;
+    font-size: 1.2rem;
+}
+  
+input[type=submit]
+{
+    width: 100%;
+    padding: 5px;
+    margin:  5px;
+    border: none;
+    background: var(--color-success);
+    font-size: 1.2rem;
+}
+/* ================ PROJECT BTN<ALEX> ================*/
+
+.project
+{
+   margin-top: 2rem;
+    width: 54rem;
+    background-color: var(--color-light);
+   padding: 2rem;
+   align-items: center;
+}
+.projbtn
+{
+    margin-top: 1.8rem;
+    background-color: #f1f1f1;
+    width: 15rem;
+    color: var(--color-dark);
+    padding: 12px;
+    font-size: 15px;
+    border: none;
+    cursor: pointer;
+    margin-left: 1rem;
+}
+
+.projbtn:hover, .projbtn:focus 
+  {
+    background-color: var(--color-primary);
+  }
