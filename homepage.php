@@ -54,6 +54,7 @@ else{
 
 ?>
 
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -103,9 +104,7 @@ else{
   </div>
 </nav>
 <img src="img/FC Management Consulting.png" class="logo" >
-<div class="cam">
-  <video src="" id="video" autoplay muted></video>
-</div>
+
 
 <!-- Digital Clock Start -->
 <center>
@@ -125,10 +124,63 @@ else{
 </div>
 </center>
 
-<form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="POST">
-  <button type="submit" id="time_in" class="timein" name="time_in">Time in</button>
+  <button type="submit" id="open" class="timein" name="time_in">Time in</button>
+  <div class="modal-container" id="modal_container">
+<div class="modal">
+    <h1>Action Item</i></h1>
+
+<div class="select-box">
+    <div class="select-option">
+        <input type="text" placeholder="Projects" id="soValue" readonly name="">
+    </div>
+    <div class="content">
+        <div class="search">
+        <input type="text" id="optionSearch" name="Search" placeholder="Search">
+        
+        </div>
+    <ul class="options">
+        <li>Human Resources</li>
+        <li>Accounting</li>
+        <li>IT</li>
+        <li>Marketing</li>
+        <li>FIN ED/ CFAP</li>
+        <li>JJCFAP/JAA</li>
+        <li>Training</li>
+        <li>Business Development</li>
+        <li>Alterna</li>
+        <li>Organization</li>
+        <li>ADM/NDC</li>
+        <li>IMG/ASTRA</li>
+    </ul>
+    
+    </div>
+</div>
+    <div class="Event">
+    <div class="inputBox">
+        <input type="text" required="required">
+        <span>Action Item/Task</span>
+    </div>
+    <div class="input-Box">
+        <input type="text" required="required">
+        <span>Speacial Event</span>
+    </div>
+    <div class="checkbox-container">
+        <input type="checkbox" id="cb1">
+        <label for="cb1">Check This Box if Speacial Event</label>
+    </div>
+    </div>
+    
+
+          <button id="close"> Cancel</button>
+          <button id="ontime">timein</button>
+</div>
+
+</div>
+
   <button type="submit" id="time_out" class="timeout" name="time_out" >Time out</button>
 </form>
+
+
 
 <!--Table For Intern-->
 <main>
@@ -170,6 +222,99 @@ else{
 
   </section>
 </main>
+
+<script>// pop-up messages
+
+const open = document.getElementById('open');
+const modal_container = document.getElementById('modal_container');
+const close = document.getElementById('close')
+
+open.addEventListener('click', () => {
+    modal_container.classList.add('show');
+});
+
+close.addEventListener('click', () => {
+    modal_container.classList.remove('show');
+});
+
+</script>
+
+
+<script> // for dropdown menu in modal box
+    const selectBox = document.querySelector('.select-box');
+    const selectOption = document.querySelector('.select-option');
+    const soValue = document.querySelector('#soValue');
+    const optionSearch = document.querySelector('#optionSearch');
+    const options = document.querySelector('.options');
+    const optionsList = document.querySelectorAll('.options li');
+
+    // Open/close dropdown menu when user clicks on selectOption
+    selectOption.addEventListener('click', function(){
+        selectBox.classList.toggle('active');
+    });
+         // Set the value of the input field to the selected option
+    optionsList.forEach(function(optionsListSingle){
+        optionsListSingle.addEventListener('click',function(){
+            text = this.textContent;
+            soValue.value = text;
+            selectBox.classList.remove('active')
+        })
+    });
+    // Search Bar
+    optionSearch.addEventListener('keyup', function(){
+    var filter, li, i, textValue;
+    filter = optionSearch.value.toUpperCase();
+    li = options.getElementsByTagName('li');
+    var found = false;
+    for (i = 0; i < li.length; i++) {
+        liCount = li[i];
+        textValue = liCount,textContent || liCount.innerText;
+        if(textValue.toUpperCase().indexOf(filter) > -1){
+            li[i].style.display = '';
+            found = true;
+        }else {
+            li[i].style.display = 'none';
+        }
+    }
+
+});
+    // Close dropdown menu when user clicks outside of it
+    window.addEventListener('click', function(event) {
+        if (!selectBox.contains(event.target)) {
+            selectBox.classList.remove('active');
+        }
+    });
+
+</script>
+
+<script>// all in the modal box kapag nag cancel button automatic restart lahat ng value
+ const cancelButton = document.getElementById("close");
+const dropdown = document.querySelector(".select-option input");
+const inputBox = document.querySelectorAll(".Event input")[0];
+const specialEventBox = document.querySelectorAll(".Event input")[1];
+const checkbox = document.querySelector(".checkbox-container input[type='checkbox']");
+
+// Function to reset the input field, dropdown menu, and checkbox
+function resetForm() {
+  dropdown.value = "";
+  inputBox.value = "";
+  specialEventBox.value = "";
+  checkbox.checked = false; // uncheck the checkbox
+}
+
+// Add event listener to the Cancel button
+cancelButton.addEventListener("click", resetForm);
+
+// Add event listener to the dropdown menu
+dropdown.addEventListener("change", function() {
+  if (dropdown.value !== "Projects") {
+    inputBox.value = inputBox.value.trim() !== "" ? inputBox.value : dropdown.value;
+    dropdown.value = "Projects";
+  }
+});
+
+</script>
+
 
 <!-- PAGINATION -->
 <script>
@@ -219,15 +364,25 @@ else{
 
 </script>
 
-<!--Profile Intern-->
-<script>
-  let subMenu = document.getElementById("subMenu");
+ <!--Profile Intern-->
+ <script>
+                //click outside and close
+
+let subMenu = document.getElementById("subMenu");
+  let userPic = document.querySelector(".user_pic");
 
   function toggleMenu() {
     subMenu.classList.toggle("open-menu");
   }
 
-</script>
+  window.addEventListener('click', function(e) {
+    if (!subMenu.contains(e.target) && !userPic.contains(e.target)) {
+      subMenu.classList.remove("open-menu");
+    }
+  });
+
+
+ </script>
 
 <!--Intern CLock-->
 <script type="text/javascript">
@@ -291,15 +446,7 @@ else{
 </script>
 
 <!-- CAMERA VISION -->
-<script>
-  const video = document.getElementById('video');
-  function camera() {
-    navigator.getUserMedia({ video: {} },
-    stream => video.srcObject = stream,
-    err => console.error(err));
-  }
-  camera()
-</script>
+
 </body>
 </html>
 

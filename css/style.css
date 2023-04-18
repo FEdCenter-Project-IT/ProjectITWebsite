@@ -62,9 +62,9 @@ nav {
  position: relative;
 
 }
-.logo {
+.logo { 
   width: 500px;
-  padding-bottom: 3%;
+  padding-bottom: 2%;
   transform: translate(125%);
 }
 .cam {
@@ -99,29 +99,31 @@ nav ul li a {
 }
 .sub-menu-wrap {
   position: absolute;
-  top: 65%;
+  top: 75%;
   right: 0;
   width: 320px;
   max-height: 0px;
   overflow: hidden;
   transition: max-height 0.5s;
 }
-.sub-menu-wrap.open-menu {
+.sub-menu-wrap.open-menu {    
   max-height: 400px;
 }
 
 .sub-menu {
-  background-color: white;
+  background-color: grey;
   padding: 20px;
-  margin: 10px;
+  margin: 20px;
   border-radius: 10%;
 }
 .user-info {
   display: flex;
   align-items: center;
 }
-.user-info h3 {
-  font-weight: 500;
+.user-info h2 {
+  font-weight: 600;
+  color: white;
+  margin-left: 7%;
 
 }
 .user-info img {
@@ -147,6 +149,8 @@ nav ul li a {
 .sub-menu-link p {
   width: 100%;
   font-size: 15px;
+  font-family: poppins, sans-serif;
+  color: white;
 }
 .sub-menu-link i {
   width: 40px;
@@ -159,6 +163,8 @@ nav ul li a {
 }
 .sub-menu-link span {
   font-size: 22px;
+  font-weight: 600;
+  font-family: poppins, sans-serif;
   transition: transform 0.5s;
 }
 .sub-menu-link:hover span {
@@ -166,8 +172,10 @@ nav ul li a {
 }
 .sub-menu-link:hover p {
   font-weight: 600;
-  color: #F34702;
+  font-family: poppins, sans-serif;
+  color: black;
 }
+
 
 /* DropDown Menu 
 .select-menu{
@@ -613,13 +621,13 @@ b {
   border-radius: 50px;
   padding: 5px;
   font-family: poppins, sans-serif;
-  font-size: 25px;
+  font-size: 20px;
   border: none;
   cursor: pointer;
   font-weight: 600;
   width: 150px;
-  color: #F34702;
-  background: #424242;
+  color: black;
+  background: rgb(47, 224, 47);
   left: 32%;
   top: 30%;
   transition: transform 0.3s ease;
@@ -629,7 +637,7 @@ b {
   content: "";
   position: absolute;
   opacity: 0.3;
-  background: black;
+  background:  rgb(47, 224, 47);
   border-radius: inherit;
   width: 100%;
   height: 100%;
@@ -660,8 +668,8 @@ b {
   cursor: pointer;
   font-weight: 600;
   width: 150px;
-  color: #F34702;
-  background: #424242;
+  color: black;
+  background: red;
   left: 59.5%;
   top: 30%;
   transition: transform 0.3s ease;
@@ -670,7 +678,7 @@ b {
   content: "";
   position: absolute;
   opacity: 0.3;
-  background: black;
+  background: red;
   border-radius: inherit;
   width: 100%;
   height: 100%;
@@ -689,6 +697,312 @@ b {
 .timeout:hover::before {
   transform: translate(12px, 12px);
 }
+
+/*The Modal*/
+.modal-container {
+  z-index: 999;
+  background-color: rgba(0, 0, 0, 0.3);
+  display: flex;
+  position: fixed;
+  pointer-events: none;
+  opacity: 0;
+  top: 0;
+  left: 0;  
+  width: 100vw;
+  height: 100vh;
+  align-items: center;
+  justify-content: center;
+  transition: opacity 0.5s ease;
+}
+
+#close {
+  transform: translate(90% , 40px);
+font-family: poppins, sans-serif;
+padding: 5px;
+border-radius: 30px;
+font-size: 20px;
+border: none;
+cursor: pointer;
+font-weight: 600;
+width: 130px;
+color: black;
+background: rgba(78, 57, 57, 0.1);
+text-align: center;
+align-items: center;
+justify-content: center;
+transition: .4s ease-in;
+}
+#close:hover {
+  box-shadow: inset -140px 0px 0px 0px red, inset 140px 0px 0px 0px red;
+}
+
+
+#ontime {
+  transform: translate(100% , 40px);
+font-family: poppins, sans-serif;
+padding: 5px;
+border-radius: 50px;
+font-size: 20px;
+border: none;
+cursor: pointer;
+font-weight: 600;
+width: 130px;
+color: black;
+background: rgba(78, 57, 57, 0.1);
+text-align: center;
+align-items: center;
+justify-content: center;
+transition: .4s ease-in;
+}
+#ontime:hover {
+  box-shadow: inset -140px 0px 0px 0px rgb(47, 224, 47), inset 140px 0px 0px 0px rgb(47, 224, 47);
+}
+.modal-container.show {
+  pointer-events: auto;
+  opacity: 1;
+}
+.modal {
+  background-color: aliceblue;
+  padding: 50px 80px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
+  border-radius: 5px;
+  width: 600px;
+  max-width: 100%;
+  text-align: center; 
+}
+.modal h1 {
+  margin: 0;
+  font-size: 50px;
+  margin-top: -10%;
+  padding-bottom: 10%;
+  text-align: center;
+  justify-content: center;
+  align-items: center;
+  text-transform: uppercase;
+  font-weight: 900;
+  font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
+}
+.modal p {
+  font-size: 14px;
+  opacity: 0.7;
+}
+
+.select-menu{
+  transform: translate(-50%);
+}
+
+/*Dropdown Menu inside The Modal Box*/
+.select-box {
+  width: 70%;
+  position: relative;
+  transform: translate(-20%);
+}
+.select-option {
+  position: relative;
+}
+.select-option input {
+  width: 100%;
+  background-color: white;
+  color: black;
+  border-radius: 7px;
+  cursor: pointer;
+  font-size: 22px;
+  padding: 15px 20px;
+  border: 0 !important;
+  outline: 0 !important;
+
+}
+.select-option:after {
+  content: "";
+  border-top: 12px solid black;
+  border-left: 8px solid transparent;
+  border-right: 8px solid transparent;
+  position: absolute;
+  right: 20px;
+  top: 50%;
+  margin-top: -8px;
+  transition: .3s;
+}
+.content {
+  background-color: white;
+  color: black;
+  border-radius: 7px;
+  margin-top: 10px;
+  width: 90%;
+  z-index: 999;
+  transform: translate(5%);
+  display: none;
+}
+.search input {
+  width: 85%;
+  font-size: 17px;
+  padding: 5px;
+  margin-top: 10px;
+  outline: 0;
+  border: 1px solid #b3b3b3;
+  border-radius: 5px;
+}
+.options {
+  margin-top: 10px;
+  max-height: 150px;
+  overflow-y: auto; 
+}
+.options li {
+  padding: 10px 15px;
+  font-size: 15px;
+  cursor: pointer;
+  font-weight: 500;
+}
+.options li:hover {
+  background-color: #f2f2f2;
+  font-weight: 600;
+}
+.select-box.active .content {
+  display: block;
+}
+.select-box.active .select-option::after {
+  transform: rotate(-180deg);
+}
+
+/*Action Item*/
+.Event  {
+  display: flex;
+  padding-top: 30px;
+  transform: translate(-14%);
+}
+.inputBox {
+  position: relative;
+  width: 70%;
+}
+.inputBox input {
+  width: 100%;
+  padding: 20px;
+  border:  1px solid rgba(255, 255, 255, 0.25);
+  background: white;
+  border-radius: 5px;
+  outline: none;
+  color: black;
+  font-size: 15px;
+  transition: 0.5s;
+}
+.inputBox span {
+   position: absolute;
+   left: 0;
+   padding: 15px;
+   pointer-events: none;
+   font-size: 1em;
+   color: black;
+   text-transform: uppercase;
+   transition: 0.5s;
+}
+.inputBox input:valid ~ span,
+.inputBox input:focus ~ span {
+  color: black;
+  transform: translateX(10px)  translateY(-7px);
+  font-size: 1em;
+  padding: 0 10px;
+  background: aliceblue;
+  border-left: 1px solid black;
+  border-right: 1px solid black;
+  letter-spacing: 0.2em;
+  font-weight: 600;
+}
+
+.inputBox input:valid,
+.inputBox input:focus {
+  border: 1px solid black;
+}
+
+/*Speacial Event*/
+.input-Box {
+  position: relative;
+  width: 70%;
+  transform: translate(50%, -6em);
+}
+.input-Box input {
+  width: 100%;
+  padding: 20px;
+  border:  1px solid rgba(255, 255, 255, 0.25);
+  background: white;
+  border-radius: 5px;
+  outline: none;
+  color: black;
+  font-size: 15px;
+  transition: 0.5s;
+}
+.input-Box span {
+   position: absolute;
+   left: 0;
+   padding: 15px;
+   pointer-events: none;
+   font-size: 1em;
+   color: black;
+   text-transform: uppercase;
+   transition: 0.5s;
+}
+.input-Box input:valid ~ span,
+.input-Box input:focus ~ span {
+  color: black;
+  transform: translateX(10px)  translateY(-7px);
+  font-size: 1em;
+  padding: 0 10px;
+  background: aliceblue;
+  border-left: 1px solid black;
+  border-right: 1px solid black;
+  letter-spacing: 0.2em;
+  font-weight: 600;
+}
+.input-Box:nth-child(2) input:valid ~ span,
+.input-Box:nth-child(2) input:focus ~ span {
+  background-color: red;
+  color: black;
+  border-radius: 2px;
+}
+
+.input-Box input:valid,
+.input-Box input:focus {
+  border: 1px solid black;
+
+}
+/*Check Box*/
+
+.checkbox-container {
+  display: flex;
+  position: absolute;
+  left: 60%;
+  transform: translate(50%, -10%);
+}
+.checkbox-container label {
+  cursor: pointer;
+  display: flex;
+  font-size: 15px;
+}
+.checkbox-container input[type='checkbox'] {
+  cursor: pointer;
+  opacity: 0;
+  position: absolute;
+}
+.checkbox-container label::before {
+  content: '';
+  width: 15%;
+  height: 50%;
+  border-radius: .15em;
+  margin-right: -2.5%;
+  border: .05em solid black;
+}
+.checkbox-container label:hover::before,
+.checkbox-container input[type='checkbox']:hover + label::before {
+  background-color: red;
+}
+.checkbox-container input[type='checkbox']:checked + label::before {
+  content: '\002714';
+  background-color: red;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: white;
+}
+
 
 
 
