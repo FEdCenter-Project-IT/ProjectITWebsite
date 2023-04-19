@@ -1,5 +1,5 @@
 <?php
-// TRIAL LANG -TIFF
+
 // Connect to database
 $serverName = "TEPANYANG\SQLEXPRESS";
 $connectionOptions = [
@@ -15,7 +15,7 @@ if (!$conn) {
 }
 
 //Check if the time in button is pressed
-if(isset($_POST['time_in'])){
+if(isset($_POST['ontime'])){
 
   // Insert date and time values into database
   $sql = "INSERT INTO FEDCENTER_INTERN_LOGS (DATES, TIME_IN) VALUES (GETDATE(), (SELECT CONVERT(VARCHAR(8), GETDATE(), 108)))";
@@ -58,13 +58,13 @@ else{
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" type="text/css" href="css/style.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.3.0/css/all.min.css" integrity="sha512-SzlrxWUlpfuzQ+pcUCosxcglQRNAq/DZjVsC0lE40xsADsfeQoEypE+enwcOiGjk/bSuGGKHEyjSoQ1zVisanQ==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" type="text/css" href="css/style.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.3.0/css/all.min.css" integrity="sha512-SzlrxWUlpfuzQ+pcUCosxcglQRNAq/DZjVsC0lE40xsADsfeQoEypE+enwcOiGjk/bSuGGKHEyjSoQ1zVisanQ==" crossorigin="anonymous" referrerpolicy="no-referrer" />
 </head>
-    <title>FIS</title>
+  <title>FIS</title>
 </head>
 <body onload="initClock()">
 
@@ -124,6 +124,8 @@ else{
 </div>
 </center>
 
+<form>
+
   <button type="submit" id="open" class="timein" name="time_in">Time in</button>
   <div class="modal-container" id="modal_container">
 <div class="modal">
@@ -162,17 +164,17 @@ else{
     </div>
     <div class="input-Box">
         <input type="text" required="required">
-        <span>Speacial Event</span>
+        <span>Special Event</span>
     </div>
     <div class="checkbox-container">
         <input type="checkbox" id="cb1">
-        <label for="cb1">Check This Box if Speacial Event</label>
+        <label for="cb1">Check This Box if Special Event</label>
     </div>
     </div>
     
 
           <button id="close"> Cancel</button>
-          <button id="ontime">timein</button>
+          <button id="ontime" class="ontime">timein</button>
 </div>
 
 </div>
