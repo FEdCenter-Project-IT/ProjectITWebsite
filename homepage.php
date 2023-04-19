@@ -1,7 +1,7 @@
 <?php
 
 // Connect to database
-$serverName = "TEPANYANG\SQLEXPRESS";
+$serverName = "LAPTOP-GBO9I3B3\SQL";
 $connectionOptions = [
   "Database" => "DLSUD",
   "Uid" => "",
@@ -14,8 +14,14 @@ if (!$conn) {
   die("Connection failed: " . sqlsrv_errors());
 }
 
+
+//Variable to hold the values
+$projectname = $_POST['First_Name'];
+$actionitem =  $_POST['First_Name'];
+$specialevents = $_POST['First_Name'];
+
 //Check if the time in button is pressed
-if(isset($_POST['time_in'])){
+if(isset($_POST['ontime'])){
 
   // Insert date and time values into database
   $sql = "INSERT INTO FEDCENTER_INTERN_LOGS (DATES, TIME_IN) VALUES (GETDATE(), (SELECT CONVERT(VARCHAR(8), GETDATE(), 108)))";
@@ -123,7 +129,7 @@ else{
     </div>
 </div>
 </center>
-
+  <form id="registration" action = "<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="POST">
   <button type="submit" id="open" class="timein" name="time_in">Time in</button>
   <div class="modal-container" id="modal_container">
 <div class="modal">
@@ -138,41 +144,39 @@ else{
         <input type="text" id="optionSearch" name="Search" placeholder="Search">
         
         </div>
-    <ul class="options">
-        <li>Human Resources</li>
-        <li>Accounting</li>
-        <li>IT</li>
-        <li>Marketing</li>
-        <li>FIN ED/ CFAP</li>
-        <li>JJCFAP/JAA</li>
-        <li>Training</li>
-        <li>Business Development</li>
-        <li>Alterna</li>
-        <li>Organization</li>
-        <li>ADM/NDC</li>
-        <li>IMG/ASTRA</li>
-    </ul>
+    <select name="projects" id="projects" class="options">
+    <option value="Human Resources">Human Resources</option>
+        <option value="Accounting">Accounting</option>
+        <option value="IT">IT</option>
+        <option value="Marketing">Marketing</option>
+        <option value="FIN ED/ CFAP">FIN ED/ CFAP</option>
+        <option value="JJCFAP/JAA">JJCFAP/JAA</option>
+        <option value="Training">Training</option>
+        <option value="Business Development">Business Development</option>
+        <option value="Alterna">Alterna</option>
+        <option value="Organization">Organization</option>
+        <option value="ADM/NDC">ADM/NDC</option>
+        <option value="IMG/ASTRA">IMG/ASTRA</option>
+        </select>
     
     </div>
 </div>
     <div class="Event">
     <div class="inputBox">
-        <input type="text" required="required">
+        <input type="text" id = "actionitem" required="required">
         <span>Action Item/Task</span>
     </div>
     <div class="input-Box">
-        <input type="text" required="required">
-        <span>Speacial Event</span>
+        <input type="text"  id = "specialevent">
+        <span>Special Event</span>
     </div>
-    <div class="checkbox-container">
-        <input type="checkbox" id="cb1">
-        <label for="cb1">Check This Box if Speacial Event</label>
-    </div>
+    
     </div>
     
 
           <button id="close"> Cancel</button>
-          <button id="ontime">timein</button>
+          <button type="submit" id="ontime">timein</button>
+
 </div>
 
 </div>
