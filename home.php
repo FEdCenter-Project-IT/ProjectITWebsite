@@ -9,71 +9,7 @@
 </head>
 <body>
 
-<nav>
-  <img src="img/FC Management Consulting.png" class="logo" >
-  <ul>
-    <li> <a href="">Home</a> </li>
-    <li> <a href="">About</a> </li>
-    <li> <a href="">Contact</a> </li>
-    <li> <a href="">Blogs</a> </li>
-  </ul>
-  <img src="img/zoomDP.jpg" class="user_pic" onclick="toggleMenu()">
-
-  <div class="sub-menu-wrap" id="subMenu">
-    <div class="sub-menu">
-      <div class="user-info">
-        <img src="img/zoomDP.jpg">
-        <h2>Raffy L. Veloria</h2>
-      </div>
-      <hr>
-
-      <a href="" class="sub-menu-link">
-      <i class="fa fa-user"></i>
-        <p>Edit Profile</p>
-        <span>></span>
-      </a>
-      <a href="" class="sub-menu-link">
-      <i class="fa fa-gear"></i>
-        <p>Setting & Privacy</p>
-        <span>></span>
-      </a>
-      <a href="" class="sub-menu-link">
-      <i class="fa-solid fa-circle-question"></i>
-        <p>Help & Support</p>
-        <span>></span>
-      </a>
-      <a href="" class="sub-menu-link">
-      <i class="fa-solid fa-right-from-bracket"></i>
-        <p>Logout</p>
-        <span>></span>
-      </a>
-    </div>
-  </div>
-
-</nav>
-
-<script>
-let subMenu = document.getElementById("subMenu");
-
-function toggleMenu() {
-  subMenu.classList.toggle("open-menu");
-}
-
-</script>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+        
 
 
 

@@ -31,7 +31,7 @@
         <hr>
         <a href="" class="sub-menu-link">
           <i class="fa fa-user"></i>
-          <p>Edit Profile</p>
+          <p>View Profile</p>
           <span>></span>
         </a>
         <a href="" class="sub-menu-link">
@@ -51,8 +51,10 @@
       </div>
     </div>
   </nav>
-  <img src="img/FC Management Consulting.png" class="logo">
 
+  <center>
+  <img src="img/FC Management Consulting.png" class="logo">
+</center>
 
   <!-- Digital Clock Start -->
   <center>
@@ -80,14 +82,11 @@
 
       <h1>Action Item</i></h1>
       <form id="registration" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="POST">
-
-        <label for="InternId">Intern ID: </label> 
-        <input type="text" id="InternId" name="InternId">  
-        <br><br>
-
-        <label for="projects">PROJECTS</label>
-            <select name="projects"  id="projects" >
-              <option value="None">None</option>
+      
+     
+      <div class="Event">
+            <select name="projects"  id="projects" class="projects">
+              <option value="None">Select your Projects</option>
               <option value="Human Resources">Human Resources</option>
               <option value="Accounting">Accounting</option>
               <option value="IT">IT</option>
@@ -101,19 +100,30 @@
               <option value="ADM/NDC">ADM/NDC</option>
               <option value="IMG/ASTRA">IMG/ASTRA</option>
             </select>
-            <br><br>
+            <br><br><br>
 
-        <label for="actionitem">Action Item: </label> 
-        <input type="text" id="actionitem" name="actionitem">  
-        <br><br>
-      
-        <label for="specialevent">Special Event: </label> 
-        <input type="text" id="specialevent" name="specialevent">  
-        <br><br>
-      
+        <div class="intern-id">
+        <input type="text" id="InternId" name="InternId" class="form__input" autocomplete="off" placeholder=" "> 
+        <label for="InternId" class="form__label">Intern ID </label> 
+        </div> 
+        <br><br><br>
+        <div class="action-item">
+        <input type="text" id="actionitem" name="actionitem" class="form-action" autocomplete="off" placeholder=" ">  
+        <label for="actionitem" class="form--action">Action Item </label> 
         
+        </div>
+        <br><br><br>
+        <div class="special-event">
+        <input type="text" id="specialevent" name="specialevent" class="form-special" autocomplete="off" placeholder=" ">  
+        <label for="specialevent" class="form--special">Special Event </label> 
+        
+        </div>
+        <br><br>
+        </div>
+      
+
         <button id="close"> Cancel</button>
-        <button type="submit" id="ontime" name="ontime">timein</button>
+        <button type="submit" id="ontime" name="ontime">Time in</button>
       </form>
 
     </div>
@@ -121,91 +131,87 @@
 
   <button type="submit" id="time_out" class="timeout" name="time_out">Time out</button>
 
-<?php
-// Connect to database
-$serverName = "LAPTOP-GBO9I3B3\SQL";
-$connectionOptions = [
-  "Database" => "DLSUD",
-  "Uid" => "",
-  "PWD" => ""
-];
-$conn = sqlsrv_connect($serverName, $connectionOptions);
+ 
 
-// Check the connection
-if (!$conn) {
-  die("Connection failed: " . sqlsrv_errors());
-}
-
-
-//Variable to hold the values
-
-$InternId = $_POST['InternId'];
-$projects = $_POST['projects'];
-$actionitem =  $_POST['actionitem'];
-$specialevents =  $_POST['specialevent']; 
-
-
-//Check if the time in button is pressed
-if(isset($_POST['ontime'])){
-
-  // Insert date and time values into database
-  $sql = "INSERT INTO FEDCENTER_INTERN_LOGS (INTERN_ID, DATE, PROJECT, ACTION_ITEM, SPECIAL_EVENTS) VALUES
-   ('$InternId', GETDATE(), '$projects','$actionitem', '$specialevents' )";
-  $stmt = sqlsrv_query($conn, $sql);
-  if ($stmt) {
-    echo "Data stored successfully.";
-  }
-  else {
-    echo "Error ";
-  }
-
-}
-
-?>
 
 
 
   <!--Table For Intern-->
   <main>
-    <section class="field">
-      <table class="Table_User" id="searchTable">
-        <thead>
-          <tr class="Usern_inf">
-            <th class="Get_info">NO</th>
-            <th class="Get_info">DATE</th>
-            <th class="Get_info">IN</th>
-            <th class="Get_info">OUT</th>
-            <th class="Get_info">HOURS</th>
-            <th class="Get_info">MINUTES</th>
-            <th class="Get_info">SPECIAL EVENT</th>
-          </tr>
-        </thead>
-        <!--Sample data-->
-        <tbody>
-          <tr class="Usern_inf">
-            <td> 01</td>
-            <td>March 28,2023</td>
-            <td>8:00AM</td>
-            <td>5:00PM</td>
-            <td>8</td>
-            <td>0</td>
-            <td>Typing Test</td>
-          </tr>
-        </tbody>
-      </table>
+  <table class="mytable" id="mytable">
 
-      <!--Pagination-->
-      <div class="sub-page" id="pagination">
-        <button class="first-btn" id="first">First</button>
-        <button class="previous-btn" id="previous">Prev</button>
-        <span class="page-btn" id="currentPage"></span>
-        <button class="nxt-btn" id="next">Next</button>
-        <button class="last-btn" id="last">Last</button>
-      </div>
+    <thead>
+      <tr>
+        <th>NO</th>
+        <th>DATE</th>
+        <th>IN</th>
+        <th>OUT</th>
+        <th>HOURS</th>
+        <th>MINUTES</th>
+        <th>SPECIAL EVENTS</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>01</td>
+        <td>January 1, 2023</td>
+        <td>8:00AM</td>
+        <td>5:00PM</td>
+        <td>8</td>
+        <td>0</td>
+        <td>Typing test</td>
+      </tr>
+      <tr>
+        <td>02</td>
+        <td>January 2, 2023</td>
+        <td>8:00AM</td>
+        <td>5:00PM</td>
+        <td>8</td>
+        <td>0</td>
+        <td>Java</td>
+      </tr>
+      <tr>
+        <td>03</td>
+        <td>January 3, 2023</td>
+        <td>8:00AM</td>
+        <td>5:00PM</td>
+        <td>8</td>
+        <td>0</td>
+        <td>Php</td>
+      </tr>
+      <tr>
+        <td>04</td>
+        <td>January 4, 2023</td>
+        <td>8:00AM</td>
+        <td>5:00PM</td>
+        <td>8</td>
+        <td>0</td>
+        <td>Python</td>
+      </tr>
+      <tr>
+        <td>05</td>
+        <td>January 5, 2023</td>
+        <td>8:00AM</td>
+        <td>5:00PM</td>
+        <td>8</td>
+        <td>0</td>
+        <td>C++</td>
+      </tr>
+      
+    </tbody>
+  </table>    
 
-    </section>
-  </main>
+  
+</main>
+<br><br>
 
+
+
+    
+
+
+
+<script src="script.js"></script>
   <script>
     // pop-up messages
 
@@ -219,130 +225,6 @@ if(isset($_POST['ontime'])){
 
     close.addEventListener('click', () => {
       modal_container.classList.remove('show');
-    });
-  </script>
-
-
-  <script>
-    // for dropdown menu in modal box
-    const selectBox = document.querySelector('.select-box');
-    const selectOption = document.querySelector('.select-option');
-    const soValue = document.querySelector('#soValue');
-    const optionSearch = document.querySelector('#optionSearch');
-    const options = document.querySelector('.options');
-    const optionsList = document.querySelectorAll('.options li');
-
-    // Open/close dropdown menu when user clicks on selectOption
-    selectOption.addEventListener('click', function () {
-      selectBox.classList.toggle('active');
-    });
-    // Set the value of the input field to the selected option
-    optionsList.forEach(function (optionsListSingle) {
-      optionsListSingle.addEventListener('click', function () {
-        text = this.textContent;
-        soValue.value = text;
-        selectBox.classList.remove('active')
-      })
-    });
-    // Search Bar
-    optionSearch.addEventListener('keyup', function () {
-      var filter, li, i, textValue;
-      filter = optionSearch.value.toUpperCase();
-      li = options.getElementsByTagName('li');
-      var found = false;
-      for (i = 0; i < li.length; i++) {
-        liCount = li[i];
-        textValue = liCount, textContent || liCount.innerText;
-        if (textValue.toUpperCase().indexOf(filter) > -1) {
-          li[i].style.display = '';
-          found = true;
-        } else {
-          li[i].style.display = 'none';
-        }
-      }
-
-    });
-    // Close dropdown menu when user clicks outside of it
-    window.addEventListener('click', function (event) {
-      if (!selectBox.contains(event.target)) {
-        selectBox.classList.remove('active');
-      }
-    });
-  </script>
-
-  <script>
-    // all in the modal box kapag nag cancel button automatic restart lahat ng value
-    const cancelButton = document.getElementById("close");
-    const dropdown = document.querySelector(".select-option input");
-    const inputBox = document.querySelectorAll(".Event input")[0];
-    const specialEventBox = document.querySelectorAll(".Event input")[1];
-    const checkbox = document.querySelector(".checkbox-container input[type='checkbox']");
-
-    // Function to reset the input field, dropdown menu, and checkbox
-    function resetForm() {
-      dropdown.value = "";
-      inputBox.value = "";
-      specialEventBox.value = "";
-      checkbox.checked = false; // uncheck the checkbox
-    }
-
-    // Add event listener to the Cancel button
-    cancelButton.addEventListener("click", resetForm);
-
-    // Add event listener to the dropdown menu
-    dropdown.addEventListener("change", function () {
-      if (dropdown.value !== "Projects") {
-        inputBox.value = inputBox.value.trim() !== "" ? inputBox.value : dropdown.value;
-        dropdown.value = "Projects";
-      }
-    });
-  </script>
-
-
-  <!-- PAGINATION -->
-  <script>
-    var table = document.getElementById("searchTable").getElementsByTagName("tbody")[0];
-    var rowsPerPage = 5;
-    var currentPage = 1;
-    var totalPages = Math.ceil(table.rows.length / rowsPerPage);
-    document.getElementById("currentPage").innerHTML = "Page " + currentPage + " of " + totalPages;
-
-    function showRows() {
-      var startIndex = (currentPage - 1) * rowsPerPage;
-      var endIndex = startIndex + rowsPerPage;
-      for (var i = 0; i < table.rows.length; i++) {
-        if (i < startIndex || i >= endIndex) {
-          table.rows[i].style.display = "none";
-        } else {
-          table.rows[i].style.display = "";
-        }
-      }
-      document.getElementById("currentPage").innerHTML = "Page " + currentPage + " of " + totalPages;
-    }
-    showRows();
-
-    document.getElementById("first").addEventListener("click", function () {
-      currentPage = 1;
-      showRows();
-    });
-
-    document.getElementById("previous").addEventListener("click", function () {
-      if (currentPage > 1) {
-        currentPage--;
-        showRows();
-      }
-    });
-
-    document.getElementById("next").addEventListener("click", function () {
-      if (currentPage < totalPages) {
-        currentPage++;
-        showRows();
-      }
-    });
-
-    document.getElementById("last").addEventListener("click", function () {
-      currentPage = totalPages;
-      showRows();
     });
   </script>
 
@@ -420,20 +302,7 @@ if(isset($_POST['ontime'])){
     }
   </script>
 
-  <script>
-    const optionMenu = document.querySelector(".select-menu"),
-      selectBtn = optionMenu.querySelector(".select-btn"),
-      options = optionMenu.querySelectorAll(".option"),
-      sBtn_text = optionMenu.querySelector(".sBtn-text");
-    selectBtn.addEventListener("click", () => optionMenu.classList.toggle("active"));
-    options.forEach(option => {
-      option.addEventListener("click", () => {
-        let selectedOption = option.querySelector(".option-text").innerText;
-        sBtn_text.innerText = selectedOption;
-        optionMenu.classList.remove("active");
-      });
-    });
-  </script>
+ 
 
   <!-- CAMERA VISION -->
 
