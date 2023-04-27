@@ -90,12 +90,12 @@ $specialevents =  isset($_POST['specialevent']) ? $_POST['specialevent'] : '';
 
 //Check if the time in button is pressed
 if(isset($_POST['ontime'])){
-  $timeInPressed = "";
   // Insert date and time values into database
   // Tiff added the time in functionality
   $sql = "INSERT INTO FEDCENTER_INTERN_LOGS (INTERN_ID, DATE, TIME_IN, PROJECT, ACTION_ITEM, SPECIAL_EVENTS) VALUES
    ('$InternId', GETDATE(), (SELECT CONVERT(VARCHAR(8), GETDATE(), 108)), '$projects','$actionitem', '$specialevents' )";
   $stmt = sqlsrv_query($conn, $sql);
+
   if ($stmt) {
     echo "Data stored successfully.";
   }
@@ -105,28 +105,31 @@ if(isset($_POST['ontime'])){
   sqlsrv_close($conn);
 }
 
-// elseif(isset($_POST['timeout'])){
-//   if(empty($timeinPressed)){
-//     $sqltwo = "UPDATE FEDCENTER_INTERN_LOGS 
-//     SET TIME_OUT = (SELECT CONVERT(VARCHAR(8), GETDATE(), 108))
-//     WHERE (LOGS = (
-//       SELECT TOP 1 *
-//       FROM FEDCENTER_INTERN_LOGS
-//       ORDER BY LOGS DESC
-//     ) AND INTERN_ID = '$InternId')";
-//     $stmttwo = sqlsrv_query($conn,$sqltwo);
-//     if($stmtwo){
-//       echo "Data stored successfully.";
-//     }
-//     else{
-//       echo "Error: " . $sql . "<br>" . sqlsrv_errors();
-//     }
-//     sqlsrv_close($conn);
-//   }
-// }
-// else{
-//   echo "Error: Time-in First!";
-// }
+// Tiff added code to store time out time but it is not working
+if(isset($_POST['time_out'])){
+  if(empty($_POST['ontime'])){
+    $sqltwo = "UPDATE FEDCENTER_INTERN_LOGS 
+    SET TIME_OUT = (SELECT CONVERT(VARCHAR(8), GETDATE(), 108))
+    WHERE INTERN_ID = (
+      SELECT TOP 1 INTERN_ID
+      FROM FEDCENTER_INTERN_LOGS
+      WHERE INTERN_ID = '$InternId'
+      ORDER BY LOGS DESC
+    )";
+    $stmttwo = sqlsrv_query($conn,$sqltwo);
+
+    if($stmttwo){
+      echo "Data stored successfully.";
+    }
+    else{
+      echo "Error: " . $sqltwo . "<br>" . sqlsrv_errors();
+    }
+    sqlsrv_close($conn);
+  }
+  else{
+    echo "Error: Time-in First!";
+  }
+}
 
 ?>
 
@@ -175,7 +178,10 @@ if(isset($_POST['ontime'])){
     </div>
   </div>
 
-  <button type="submit" id="time_out" class="timeout" name="time_out">Time out</button>
+  <form id="registration" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="POST">
+    <button type="submit" id="time_out" class="timeout" name="time_out">Time out</button>
+</form>
+
 
 
 
