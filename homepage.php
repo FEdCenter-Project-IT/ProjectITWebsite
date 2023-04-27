@@ -118,11 +118,11 @@
         <label for="specialevent" class="form--special">Special Event </label> 
         
         </div>
-        <br><br>
-        </div>
+        <br><br><br>
+        </div>  
       
 
-        <button id="close"> Cancel</button>
+        <a href="#" id="close">&times;</a>
         <button type="submit" id="ontime" name="ontime">Time in</button>
       </form>
 
