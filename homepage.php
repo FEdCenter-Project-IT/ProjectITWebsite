@@ -1,65 +1,3 @@
-<?php
-
-// Connect to database
-$serverName = "TEPANYANG\SQLEXPRESS";
-$connectionOptions = [
-  "Database" => "DLSUD",
-  "Uid" => "",
-  "PWD" => ""
-];
-$conn = sqlsrv_connect($serverName, $connectionOptions);
-
-// Check the connection
-if (!$conn) {
-  die("Connection failed: " . sqlsrv_errors());
-}
-
-$InternId = $_POST['InternId'];
-$projects = $_POST['projects'];
-$actionitem =  $_POST['actionitem'];
-$specialevents =  $_POST['specialevent']; 
-
-//Check if the time in button is pressed
-if(isset($_POST['ontime'])){
-
-  // Insert date and time values into database
-  $sql = "INSERT INTO FEDCENTER_INTERN_LOGS (DATES, TIME_IN) VALUES (GETDATE(), (SELECT CONVERT(VARCHAR(8), GETDATE(), 108)))";
-  $stmt = sqlsrv_query($conn, $sql);
-  if ($stmt) {
-    echo "Data stored successfully.";
-  }
-  else {
-    echo "Error: " . $sql . "<br>" . sqlsrv_errors();
-  }
-  sqlsrv_close($conn);
-}
-elseif(isset($_POST['time_out'])){
-  if(empty($_POST['time_in'])){
-    // Insert date and time values into database
-    $sqlto = "UPDATE FEDCENTER_INTERN_LOGS 
-    SET TIME_OUT = (SELECT CONVERT(VARCHAR(8), GETDATE(), 108))
-    WHERE LOGS = (
-      SELECT TOP 1 LOGS
-      FROM FEDCENTER_INTERN_LOGS
-      ORDER BY LOGS DESC
-    )";
-    $stmtto = sqlsrv_query($conn, $sqlto);
-    if ($stmtto) {
-      echo "Data stored successfully.";
-    }
-    else {
-      echo "Error: " . $sqlto . "<br>" . sqlsrv_errors();
-    }
-    sqlsrv_close($conn);
-  }
-}
-else{
-  echo "Error: Time-in First!";
-}
-
-?>
-
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -128,64 +66,114 @@ else{
     </div>
 </div>
 </center>
+<?php
 
-<form>
+// Connect to database
+$serverName = "TEPANYANG\SQLEXPRESS";
+$connectionOptions = [
+  "Database" => "DLSUD",
+  "Uid" => "",
+  "PWD" => ""
+];
+$conn = sqlsrv_connect($serverName, $connectionOptions);
+
+// Check the connection
+if (!$conn) {
+  die("Connection failed: " . sqlsrv_errors());
+}
+
+// Tiff fixed the undefined array error
+$InternId = isset($_POST['InternId']) ? $_POST['InternId'] : '';
+$projects = isset($_POST['projects']) ? $_POST['projects'] : '';
+$actionitem =  isset($_POST['actionitem']) ? $_POST['actionitem'] : '';
+$specialevents =  isset($_POST['specialevent']) ? $_POST['specialevent'] : ''; 
+
+//Check if the time in button is pressed
+if(isset($_POST['ontime'])){
+
+  // Insert date and time values into database
+  $sql = "INSERT INTO FEDCENTER_INTERN_LOGS (DATES, TIME_IN) VALUES (GETDATE(), (SELECT CONVERT(VARCHAR(8), GETDATE(), 108)))";
+  $stmt = sqlsrv_query($conn, $sql);
+  if ($stmt) {
+    echo "Data stored successfully.";
+  }
+  else {
+    echo "Error: " . $sql . "<br>" . sqlsrv_errors();
+  }
+  sqlsrv_close($conn);
+}
+elseif(isset($_POST['time_out'])){
+  if(empty($_POST['time_in'])){
+    // Insert date and time values into database
+    $sqlto = "UPDATE FEDCENTER_INTERN_LOGS 
+    SET TIME_OUT = (SELECT CONVERT(VARCHAR(8), GETDATE(), 108))
+    WHERE LOGS = (
+      SELECT TOP 1 LOGS
+      FROM FEDCENTER_INTERN_LOGS
+      ORDER BY LOGS DESC
+    )";
+    $stmtto = sqlsrv_query($conn, $sqlto);
+    if ($stmtto) {
+      echo "Data stored successfully.";
+    }
+    else {
+      echo "Error: " . $sqlto . "<br>" . sqlsrv_errors();
+    }
+    sqlsrv_close($conn);
+  }
+}
+else{
+  echo "Error: Time-in First!";
+}
+
+?>
 
   <button type="submit" id="open" class="timein" name="time_in">Time in</button>
   <div class="modal-container" id="modal_container">
-<div class="modal">
-    <h1>Action Item</i></h1>
+    <div class="modal">
 
-<div class="select-box">
-    <div class="select-option">
-        <input type="text" placeholder="Projects" id="soValue" readonly name="">
-    </div>
-    <div class="content">
-        <div class="search">
-        <input type="text" id="optionSearch" name="Search" placeholder="Search">
+      <h1>Action Item</i></h1>
+      <form id="registration" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="POST">
+
+        <label for="InternId">Intern ID: </label> 
+        <input type="text" id="InternId" name="InternId">  
+        <br><br>
+
+        <label for="projects">PROJECTS</label>
+            <select name="projects"  id="projects" >
+              <option value="None">None</option>
+              <option value="Human Resources">Human Resources</option>
+              <option value="Accounting">Accounting</option>
+              <option value="IT">IT</option>
+              <option value="Marketing">Marketing</option>
+              <option value="FIN ED/ CFAP">FIN ED/ CFAP</option>
+              <option value="JJCFAP/JAA">JJCFAP/JAA</option>
+              <option value="Training">Training</option>
+              <option value="Business Development">Business Development</option>
+              <option value="Alterna">Alterna</option>
+              <option value="Organization">Organization</option>
+              <option value="ADM/NDC">ADM/NDC</option>
+              <option value="IMG/ASTRA">IMG/ASTRA</option>
+            </select>
+            <br><br>
+
+        <label for="actionitem">Action Item: </label> 
+        <input type="text" id="actionitem" name="actionitem">  
+        <br><br>
+      
+        <label for="specialevent">Special Event: </label> 
+        <input type="text" id="specialevent" name="specialevent">  
+        <br><br>
+      
         
-        </div>
-    <ul class="options">
-        <li>Human Resources</li>
-        <li>Accounting</li>
-        <li>IT</li>
-        <li>Marketing</li>
-        <li>FIN ED/ CFAP</li>
-        <li>JJCFAP/JAA</li>
-        <li>Training</li>
-        <li>Business Development</li>
-        <li>Alterna</li>
-        <li>Organization</li>
-        <li>ADM/NDC</li>
-        <li>IMG/ASTRA</li>
-    </ul>
-    
-    </div>
-</div>
-    <div class="Event">
-    <div class="inputBox">
-        <input type="text" required="required">
-        <span>Action Item/Task</span>
-    </div>
-    <div class="input-Box">
-        <input type="text" required="required">
-        <span>Special Event</span>
-    </div>
-    <div class="checkbox-container">
-        <input type="checkbox" id="cb1">
-        <label for="cb1">Check This Box if Special Event</label>
-    </div>
-    </div>
-    
+        <button id="close"> Cancel</button>
+        <button type="submit" id="ontime" name="ontime">timein</button>
+      </form>
 
-          <button id="close"> Cancel</button>
-          <button id="ontime" class="ontime">timein</button>
-</div>
+    </div>
+  </div>
 
-</div>
-
-  <button type="submit" id="time_out" class="timeout" name="time_out" >Time out</button>
-</form>
+  <button type="submit" id="time_out" class="timeout" name="time_out">Time out</button>
 
 
 
