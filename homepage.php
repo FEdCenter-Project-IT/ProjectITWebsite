@@ -90,7 +90,7 @@ $specialevents =  isset($_POST['specialevent']) ? $_POST['specialevent'] : '';
 
 //Check if the time in button is pressed
 if(isset($_POST['ontime'])){
-
+  $timeInPressed = "";
   // Insert date and time values into database
   // Tiff added the time in functionality
   $sql = "INSERT INTO FEDCENTER_INTERN_LOGS (INTERN_ID, DATE, TIME_IN, PROJECT, ACTION_ITEM, SPECIAL_EVENTS) VALUES
@@ -104,6 +104,29 @@ if(isset($_POST['ontime'])){
   }
   sqlsrv_close($conn);
 }
+
+// elseif(isset($_POST['timeout'])){
+//   if(empty($timeinPressed)){
+//     $sqltwo = "UPDATE FEDCENTER_INTERN_LOGS 
+//     SET TIME_OUT = (SELECT CONVERT(VARCHAR(8), GETDATE(), 108))
+//     WHERE (LOGS = (
+//       SELECT TOP 1 *
+//       FROM FEDCENTER_INTERN_LOGS
+//       ORDER BY LOGS DESC
+//     ) AND INTERN_ID = '$InternId')";
+//     $stmttwo = sqlsrv_query($conn,$sqltwo);
+//     if($stmtwo){
+//       echo "Data stored successfully.";
+//     }
+//     else{
+//       echo "Error: " . $sql . "<br>" . sqlsrv_errors();
+//     }
+//     sqlsrv_close($conn);
+//   }
+// }
+// else{
+//   echo "Error: Time-in First!";
+// }
 
 ?>
 
