@@ -92,7 +92,8 @@ $specialevents =  isset($_POST['specialevent']) ? $_POST['specialevent'] : '';
 if(isset($_POST['ontime'])){
 
   // Insert date and time values into database
-  $sql = "INSERT INTO FEDCENTER_INTERN_LOGS (DATES, TIME_IN) VALUES (GETDATE(), (SELECT CONVERT(VARCHAR(8), GETDATE(), 108)))";
+  $sql = "INSERT INTO FEDCENTER_INTERN_LOGS (INTERN_ID, DATE, PROJECT, ACTION_ITEM, SPECIAL_EVENTS) VALUES
+   ('$InternId', GETDATE(), '$projects','$actionitem', '$specialevents' )";
   $stmt = sqlsrv_query($conn, $sql);
   if ($stmt) {
     echo "Data stored successfully.";
