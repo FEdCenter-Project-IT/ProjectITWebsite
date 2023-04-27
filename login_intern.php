@@ -22,7 +22,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $form_id_log = isset($_POST["username"]) ? $_POST["username"] : '';
     $user_pass_log = isset($_POST["userpassword"]) ? $_POST["userpassword"] : '';
     // Select the FORM_ID and USER_PASSWORD from the users table
-    $sql = "SELECT USERNAME, USER_PASSWORD FROM FEDCENTER_INTERN_LOGIN WHERE USERNAME=? AND USER_PASSWORD=?";
+    $sql = "SELECT USERNAME, USER_PASSWORD FROM FEDCENTER_INTERN_LOGIN WHERE USERNAME=? AND USER_PASSWORD=?"; //not case-sensitive
     $params = array($form_id_log, $user_pass_log);
     $result = sqlsrv_query($conn, $sql, $params);
     // Fetch the data from the database
