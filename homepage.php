@@ -92,8 +92,9 @@ $specialevents =  isset($_POST['specialevent']) ? $_POST['specialevent'] : '';
 if(isset($_POST['ontime'])){
 
   // Insert date and time values into database
-  $sql = "INSERT INTO FEDCENTER_INTERN_LOGS (INTERN_ID, DATE, PROJECT, ACTION_ITEM, SPECIAL_EVENTS) VALUES
-   ('$InternId', GETDATE(), '$projects','$actionitem', '$specialevents' )";
+  // Tiff added the time in functionality
+  $sql = "INSERT INTO FEDCENTER_INTERN_LOGS (INTERN_ID, DATE, TIME_IN, PROJECT, ACTION_ITEM, SPECIAL_EVENTS) VALUES
+   ('$InternId', GETDATE(), (SELECT CONVERT(VARCHAR(8), GETDATE(), 108)), '$projects','$actionitem', '$specialevents' )";
   $stmt = sqlsrv_query($conn, $sql);
   if ($stmt) {
     echo "Data stored successfully.";
@@ -102,29 +103,6 @@ if(isset($_POST['ontime'])){
     echo "Error: " . $sql . "<br>" . sqlsrv_errors();
   }
   sqlsrv_close($conn);
-}
-elseif(isset($_POST['time_out'])){
-  if(empty($_POST['time_in'])){
-    // Insert date and time values into database
-    $sqlto = "UPDATE FEDCENTER_INTERN_LOGS 
-    SET TIME_OUT = (SELECT CONVERT(VARCHAR(8), GETDATE(), 108))
-    WHERE LOGS = (
-      SELECT TOP 1 LOGS
-      FROM FEDCENTER_INTERN_LOGS
-      ORDER BY LOGS DESC
-    )";
-    $stmtto = sqlsrv_query($conn, $sqlto);
-    if ($stmtto) {
-      echo "Data stored successfully.";
-    }
-    else {
-      echo "Error: " . $sqlto . "<br>" . sqlsrv_errors();
-    }
-    sqlsrv_close($conn);
-  }
-}
-else{
-  echo "Error: Time-in First!";
 }
 
 ?>
