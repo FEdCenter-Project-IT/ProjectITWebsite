@@ -14,6 +14,11 @@ if (!$conn) {
   die("Connection failed: " . sqlsrv_errors());
 }
 
+$InternId = $_POST['InternId'];
+$projects = $_POST['projects'];
+$actionitem =  $_POST['actionitem'];
+$specialevents =  $_POST['specialevent']; 
+
 //Check if the time in button is pressed
 if(isset($_POST['ontime'])){
 
