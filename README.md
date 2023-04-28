@@ -29,14 +29,14 @@
 
 ### BACK-END
  * INTERN WEBSITE
- [x] Login
- [] Time in functionality
- [] Time out functionality
- [] Display of intern's time in and time out information using table
+ * [x] Login
+ * [] Time in functionality
+ * [] Time out functionality
+ * [] Display of intern's time in and time out information using table
  
  * ADMIN WEBSITE
- [x] Login
- [] Display information of intern
+ * [x] Login
+ * [] Display information of intern
 
 ---
 ## UNRESOLVED PROBLEMS:
