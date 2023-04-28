@@ -32,7 +32,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         header("Location: homepage.php");
         exit();
     } else {
-        $loginerr ="Invalid Username/Password.";
+        $loginerr = "Invalid Username/Password.";
     }
 }
 ?>
@@ -69,6 +69,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
       </div>
       <input type="submit" value="Login" class="submit-btn">
       <a href="#forgot-pw" class="forgot-pw"><h4 class="primary-variant">Forgot Password?</h4></a>
+      <!-- Tiff added style for the error message -->
+      <?php echo "<p style='color:white; font-size:15px;'>" . $loginerr . "</p>";?>
     </form>
       <center>                              
     <div id="forgot-pw">
