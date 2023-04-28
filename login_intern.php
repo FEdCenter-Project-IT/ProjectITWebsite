@@ -28,7 +28,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     // Fetch the data from the database
  
     if (sqlsrv_has_rows($result) ) {
-        echo "<script>alert('WELCOME INTERN!');</script>";
         header("Location: homepage.php");
         exit();
     } else {
