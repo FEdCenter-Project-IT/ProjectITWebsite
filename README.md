@@ -25,7 +25,10 @@
 ---
 ## TASK LISTS:
 ### FRONT-END
-* Task 1
+#### INTERN WEBSITE
+ *
+#### ADMIN WEBSITE
+ *
 
 ### BACK-END
 #### INTERN WEBSITE
