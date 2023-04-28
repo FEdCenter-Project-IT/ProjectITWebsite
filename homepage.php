@@ -97,10 +97,10 @@ if(isset($_POST['ontime'])){
   $stmt = sqlsrv_query($conn, $sql);
 
   if ($stmt) {
-    echo "Data stored successfully.";
+    echo '<script>alert("Time-in Successful!")</script>';
   }
   else {
-    echo "Error: " . $sql . "<br>" . sqlsrv_errors();
+    echo '<script>alert("Server Error!")</script>';
   }
   sqlsrv_close($conn);
 }
