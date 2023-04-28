@@ -28,13 +28,13 @@
 * Task 1
 
 ### BACK-END
- * INTERN WEBSITE
+#### INTERN WEBSITE
  * [x] Login
  * Time in functionality
  * Time out functionality
  * Display of intern's time in and time out information using table
  
- * ADMIN WEBSITE
+#### ADMIN WEBSITE
  * [x] Login
  * Display information of intern
 
