@@ -106,7 +106,7 @@ if(isset($_POST['ontime'])){
 }
 
 // Tiff added code to store time out time but it is not working
-if(isset($_POST['time_out'])){
+if(isset($_POST['outtime'])){
   if(empty($_POST['ontime'])){
     $sqltwo = "UPDATE FEDCENTER_INTERN_LOGS 
     SET TIME_OUT = (SELECT CONVERT(VARCHAR(8), GETDATE(), 108))
@@ -178,9 +178,23 @@ if(isset($_POST['time_out'])){
     </div>
   </div>
 
-  <form id="registration" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="POST">
-    <button type="submit" id="time_out" class="timeout" name="time_out">Time out</button>
-</form>
+  <button type="submit" id="time_out_open" class="timeout" name="time_out">Time out</button>
+  <div class="modal-container" id="time_out_modal_container">
+  <div class="modal">
+
+    <h1>Action Item</i></h1>
+    <form id="registration" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="POST">
+
+      <label for="InternId">Intern ID: </label> 
+      <input type="text" id="InternId" name="InternId">  
+      <br><br>  
+        
+      <button id="time_out_close"> Cancel</button>
+      <button type="submit" id="outtime" name="outtime">timeout</button>
+    </form>
+
+  </div>
+</div>
 
 
 
@@ -240,6 +254,18 @@ close.addEventListener('click', () => {
     modal_container.classList.remove('show');
 });
 
+// Tiff for time out button
+const time_out_open = document.getElementById('time_out_open');
+const time_out_modal_container = document.getElementById('time_out_modal_container');
+const time_out_close = document.getElementById('time_out_close')
+
+time_out_open.addEventListener('click', () => {
+    time_out_modal_container.classList.add('show');
+});
+
+time_out_close.addEventListener('click', () => {
+    time_out_modal_container.classList.remove('show');
+});
 </script>
 
 
