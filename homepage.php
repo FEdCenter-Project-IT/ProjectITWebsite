@@ -106,7 +106,7 @@ if(isset($_POST['ontime'])){
 }
 
 // Tiff added code to store time out time but it is not working
-if(isset($_POST['time_out'])){
+if(isset($_POST['timeout'])){
   if(empty($_POST['ontime'])){
     $sqltwo = "UPDATE FEDCENTER_INTERN_LOGS 
     SET TIME_OUT = (SELECT CONVERT(VARCHAR(8), GETDATE(), 108))
@@ -177,8 +177,9 @@ if(isset($_POST['time_out'])){
 
     </div>
   </div>
-
-  <button type="submit" id="time_out" class="timeout" name="time_out">Time out</button>
+  <form id="registration" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="POST">
+    <button type="submit" id="timeout" class="timeout" name="timeout">Time out</button>
+  </form>
 
 
 
