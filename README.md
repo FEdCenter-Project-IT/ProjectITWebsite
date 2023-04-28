@@ -25,18 +25,18 @@
 ---
 ## TASK LISTS:
 ### FRONT-END
-[] Task 1
+* Task 1
 
 ### BACK-END
  * INTERN WEBSITE
  * [x] Login
- * [] Time in functionality
- * [] Time out functionality
- * [] Display of intern's time in and time out information using table
+ * Time in functionality
+ * Time out functionality
+ * Display of intern's time in and time out information using table
  
  * ADMIN WEBSITE
  * [x] Login
- * [] Display information of intern
+ * Display information of intern
 
 ---
 ## UNRESOLVED PROBLEMS:
