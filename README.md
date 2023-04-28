@@ -41,7 +41,7 @@
 ---
 ## UNRESOLVED PROBLEMS:
 ### FRONT-END
-  * 
+  * pagination
 
 ### BACK-END
   * Paano paganahin ung time-out button?
