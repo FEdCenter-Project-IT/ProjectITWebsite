@@ -1,6 +1,77 @@
+
+<?php
+
+// Connect to database
+$serverName = "LAPTOP-GBO9I3B3\SQL";
+$connectionOptions = [
+  "Database" => "DLSUD",
+  "UID" => "",
+  "PWD" => ""
+];
+$conn = sqlsrv_connect($serverName, $connectionOptions);
+
+// Check the connection
+if (!$conn) {
+  die("Connection failed: " . sqlsrv_errors());
+}
+
+// Tiff fixed the undefined array error
+$InternId = isset($_POST['InternId']) ? $_POST['InternId'] : '';
+$projects = isset($_POST['projects']) ? $_POST['projects'] : '';
+$actionitem = isset($_POST['actionitem']) ? $_POST['actionitem'] : '';
+$specialevents = isset($_POST['specialevent']) ? $_POST['specialevent'] : '';
+$timeout_InternId = isset($_POST['timeout_InternId']) ? $_POST['timeout_InternId'] : '';
+
+//Check if the time in button is pressed
+if (isset($_POST['ontime'])) {
+  // Insert date and time values into database
+  // Tiff added the time in functionality
+  $sql = "INSERT INTO FEDCENTER_INTERN_LOGS (INTERN_ID, DATE, TIME_IN, PROJECT, ACTION_ITEM, SPECIAL_EVENTS) VALUES ('$InternId', GETDATE(), (SELECT CONVERT(VARCHAR(8), GETDATE(), 108)), '$projects','$actionitem', '$specialevents' )";
+  $stmt = sqlsrv_query($conn, $sql);
+
+  if ($stmt) {
+    echo '<script>alert("Time-in Successful!")</script>';
+  } else {
+    echo '<script>alert("Server Error!")</script>';
+  }
+  sqlsrv_close($conn);
+} elseif (isset($_POST['time_out'])) {
+  //Check if time-in has been done before storing time-out
+  $sqlcheck = "SELECT TOP 1 * FROM FEDCENTER_INTERN_LOGS WHERE TIME_OUT IS NULL ";
+  $stmtcheck = sqlsrv_query($conn, $sqlcheck);
+  $row = sqlsrv_fetch_array($stmtcheck, SQLSRV_FETCH_ASSOC);
+
+  if ($row) {
+    // Update date and time values into database
+    $sqlto = "UPDATE FEDCENTER_INTERN_LOGS SET TIME_OUT = (SELECT CONVERT(VARCHAR(8), GETDATE(), 108))";
+    
+    $stmtto = sqlsrv_query($conn, $sqlto, );
+    if ($stmtto) {
+      // Calculate the number of hours and minutes
+      $sqlcalculate = "UPDATE FEDCENTER_INTERN_LOGS SET NO_HOURS = DATEDIFF(HOUR, TIME_IN, TIME_OUT), NO_MINUTES = DATEDIFF(MINUTE, TIME_IN, TIME_OUT) % 60 WHERE INTERN_ID = ?";
+      $stmtcalculate = sqlsrv_prepare($conn, $sqlcalculate, array(&$row['INTERN_ID']));
+      if ($stmtcalculate) {
+        if (sqlsrv_execute($stmtcalculate)) {
+          echo '<script>alert("Time-out Successful!")</script>';
+        } else {
+          echo "Error: ";
+        }
+      }
+    }
+  }
+
+  sqlsrv_close($conn);
+}
+
+?>
+
+
+
+
+
 <!DOCTYPE html>
 <html lang="en">
-  <!--comment-->
+<!--comment-->
 
 <head>
   <meta charset="UTF-8">
@@ -51,11 +122,9 @@
       </div>
     </div>
   </nav>
-
   <center>
-  <img src="img/FC Management Consulting.png" class="logo">
-</center>
-
+    <img src="img/FC Management Consulting.png" class="logo">
+  </center>
   <!-- Digital Clock Start -->
   <center>
     <div class="datetime">
@@ -70,148 +139,150 @@
         <span id="minutes"> 00</span>:
         <span id="seconds"> 00 </span>
         <span id="period">
-          <h4>AM</h4>
+
         </span>
       </div>
     </div>
   </center>
 
+
   <button type="submit" id="open" class="timein" name="time_in">Time in</button>
   <div class="modal-container" id="modal_container">
     <div class="modal">
-
       <h1>Action Item</i></h1>
       <form id="registration" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="POST">
-      
-     
-      <div class="Event">
-            <select name="projects"  id="projects" class="projects">
-              <option value="None">Select your Projects</option>
-              <option value="Human Resources">Human Resources</option>
-              <option value="Accounting">Accounting</option>
-              <option value="IT">IT</option>
-              <option value="Marketing">Marketing</option>
-              <option value="FIN ED/ CFAP">FIN ED/ CFAP</option>
-              <option value="JJCFAP/JAA">JJCFAP/JAA</option>
-              <option value="Training">Training</option>
-              <option value="Business Development">Business Development</option>
-              <option value="Alterna">Alterna</option>
-              <option value="Organization">Organization</option>
-              <option value="ADM/NDC">ADM/NDC</option>
-              <option value="IMG/ASTRA">IMG/ASTRA</option>
-            </select>
-            <br><br><br>
-
-        <div class="intern-id">
-        <input type="text" id="InternId" name="InternId" class="form__input" autocomplete="off" placeholder=" "> 
-        <label for="InternId" class="form__label">Intern ID </label> 
-        </div> 
-        <br><br><br>
-        <div class="action-item">
-        <input type="text" id="actionitem" name="actionitem" class="form-action" autocomplete="off" placeholder=" ">  
-        <label for="actionitem" class="form--action">Action Item </label> 
-        
+        <div class="Event">
+          <select name="projects" id="projects" class="projects">
+            <option value="None">Select your Projects</option>
+            <option value="Human Resources">Human Resources</option>
+            <option value="Accounting">Accounting</option>
+            <option value="IT">IT</option>
+            <option value="Marketing">Marketing</option>
+            <option value="FIN ED/ CFAP">FIN ED/ CFAP</option>
+            <option value="JJCFAP/JAA">JJCFAP/JAA</option>
+            <option value="Training">Training</option>
+            <option value="Business Development">Business Development</option>
+            <option value="Alterna">Alterna</option>
+            <option value="Organization">Organization</option>
+            <option value="ADM/NDC">ADM/NDC</option>
+            <option value="IMG/ASTRA">IMG/ASTRA</option>
+          </select>
+          <br><br><br>
+          <div class="intern-id">
+            <input type="text" id="InternId" name="InternId" class="form__input" autocomplete="off" placeholder=" ">
+            <label for="InternId" class="form__label">Intern ID </label>
+          </div>
+          <br><br><br>
+          <div class="action-item">
+            <input type="text" id="actionitem" name="actionitem" class="form-action" autocomplete="off" placeholder=" ">
+            <label for="actionitem" class="form--action">Action Item </label>
+          </div>
+          <br><br><br>
+          <div class="special-event">
+            <input type="text" id="specialevent" name="specialevent" class="form-special" autocomplete="off"
+              placeholder=" ">
+            <label for="specialevent" class="form--special">Special Event </label>
+          </div>
+          <br><br><br>
         </div>
-        <br><br><br>
-        <div class="special-event">
-        <input type="text" id="specialevent" name="specialevent" class="form-special" autocomplete="off" placeholder=" ">  
-        <label for="specialevent" class="form--special">Special Event </label> 
-        
-        </div>
-        <br><br><br>
-        </div>  
-      
-
-        <a href="#" id="close">&times;</a>
+        <a href="#" id="close" class="btn-x">&times;</a>
         <button type="submit" id="ontime" name="ontime">Time in</button>
+
       </form>
 
     </div>
   </div>
+  <form id="registration" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="POST">
 
-  <button type="submit" id="time_out" class="timeout" name="time_out">Time out</button>
+  
+  <button type="submit"  class="timeout" name="time_out">Time out</button>
+  
+  </form>
 
- 
+
+    </div>
+  </div>
+
 
 
 
 
   <!--Table For Intern-->
   <main>
-  <table class="mytable" id="mytable">
+    <table class="mytable" id="mytable">
 
-    <thead>
-      <tr>
-        <th>NO</th>
-        <th>DATE</th>
-        <th>IN</th>
-        <th>OUT</th>
-        <th>HOURS</th>
-        <th>MINUTES</th>
-        <th>SPECIAL EVENTS</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td>01</td>
-        <td>January 1, 2023</td>
-        <td>8:00AM</td>
-        <td>5:00PM</td>
-        <td>8</td>
-        <td>0</td>
-        <td>Typing test</td>
-      </tr>
-      <tr>
-        <td>02</td>
-        <td>January 2, 2023</td>
-        <td>8:00AM</td>
-        <td>5:00PM</td>
-        <td>8</td>
-        <td>0</td>
-        <td>Java</td>
-      </tr>
-      <tr>
-        <td>03</td>
-        <td>January 3, 2023</td>
-        <td>8:00AM</td>
-        <td>5:00PM</td>
-        <td>8</td>
-        <td>0</td>
-        <td>Php</td>
-      </tr>
-      <tr>
-        <td>04</td>
-        <td>January 4, 2023</td>
-        <td>8:00AM</td>
-        <td>5:00PM</td>
-        <td>8</td>
-        <td>0</td>
-        <td>Python</td>
-      </tr>
-      <tr>
-        <td>05</td>
-        <td>January 5, 2023</td>
-        <td>8:00AM</td>
-        <td>5:00PM</td>
-        <td>8</td>
-        <td>0</td>
-        <td>C++</td>
-      </tr>
-      
-    </tbody>
-  </table>    
+      <thead>
+        <tr>
+          <th>NO</th>
+          <th>DATE</th>
+          <th>IN</th>
+          <th>OUT</th>
+          <th>HOURS</th>
+          <th>MINUTES</th>
+          <th>SPECIAL EVENTS</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>01</td>
+          <td>January 1, 2023</td>
+          <td>8:00AM</td>
+          <td>5:00PM</td>
+          <td>8</td>
+          <td>0</td>
+          <td>Typing test</td>
+        </tr>
+        <tr>
+          <td>02</td>
+          <td>January 2, 2023</td>
+          <td>8:00AM</td>
+          <td>5:00PM</td>
+          <td>8</td>
+          <td>0</td>
+          <td>Java</td>
+        </tr>
+        <tr>
+          <td>03</td>
+          <td>January 3, 2023</td>
+          <td>8:00AM</td>
+          <td>5:00PM</td>
+          <td>8</td>
+          <td>0</td>
+          <td>Php</td>
+        </tr>
+        <tr>
+          <td>04</td>
+          <td>January 4, 2023</td>
+          <td>8:00AM</td>
+          <td>5:00PM</td>
+          <td>8</td>
+          <td>0</td>
+          <td>Python</td>
+        </tr>
+        <tr>
+          <td>05</td>
+          <td>January 5, 2023</td>
+          <td>8:00AM</td>
+          <td>5:00PM</td>
+          <td>8</td>
+          <td>0</td>
+          <td>C++</td>
+        </tr>
 
-  
-</main>
-<br><br>
+      </tbody>
+    </table>
 
 
-
-    
+  </main>
+  <br><br>
 
 
 
-<script src="script.js"></script>
+
+
+
+
+  <script src="script.js"></script>
   <script>
     // pop-up messages
 
@@ -302,7 +373,7 @@
     }
   </script>
 
- 
+
 
   <!-- CAMERA VISION -->
 
