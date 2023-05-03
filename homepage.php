@@ -68,7 +68,6 @@ if (isset($_POST['ontime'])) {
 
 
 
-
 <!DOCTYPE html>
 <html lang="en">
 <!--comment-->
@@ -145,7 +144,6 @@ if (isset($_POST['ontime'])) {
     </div>
   </center>
 
-
   <button type="submit" id="open" class="timein" name="time_in">Time in</button>
   <div class="modal-container" id="modal_container">
     <div class="modal">
@@ -199,10 +197,8 @@ if (isset($_POST['ontime'])) {
   
   </form>
 
-
     </div>
   </div>
-
 
 
 
@@ -272,10 +268,8 @@ if (isset($_POST['ontime'])) {
       </tbody>
     </table>
 
-
   </main>
   <br><br>
-
 
 
 
@@ -374,9 +368,9 @@ if (isset($_POST['ontime'])) {
   </script>
 
 
-
   <!-- CAMERA VISION -->
 
 </body>
 
 </html>
+
