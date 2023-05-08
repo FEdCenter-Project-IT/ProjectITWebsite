@@ -25,6 +25,7 @@
 ---
 ## TASK LISTS:
 ### FRONT-END
+ * Responsive
 #### INTERN WEBSITE
  *
 #### ADMIN WEBSITE
