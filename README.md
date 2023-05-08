@@ -47,6 +47,6 @@
   * pagination
 
 ### BACK-END
-  * Paano paganahin ung time-out button?
+
   
 ---
