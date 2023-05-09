@@ -43,22 +43,23 @@ if (isset($_POST['ontime'])) {
 
   if ($row) {
     // Update date and time values into database
-    $sqlto = "UPDATE FEDCENTER_INTERN_LOGS SET TIME_OUT = (SELECT CONVERT(VARCHAR(8), GETDATE(), 108))";
-    
-    $stmtto = sqlsrv_query($conn, $sqlto, );
-    if ($stmtto) {
-      // Calculate the number of hours and minutes
-      $sqlcalculate = "UPDATE FEDCENTER_INTERN_LOGS SET NO_HOURS = DATEDIFF(HOUR, TIME_IN, TIME_OUT), NO_MINUTES = DATEDIFF(MINUTE, TIME_IN, TIME_OUT) % 60 WHERE INTERN_ID = ?";
-      $stmtcalculate = sqlsrv_prepare($conn, $sqlcalculate, array(&$row['INTERN_ID']));
-      if ($stmtcalculate) {
-        if (sqlsrv_execute($stmtcalculate)) {
-          echo '<script>alert("Time-out Successful!")</script>';
-        } else {
-          echo "Error: ";
-        }
+    $sqlto = "UPDATE FEDCENTER_INTERN_LOGS SET TIME_OUT = (SELECT CONVERT(VARCHAR(8), GETDATE(), 108)) WHERE INTERN_ID = ?";
+$stmtto = sqlsrv_prepare($conn, $sqlto, array(&$row['INTERN_ID']));
+if ($stmtto) {
+  if (sqlsrv_execute($stmtto)) {
+    // Calculate the number of hours and minutes
+    $sqlcalculate = "UPDATE FEDCENTER_INTERN_LOGS SET NO_HOURS = DATEDIFF(HOUR, TIME_IN, TIME_OUT), NO_MINUTES = DATEDIFF(MINUTE, TIME_IN, TIME_OUT) % 60 WHERE INTERN_ID = ?";
+    $stmtcalculate = sqlsrv_prepare($conn, $sqlcalculate, array(&$row['INTERN_ID']));
+    if ($stmtcalculate) {
+      if (sqlsrv_execute($stmtcalculate)) {
+        echo '<script>alert("Time-out Successful!")</script>';
+      } else {
+        echo "Error: ";
       }
     }
   }
+}
+}
 
   sqlsrv_close($conn);
 }
@@ -114,7 +115,7 @@ if (isset($_POST['ontime'])) {
           <p>Help & Support</p>
           <span>></span>
         </a>
-        <a href="" class="sub-menu-link">
+        <a href="login_intern.php" class="sub-menu-link">
           <i class="fa-solid fa-right-from-bracket"></i>
           <p>Logout</p>
         </a>
@@ -218,54 +219,8 @@ if (isset($_POST['ontime'])) {
           <th>SPECIAL EVENTS</th>
         </tr>
       </thead>
-      <tbody>
-        <tr>
-          <td>01</td>
-          <td>January 1, 2023</td>
-          <td>8:00AM</td>
-          <td>5:00PM</td>
-          <td>8</td>
-          <td>0</td>
-          <td>Typing test</td>
-        </tr>
-        <tr>
-          <td>02</td>
-          <td>January 2, 2023</td>
-          <td>8:00AM</td>
-          <td>5:00PM</td>
-          <td>8</td>
-          <td>0</td>
-          <td>Java</td>
-        </tr>
-        <tr>
-          <td>03</td>
-          <td>January 3, 2023</td>
-          <td>8:00AM</td>
-          <td>5:00PM</td>
-          <td>8</td>
-          <td>0</td>
-          <td>Php</td>
-        </tr>
-        <tr>
-          <td>04</td>
-          <td>January 4, 2023</td>
-          <td>8:00AM</td>
-          <td>5:00PM</td>
-          <td>8</td>
-          <td>0</td>
-          <td>Python</td>
-        </tr>
-        <tr>
-          <td>05</td>
-          <td>January 5, 2023</td>
-          <td>8:00AM</td>
-          <td>5:00PM</td>
-          <td>8</td>
-          <td>0</td>
-          <td>C++</td>
-        </tr>
-
-      </tbody>
+      
+      
     </table>
 
   </main>
