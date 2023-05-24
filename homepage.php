@@ -1,3 +1,4 @@
+
 <?php
 session_start(); // Call session_start() before any output is sent
 
@@ -65,7 +66,6 @@ if ($stmtto) {
 }
 
 ?>
-
 
 
 
@@ -240,7 +240,6 @@ if ($stmtto) {
   </div>
 
 
-
   <script src="script.js"></script>
   <script>
     // pop-up messages
@@ -332,7 +331,6 @@ if ($stmtto) {
     }
   </script>
 
-
   <!--Table For Intern-->
   <main>
     <table class="mytable" id="mytable">
@@ -354,7 +352,6 @@ if ($stmtto) {
 
               <?php ///php inside html
 
-
 $serverName = "LAPTOP-GBO9I3B3\\SQL";
 $connectionOptions = [
     "Database" => "DLSUD",
@@ -366,7 +363,6 @@ $conn = sqlsrv_connect($serverName, $connectionOptions);
 if ($conn === false) {
     die(print_r(sqlsrv_errors(), true));
 }
-
 
 // Getting Total List
 
@@ -424,14 +420,12 @@ $sql = "SELECT * FROM FEDCENTER_INTERN_LOGS WHERE INTERN_ID = '$user_pass_log'";
 
 
 
-
      
 
     </table>
 
   </main>
   <br><br>
-
 
 
 

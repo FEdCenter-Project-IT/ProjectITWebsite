@@ -33,15 +33,17 @@
 
 ### BACK-END
 #### INTERN WEBSITE
- * [x] Login
+ * Login
  * [x] Time in functionality
- * Time out functionality
+ * [x] Time out functionality
  * [x] Number of hours and minutes calculation
  * Display of intern's time in and time out information using table
  
 #### ADMIN WEBSITE
- * [x] Login
+ * Login
+ * Graph Section Functionality
  * Display information of intern
+ * Add Intern Functionality
 
 ---
 ## UNRESOLVED PROBLEMS:
