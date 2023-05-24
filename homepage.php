@@ -1,4 +1,3 @@
-
 <?php
 
 // Connect to database
@@ -67,8 +66,6 @@ if ($stmtto) {
 ?>
 
 
-
-
 <!DOCTYPE html>
 <html lang="en">
 <!--comment-->
@@ -89,6 +86,9 @@ if ($stmtto) {
 
   <!--DrowDown Menu Intern-->
   <nav>
+  <div class="toggle_btn">
+      <i class="fa-solid fa-bars"></i>
+      </div>
     <ul>
       <li>Hello, <b>Raffy</b><br> RAV(2023-32)</li>
     </ul>
@@ -121,12 +121,18 @@ if ($stmtto) {
         </a>
       </div>
     </div>
+    <div class="dropdown_menu">
+    <li><a href="#">View Profile</a></li>
+    <li><a href="#">Setting & Privacy</a></li>
+    <li><a href="#">Help & Support</a></li>
+    <li><a href="login_intern.php">Logout</a></li>
+    </div>
   </nav>
   <center>
     <img src="img/FC Management Consulting.png" class="logo">
   </center>
   <!-- Digital Clock Start -->
-  <center>
+
     <div class="datetime">
       <div class="date">
         <span id="dayname"> Day </span>
@@ -143,7 +149,7 @@ if ($stmtto) {
         </span>
       </div>
     </div>
-  </center>
+
 
   <button type="submit" id="open" class="timein" name="time_in">Time in</button>
   <div class="modal-container" id="modal_container">
@@ -166,7 +172,7 @@ if ($stmtto) {
             <option value="ADM/NDC">ADM/NDC</option>
             <option value="IMG/ASTRA">IMG/ASTRA</option>
           </select>
-          <br><br><br>
+          <br><br>
           <div class="intern-id">
             <input type="text" id="InternId" name="InternId" class="form__input" autocomplete="off" placeholder=" ">
             <label for="InternId" class="form__label">Intern ID </label>
@@ -184,7 +190,7 @@ if ($stmtto) {
           </div>
           <br><br><br>
         </div>
-        <a href="#" id="close" class="btn-x">&times;</a>
+        <button type="submit" id="close" name="close">&times;</button>
         <button type="submit" id="ontime" name="ontime">Time in</button>
 
       </form>
@@ -215,10 +221,61 @@ if ($stmtto) {
           <th>IN</th>
           <th>OUT</th>
           <th>HOURS</th>
-          <th>MINUTES</th>
+          <th>MINS</th>
           <th>SPECIAL EVENTS</th>
         </tr>
       </thead>
+
+       <tbody>
+        <tr>
+          <td>01</td>
+          <td>January 1, 2023</td>
+          <td>8:00AM</td>
+          <td>5:00PM</td>
+          <td>8</td>
+          <td>0</td>
+          <td>Typing test</td>
+        </tr>
+        <tr>
+          <td>02</td>
+          <td>January 2, 2023</td>
+          <td>8:00AM</td>
+          <td>5:00PM</td>
+          <td>8</td>
+          <td>0</td>
+          <td>Java</td>
+        </tr>
+        <tr>
+          <td>03</td>
+          <td>January 3, 2023</td>
+          <td>8:00AM</td>
+          <td>5:00PM</td>
+          <td>8</td>
+          <td>0</td>
+          <td>Php</td>
+        </tr>
+        <tr>
+          <td>04</td>
+          <td>January 4, 2023</td>
+          <td>8:00AM</td>
+          <td>5:00PM</td>
+          <td>8</td>
+          <td>0</td>
+          <td>Python</td>
+        </tr>
+        <tr>
+          <td>05</td>
+          <td>January 5, 2023</td>
+          <td>8:00AM</td>
+          <td>5:00PM</td>
+          <td>8</td>
+          <td>0</td>
+          <td>C++</td>
+        </tr>
+
+      </tbody>
+    </table>
+
       
       
     </table>
@@ -265,63 +322,75 @@ if ($stmtto) {
       }
     });
   </script>
+  <!--For the hamburger menu-->
+  <script>
+
+    const toggleBtn = document.querySelector('.toggle_btn')
+    const toggleBtnIcon = document.querySelector('.toggle_btn i')
+    const dropDownMenu = document.querySelector('.dropdown_menu')
+
+    toggleBtn.onclick = function () {
+      dropDownMenu.classList.toggle('open')
+      const isOpen = dropDownMenu.classList.contains('open')
+
+      toggleBtnIcon.classList = isOpen
+      ? 'fa-solid fa-xmark'
+      : 'fa-solid fa-bars'
+    }
+
+  </script>
+ 
 
   <!--Intern CLock-->
   <script type="text/javascript">
-    function updateClock() {
-      var now = new Date();
-      var dname = now.getDay(),
-        mo = now.getMonth(),
-        dnum = now.getDate(),
-        yr = now.getFullYear();
-      var hou = now.getHours(),
-        min = now.getMinutes(),
-        sec = now.getSeconds();
-      var pe = "AM";
-      if (hou == 0) {
-        hou = 12;
-      }
-      if (hou > 12) {
-        hou = hou - 12;
-        pe = "PM";
-      }
-      Number.prototype.pad = function (digits) {
-        for (var n = this.toString(); n.length < digits; n = 0 + n);
-      }
-      var months = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"]
-      var week = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"]
-      var ids = ["dayname", "month", "daynum", "year", "hour", "minutes", "seconds", "period"]
-      var values = [week[dname], months[mo], dnum, yr, hou, min, sec, pe];
-      for (var i = 0; i < ids.length; i++)
-        document.getElementById(ids[i]).firstChild.nodeValue = values[i];
-      // Send date and time values to PHP script
-      var xmlhttp = new XMLHttpRequest();
-      xmlhttp.open("POST", "homepage.php", true);
-      xmlhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
-      xmlhttp.onreadystatechange = function () {
-        if (this.readyState == 4 && this.status == 200) {
-          console.log(this.responseText); // You can handle the response from PHP here
-        }
-      }
-      var xmlhttp = new XMLHttpRequest();
-      xmlhttp.open("POST", "homepage.php", true);
-      xmlhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
-      xmlhttp.onreadystatechange = function () {
-        if (this.readyState == 4 && this.status == 200) {
-          console.log(this.responseText); // You can handle the response from PHP here
-        }
-      }
-      var data = "dayname=" + week[dname] + "&month=" + months[mo] + "&daynum=" + dnum + "&year=" + yr + "&hour=" +
-        hou + "&minutes=" + min + "&seconds=" + sec + "&period=" + pe;
-      xmlhttp.send(data);
+  function updateClock() {
+    var now = new Date();
+    var dname = now.getDay(),
+      mo = now.getMonth(),
+      dnum = now.getDate(),
+      yr = now.getFullYear();
+    var hou = now.getHours(),
+      min = now.getMinutes(),
+      sec = now.getSeconds();
+    var pe = "AM";
+    if (hou == 0) {
+      hou = 12;
+    } else if (hou == 12) {
+      pe = "PM";
+    } else if (hou > 12) {
+      hou = hou - 12;
+      pe = "PM";
     }
-
-    function initClock() {
-      updateClock();
-      window.setInterval("updateClock()", 1);
+    Number.prototype.pad = function (digits) {
+      for (var n = this.toString(); n.length < digits; n = 0 + n);
     }
-  </script>
+    var months = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"]
+    var week = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"]
+    var ids = ["dayname", "month", "daynum", "year", "hour", "minutes", "seconds", "period"]
+    var values = [week[dname], months[mo], dnum, yr, hou, min, sec, pe];
+    for (var i = 0; i < ids.length; i++)
+      document.getElementById(ids[i]).firstChild.nodeValue = values[i];
+    // Send date and time values to PHP script
+    var xmlhttp = new XMLHttpRequest();
+    xmlhttp.open("POST", "homepage.php", true);
+    xmlhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+    xmlhttp.onreadystatechange = function () {
+      if (this.readyState == 4 && this.status == 200) {
+        console.log(this.responseText); // You can handle the response from PHP here
+      }
+    }
+    var data = "dayname=" + week[dname] + "&month=" + months[mo] + "&daynum=" + dnum + "&year=" + yr + "&hour=" +
+      hou + "&minutes=" + min + "&seconds=" + sec + "&period=" + pe;
+    xmlhttp.send(data);
+  }
 
+  function initClock() {
+    updateClock();
+    window.setInterval(updateClock, 1000); // Update every second
+  }
+  
+  initClock(); // Initialize the clock
+</script>
 
   <!-- CAMERA VISION -->
 

@@ -43,6 +43,7 @@
   text-decoration: none;
     
 }
+
 body {
   background: var(--color-background);
       width: 100%;
@@ -60,7 +61,6 @@ nav {
   align-items: center;
   justify-content: space-between;
  position: relative;
-
 }
 .logo { 
   width: 500px;
@@ -70,7 +70,7 @@ nav {
   width: 40px;
   border-radius: 50%;
   cursor: pointer;
-  margin-right: 80px; 
+  margin-right: 90px; 
 }
 nav ul {
   width: 100%;
@@ -79,7 +79,7 @@ nav ul {
 nav ul li {
   display: inline-block;
   list-style: none;
-  margin: 10px 20px;
+  margin: 10px 10px;
 }
 nav ul li a {
   color: #F34702;
@@ -132,7 +132,6 @@ nav ul li a {
   text-align: none;
   color: black;
   margin: 12px 0;  
-
 }
 .sub-menu-link p {
   width: 100%;
@@ -145,7 +144,7 @@ nav ul li a {
   background: aliceblue;
   border-radius: 50%;
   padding: 8px;
-  margin-right: 15px;
+  margin-right: 10px;
   align-items: center;
   text-align: center;
 }
@@ -163,175 +162,42 @@ nav ul li a {
   font-family: poppins, sans-serif;
   color: black;
 }
-
-
-
-/* DropDown Menu 
-.select-menu{
-  width: 230px;
-  margin-left: 10%;
-}
-.select-menu .select-btn{
-  display: flex;
-  height: 55px;
-  background: var(--color-primary);
-  padding: 20px;
-  font-size: 18px;
-  font-weight: 400;
-  border-radius: 8px;
-  align-items: center;
-  cursor: pointer;
-  justify-content: space-between;
-  box-shadow: 0 0 5px rgba(0,0,0,0.1);
-}
-.select-btn i{
-  font-size: 25px;
-  transition: 0.3s;
-}
-.select-menu.active .select-btn i{
-  transform: rotate(-180deg);
-}
-.select-menu .options{
+nav .toggle_btn {
   position: relative;
-  padding: 20px;
-  margin-top: 10px;
-  border-radius: 8px;
-  background: #fff;
-  box-shadow: 0 0 3px rgba(0,0,0,0.1);
-  display: none;
-}
-.select-menu.active .options{
-  display: block;
-}
-.options .option{
-  display: flex;
-  height: 55px;
-  cursor: pointer;
-  padding: 0 16px;
-  border-radius: 8px;
-  align-items: center;
-  background: #fff;
-}
-.options .option:hover{
-  background: #F2F2F2;
-}
-.option i{
-  font-size: 25px;
-  margin-right: 12px;
-}
-.option .option-text{
-  font-size: 18px;
-  color: #333;
-}
-
-/*Navigation Bar
-nav {
-  height: 80px;
-  text-decoration: none;
-
-}
-nav img {
-  width: 400px;
-  position: absolute;
-  top: 10px;
-
-}
-nav ul {
-  float: right;  
-  margin-right: 25px;
-}
-nav ul li {
-  display: inline-block;
-  line-height: 80px;
-  margin: 0 15px;
-}
-nav ul li a {
-  position: relative;
-  font-size: 18px;
-  text-transform: uppercase;
-  padding: 5px 0;
-}
-nav ul li a::before {
-  position: absolute;
-  content: '';
-  left: 0;
-  bottom: 0;
-  height: 3px;
-  width: 100%;
-  background-color: var(--color-primary);
-  transform: scaleX(0);
-  transform-origin: right;
-  transition: transform .4s linear;
-}
-nav ul li a:hover:before {
-  transform: scaleX(1);
-  transform-origin: left;
-}
-label #btn,
-label #cancel {
-  color: var(--color-dark);
-  font-size: 30px;
-  float: right;
-  line-height: 80px;
-  margin-right: 40px;
+  left: 1rem;
+  color: black;
+  font-size: 1.5rem;
   cursor: pointer;
   display: none;
 }
-#check {
+.dropdown_menu {
   display: none;
+  position: absolute;
+  left: 2rem;
+  top: 60px;
+  height: 0;
+  width: 300px;
+  background: rgba(41, 39, 39, 0.5);
+  backdrop-filter: blur(15px);
+  border-radius: 10px;
+  overflow: hidden;
+  z-index: 1;
+  transition: height 0.2s cubic-bezier(0.75, 0.885, 0.32, 1.275);
 }
-
-/*Resposive For Naviagation Bar
-@media (max-width: 1118px) {
-  nav img {
-    left: 8px;
-  }
-}
-@media (max-width: 944px) {
-  nav img {
-    left: 6%;
-    top: 20px;
-    width: 200px;
-  }
-  nav ul li a {
-    font-size: 17px;
-  }
-}
-@media (max-width: 944px) {
-  label #btn {
-    display: block;
-  }
-  ul {
-    position: fixed ;
-    width: 100%;
-    height: 30vh;
-    background: var(--color-primary);
-    top: 80px;
-    left: -100%;
-    text-align: center;
-    transition: all .5s;
-  }
-  nav ul li {
-    display: block;
-    margin: 50px 0;
-    line-height: 30px;
-  }
-  nav ul li a {
-    font-size: 20px;
-  }
-  #check:checked ~ ul {
-    left: 0;
-  }
-  #check:checked ~ label #btn {
-    display: none;
-  }
-  #check:checked ~ label #cancel {
-    display: block;
-  }
+.dropdown_menu.open {
+  height: 100vh;
+  overflow: auto; 
   
-  }
-
-*/
+}
+.dropdown_menu li {
+  position: relative;
+  top: 5rem;
+  padding: 2rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+}
 
 .container {
   display: grid;
@@ -544,18 +410,19 @@ b {
   /* for clock, Intern */
 
 
-
-  .datetime{
-    color: white;
-    background-color: #4e2507;
-    font-family: "Segoe UI" , sans-serif;
-    width: 300px;
-    height: 100px;
-    margin: 15px;
-    border-radius: var(--border-radius-2);
-    margin-top: 1%;
-    
-  }
+.datetime {
+  position: absolute;
+  left: 50%;
+  top: 40%;
+  transform: translate(-50%, -50%);
+  color: white;
+  background-color: #4e2507;
+  font-family: "Segoe UI", sans-serif;
+  width: 320px;
+  height: 100px;
+  border-radius: var(--border-radius-2);
+  margin-top: 1%;
+}
   
   .date{
     font-size: 20px;
@@ -685,36 +552,39 @@ b {
 /*The Modal*/
 .modal-container {
   z-index: 999;
-  background-color: rgba(0, 0, 0, 0.3);
+  background: rgba(41, 39, 39, 0.5);
   display: flex;
   position: fixed;
   pointer-events: none;
   opacity: 0;
   top: 0;
-  left: 0;  
-  width: 100vw;
-  height: 100vh;
+  left: 0;
+  width: 100%;
+  height: 100%;
   align-items: center;
   justify-content: center;
   transition: opacity 0.5s ease;
+  overflow: auto; 
 }
 
 #close {
-  position: absolute;
-  font-size: 25px;
-  cursor: pointer;
-  font-weight: 600;
-  font-family: inherit;
-  list-style: none;
-  text-decoration: none;
-  border: none; 
-  top: 19.5%;
-  left: 113vh;
-  background-color: none;
+position: absolute;
+top: 2%;
+left: 23rem;
+transform: translate(-50%, -50%);
+border-radius: 50px;
+font-size: 15px;
+border: none;
+cursor: pointer;
+font-weight: 900;
+font-size: 1.5rem;
+color: black;
+background-color: transparent;
 }
 
+
 #ontime {
-  transform: translate(70% , 0.5vh);
+transform: translate(70.5% , 0.5vh);
 font-family: poppins, sans-serif;
 padding: 5px;
 border-radius: 50px;
@@ -738,6 +608,7 @@ transition: .4s ease-in;
   opacity: 1;
 }
 .modal {
+  position: relative;
   background-color: aliceblue;
   padding: 50px 80px;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
@@ -757,10 +628,6 @@ transition: .4s ease-in;
   text-transform: uppercase;
   font-weight: 900;
   font-family: inherit;
-}
-.modal p {
-  font-size: 14px;
-  opacity: 0.7;
 }
 
 /* Table 2*/
@@ -783,7 +650,7 @@ table:hover{
   box-shadow: none;
 }
 th, td {
-  padding-top: 30px;
+  padding-top: 20px;
 }
 th {
   background-color: white;
@@ -819,13 +686,14 @@ table tbody td{
 .intern-id {
   position: relative;
   width: 15rem;
+
 }
 .intern-id .form__input {
   position: absolute;
   top: 0;
   left: 0;
   width: 100%;
-  height: 4vh;
+  height: 1rem;
   border: 1px solid var(--color-info-dark);
   border-radius: 8px;
   font-family: inherit;
@@ -866,7 +734,7 @@ table tbody td{
   border-bottom: 0;
   border-left: 2px solid black;
   border-right: 2px solid black;
-  border-radius: 8px;
+
 }
 /*Select Projects*/
 
@@ -874,7 +742,7 @@ select {
   position: absolute;
   left: 0;
   bottom: 95%;
-  height: 5vh;
+  height: 2rem; /* Set height to auto */
   border: 1px solid #F34702;
   border-radius: 8px;
   width: 15rem;
@@ -883,9 +751,11 @@ select {
   font-weight: 600;
   font-family: inherit;
 }
+
 select:hover {
   border: 1px solid black;
 }
+
 
 /*Action Item*/
 .action-item {
@@ -938,7 +808,6 @@ border-top: 0;
 border-bottom: 0;
 border-left: 2px solid black;
 border-right: 2px solid black;
-border-radius: 8px;
 }
 /*Special Event*/
 .special-event {
@@ -991,5 +860,459 @@ border-top: 0;
 border-bottom: 0;
 border-left: 2px solid black;
 border-right: 2px solid black;
-border-radius: 8px;
+
 }
+
+/*Responsive*/
+
+@media only screen and (max-width: 1200px) {
+  .timein {
+ position: relative;
+ font-size: 18px;
+ font-weight: 600;
+ width: 110px;
+ left: 20%;
+ top: -2.5rem;
+ }
+ .timeout {
+   position: relative;
+ font-size: 18px;
+ font-weight: 600;
+ width: 110px;
+ left: 68%;
+ top: -5rem; 
+ }
+ .datetime {
+   position: relative;
+   transform: translate(-50%);
+ }
+
+table {
+ width: 80%;
+ position: relative;
+ left: 0;
+ right: 0;
+ margin: auto;
+}
+.user_pic {
+ width: 37px;
+ border-radius: 50%;
+ cursor: pointer;
+ margin-right: 10px; 
+}
+nav {
+ padding: 8px 0%;
+}
+nav ul li {
+ font-size: .8rem;
+}
+.sub-menu-wrap {
+ position: absolute;
+ top: 66%;
+ right: 0;
+ width: 230px;
+}
+.sub-menu-link span {
+ font-size: 15px;
+}
+.sub-menu-wrap.open-menu {    
+ max-height: 280px;
+}
+
+.sub-menu {
+ padding: 10px;
+ margin: 9px;
+}
+.user-info img {
+ width: 45px;
+ margin-left: 1px;
+}
+.user-info h2 {
+ font-weight: 600;
+ color: black;
+ margin-left: 7%;  
+ font-size: 13px;
+}
+.sub-menu-link p {
+ width: 95%;
+ font-size: 13px;
+}
+.sub-menu-link {
+ margin: 3px 0;  
+}
+.sub-menu-link i {
+ width: 30px;
+ border-radius: 50%;
+ padding: 8px;
+ margin-right: 8px;
+}
+.logo {
+ width: 400px;
+}
+#close {
+ top: 3%;
+ left: 23rem;
+ transform: translate(-50%, -50%);
+ 
+}
+.modal-container {
+ align-items: flex-start; /* Adjust alignment for smaller viewports */
+ justify-content: flex-start;
+}
+.modal {
+ position: absolute;
+ left: 0;
+ right: 0;
+ margin: auto;
+ transform: translate(0, 50%);
+
+}
+
+
+
+}
+
+/*Tablet or ipad*/
+@media only screen and (max-width: 900px) {
+  .timein {
+ font-size: 15px;
+ width: 100px;
+ left: 30%;
+ top: 1rem;
+ }
+
+ .timeout {
+   font-size: 15px;;
+ width: 100px;
+ left: 60%;
+ top: -1rem;
+ }
+table {
+ position: relative;
+ width: 90%;
+ left: 0;
+ right: 0;
+ margin: auto;
+}
+td {
+ padding: 10px;
+}
+.logo { 
+ position: absolute;
+ width: 345px;
+ top: -.5%;
+}
+.datetime {
+ position: relative;
+ margin-top: 10%;
+ width: 299px;
+}
+.date {
+ font-size: 15px;
+}
+
+.time {
+ font-size: 35px;
+}
+.time span:last-child {
+ font-size: 28px;
+}
+.user_pic {
+ width: 35px;
+ border-radius: 50%;
+ cursor: pointer;
+ margin-right: 10px; 
+}
+nav {
+ padding: 8px 0%;
+}
+nav ul li { 
+ font-size: .8rem;
+}
+.sub-menu-wrap {
+ position: absolute;
+ top: 66%;
+ right: 0;
+ width: 230px;
+}
+.sub-menu-link span {
+ font-size: 15px;
+}
+.sub-menu-wrap.open-menu {    
+ max-height: 280px;
+}
+
+.sub-menu {
+ padding: 10px;
+ margin: 9px;
+}
+.user-info img {
+ width: 40px;
+ margin-left: 1px;
+}
+.user-info h2 {
+ font-weight: 600;
+ color: black;
+ margin-left: 7%;  
+ font-size: 13px;
+}
+.sub-menu-link p {
+ width: 95%;
+ font-size: 13px;
+}
+.sub-menu-link {
+ margin: 3px 0;  
+}
+.sub-menu-link i {
+ width: 30px;
+ border-radius: 50%;
+ padding: 8px;
+ margin-right: 8px;
+}
+.modal-container {
+ align-items: flex-start; /* Adjust alignment for smaller viewports */
+ justify-content: flex-start;
+}
+.modal {
+ position: absolute;
+ left: 0;
+ right: 0;
+ margin: auto;
+ transform: translate(0, 30%);
+}
+#close {
+   top: 3%;
+   left: 23rem;
+   transform: translate(-50%, -50%);
+   
+ }
+option {
+ font-size: 12px;
+}
+
+}
+/*Set up the mobile view start from this point*/
+ @media (max-width: 768px) {
+   
+   .timein, .timeout {
+     position: relative;
+     left: calc(50% - 50px); /* Adjust the value as needed */
+   }
+   
+   .timein {
+     top: 5rem;
+   }
+   
+   .timeout {
+     top: 6rem;
+   }
+ 
+
+   .datetime {
+     width: 260px;
+     height: 85px;
+   }
+   .date{
+     font-size: 15px;
+   }
+   .time {
+     font-size: 30px;
+   }
+   .time span:last-child{
+     font-size: 25px;
+   }
+  table {  
+   font-size: 12px;
+   width: 90%;
+   position: relative;
+   left: 0;
+   right: 0;
+   top: 4rem;
+   margin: auto;
+ }
+  th, td {
+   padding-top: 10px;
+ }
+
+ .modal-container {
+   align-items: flex-start; /* Adjust alignment for smaller viewports */
+   justify-content: flex-start;
+ }
+
+ .modal {
+   position: absolute;
+   left: 0;
+   right: 0;
+   margin: auto;
+   transform: translate(0, 9rem);
+   width: 20rem;
+   height: 24rem;
+ }
+ .modal h1 {
+   font-size: 20px;
+  
+ }
+ #close {
+   top: 3%;
+   left: 19.2rem;
+   transform: translate(-50%, -50%);
+   
+ }
+  select {
+   position: relative;
+   top: 50%;
+   left: 50%;
+   transform: translate(-5rem, -1rem);
+   height: auto;
+   border-radius: 8px;
+   width: 12rem;
+ }
+ .intern-id {
+   position: relative;
+   top: 50%;
+   left: 50%;
+   transform: translate(-5rem, -1rem);
+   width: 12rem;
+
+ }
+ .action-item {
+   width: 12rem;
+   position: relative;
+   top: 50%;
+   left: 50%;
+   transform: translate(-5rem, -1rem);
+ }
+ .special-event {
+   width: 12rem;
+   position: relative;
+   top: 50%;
+   left: 50%;
+   transform: translate(-5rem, -1rem);
+ }
+ #ontime {
+   position: relative;
+ }
+ .logo {
+   position: absolute;
+   left: 50%;
+   transform: translate(-50%, -20%);
+ }
+  nav .sub-menu-wrap {
+   display: none;
+  }
+  nav ul {
+   display: none;
+  }
+  nav img {
+   display: none;
+  }
+  nav .toggle_btn {
+   display: block;
+  }
+  .dropdown_menu {
+   display: block;
+   position: absolute;
+   left: 50%;
+   top: 80%;
+   transform: translate(-50%);
+   width: 100%;
+   font-size: 1.5rem;
+   font-family: inherit;
+ }
+  .dropdown_menu li a {
+   color: white;
+  }
+  
+ 
+ table {
+   position: relative;
+   top: 7rem;
+ }
+ .logo {
+   top: 5rem;
+  }
+  .datetime {
+   position: relative;
+   top: 4rem;
+  }
+  }
+  
+
+
+
+@media only screen and (max-width: 400px) {
+ .modal-container { 
+   width: 100%;
+   height: 100%;
+ }
+th {
+ font-size: 10px;
+ width: 80%;
+}
+.logo {
+ top: 5rem;
+}
+.datetime {
+ position: relative;
+ top: 4rem;
+}
+  
+.timein {
+ top: 5rem;
+}
+
+.timeout {
+ top: 6rem;
+}
+table {
+ position: relative;
+ top: 7rem;
+}
+
+}
+
+
+/*Cellphone*/
+@media only screen and (max-width: 320px) {
+  .timein, .timeout {
+    font-size: 13px;
+  }
+ .modal {
+   width: 15rem;
+   height: 21rem;
+ }
+ .modal h1 {
+   font-size: 12px;
+   margin-bottom: 1rem;
+ }
+table {
+ position: relative;
+ font-size: 10px;
+}
+  #close {
+   left: 14.3rem;
+ }
+ #ontime {
+   position: relative;
+   font-size: 12px;
+   width: 5rem;
+   top: -2rem;
+ }
+.logo {
+ width: 15rem;
+}
+
+.date{
+  font-size: 12px;
+}
+.time {
+  font-size: 25px;
+}
+.datetime {
+  width: 250px;
+  height: 82px;
+}
+}
+ 
+
+
