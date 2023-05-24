@@ -1,5 +1,5 @@
-
 <?php
+session_start(); // Call session_start() before any output is sent
 
 // Connect to database
 $serverName = "LAPTOP-GBO9I3B3\SQL";
@@ -90,14 +90,51 @@ if ($stmtto) {
   <!--DrowDown Menu Intern-->
   <nav>
     <ul>
-      <li>Hello, <b>Raffy</b><br> RAV(2023-32)</li>
+  <?php
+          //// THIS CODE IS FOR THE NAME IDENTITY
+            // Connect to the database
+        $serverName = "LAPTOP-GBO9I3B3\SQL";
+        $connectionOptions = array(
+            "Database" => "DLSUD",
+            "UID" => "",
+            "PWD" => ""
+        );
+        $conn = sqlsrv_connect($serverName, $connectionOptions);
+
+        // Check the connection
+        if (!$conn) {
+            die("Connection failed: " . print_r(sqlsrv_errors(), true));
+        }
+
+        // Assuming you have a database connection established
+        $user_pass_log = isset($_SESSION["user_pass_log"]) ? $_SESSION["user_pass_log"] : '';
+        $query = "SELECT NAME, INTERN_ID FROM FEDCENTER_INTERN_DATA WHERE INTERN_ID = '$user_pass_log'"; // Modify the query as per your database structure and requirements
+
+        // Execute the query and fetch the result
+        $results = sqlsrv_query($conn, $query);
+        if ($results === false) {
+            die("Query failed: " . print_r(sqlsrv_errors(), true));
+        }
+
+        // Fetch the name value
+        if ($row = sqlsrv_fetch_array($results, SQLSRV_FETCH_ASSOC)) {
+            $internid = $row['INTERN_ID'];
+            $name = $row['NAME'];
+        } else {
+            $name = "Unknown"; // Default value if no result is found
+            $internid = "Unknown";
+        }
+
+    ?>
+
+      <li>Hello, <b> <?php echo $name; ?></b><br> <?php echo $internid; ?></li>
     </ul>
     <img src="img/zoomDP.jpg" class="user_pic" onclick="toggleMenu()">
     <div class="sub-menu-wrap" id="subMenu">
       <div class="sub-menu">
         <div class="user-info">
           <img src="img/zoomDP.jpg">
-          <h2>Raffy L. Veloria</h2>
+          <h2><?php echo $name; ?></h2>
         </div>
         <hr>
         <a href="" class="sub-menu-link">
@@ -184,7 +221,8 @@ if ($stmtto) {
           </div>
           <br><br><br>
         </div>
-        <a href="#" id="close" class="btn-x">&times;</a>
+        <button type="submit" id="close" name="close">&times;</button>
+
         <button type="submit" id="ontime" name="ontime">Time in</button>
 
       </form>
@@ -200,34 +238,6 @@ if ($stmtto) {
 
     </div>
   </div>
-
-
-
-
-  <!--Table For Intern-->
-  <main>
-    <table class="mytable" id="mytable">
-
-      <thead>
-        <tr>
-          <th>NO</th>
-          <th>DATE</th>
-          <th>IN</th>
-          <th>OUT</th>
-          <th>HOURS</th>
-          <th>MINUTES</th>
-          <th>SPECIAL EVENTS</th>
-        </tr>
-      </thead>
-      
-      
-    </table>
-
-  </main>
-  <br><br>
-
-
-
 
 
 
@@ -323,9 +333,113 @@ if ($stmtto) {
   </script>
 
 
+  <!--Table For Intern-->
+  <main>
+    <table class="mytable" id="mytable">
+
+      <thead>
+        <tr>
+        
+          <th>INTERN ID</th>
+          <th>DATE</th>
+          <th>IN</th>
+          <th>OUT</th>
+          <th>HOURS</th>
+          <th>MINUTES</th>
+          <th>PROJECT</th>
+          <th>ACTION ITEM</th>
+          <th>SPECIAL EVENTS</th>
+        </tr>
+      </thead>
+
+              <?php ///php inside html
+
+
+$serverName = "LAPTOP-GBO9I3B3\\SQL";
+$connectionOptions = [
+    "Database" => "DLSUD",
+    "Uid" => "",
+    "PWD" => ""
+];
+
+$conn = sqlsrv_connect($serverName, $connectionOptions);
+if ($conn === false) {
+    die(print_r(sqlsrv_errors(), true));
+}
+
+
+// Getting Total List
+
+$user_pass_log = isset($_SESSION["user_pass_log"]) ? $_SESSION["user_pass_log"] : '';
+$sql = "SELECT * FROM FEDCENTER_INTERN_LOGS WHERE INTERN_ID = '$user_pass_log'";
+
+    $result = sqlsrv_query($conn, $sql);
+   
+    if ($result === false) {
+        die(print_r(sqlsrv_errors(), true));
+        
+    }
+    ?>
+
+   <table>
+                <tr>
+                    <th>INTERN ID</th>
+                    <th>DATE</th>
+                    <th>TIME IN</th>
+                    <th>TIME OUT</th>
+                    <th>NO OF HOURS</th>
+                    <th>NO MINUTES</th>
+                    <th>PROJECT</th>
+                    <th>ACTION ITEM</th>
+                    <th>SPECIAL EVENTS</th>
+                </tr>';
+                <?php
+        while ($rows = sqlsrv_fetch_array($result)) {
+            $fieldname2 = $rows['INTERN_ID'];
+            $fieldname3 = $rows['DATE']->format('d/m/Y');
+            $fieldname4 = $rows['TIME_IN'];
+            $fieldname5 = $rows['TIME_OUT'];
+            $fieldname6 = $rows['NO_HOURS'];
+            $fieldname7 = $rows['NO_MINUTES'];
+            $fieldname8 = $rows['PROJECT'];
+            $fieldname9 = $rows['ACTION_ITEM'];
+            $fieldname10 = $rows['SPECIAL_EVENTS'];
+
+            echo '<tr>
+                    <td>'.$fieldname2.'</td>
+                    <td>'.$fieldname3.'</td>
+                    <td>'.$fieldname4.'</td>
+                    <td>'.$fieldname5.'</td>
+                    <td>'.$fieldname6.'</td>
+                    <td>'.$fieldname7.'</td>
+                    <td>'.$fieldname8.'</td>
+                    <td>'.$fieldname9.'</td>
+                    <td>'.$fieldname10.'</td>
+                </tr>';
+        }
+
+       
+
+?>
+
+
+
+
+     
+
+    </table>
+
+  </main>
+  <br><br>
+
+
+
+
+
+
+
   <!-- CAMERA VISION -->
 
 </body>
 
 </html>
-

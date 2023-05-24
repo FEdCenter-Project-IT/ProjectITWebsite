@@ -29,7 +29,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
  
     if (sqlsrv_has_rows($result) ) {
         echo "<script>alert('WELCOME ADMIN!');</script>";
-        header("Location: Interns.html");
+        header("Location: dashboard.php");
         exit();
     } else {
         $loginerr ="Invalid Username/Password.";
