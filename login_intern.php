@@ -21,17 +21,25 @@ $loginerr = ''; // Initialize login error message
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $form_id_log = isset($_POST["username"]) ? $_POST["username"] : '';
     $user_pass_log = isset($_POST["userpassword"]) ? $_POST["userpassword"] : '';
+
+
     // Select the FORM_ID and USER_PASSWORD from the users table
-    $sql = "SELECT USERNAME, USER_PASSWORD FROM FEDCENTER_INTERN_LOGIN WHERE USERNAME=? AND USER_PASSWORD=?"; //not case-sensitive
+    $sql = "SELECT USERNAME, USER_PASSWORD FROM FEDCENTER_INTERN_DATA WHERE USERNAME=? AND USER_PASSWORD=?";
     $params = array($form_id_log, $user_pass_log);
     $result = sqlsrv_query($conn, $sql, $params);
+  
+
     // Fetch the data from the database
  
     if (sqlsrv_has_rows($result) ) {
+      $_SESSION["username"] = $form_id_log; // Store the username in the session for future use
+      $_SESSION["user_pass_log"] = $user_pass_log; // Store the user password in the session
+
+        echo "<script>alert('WELCOME INTERN!');</script>";
         header("Location: homepage.php");
         exit();
     } else {
-        $loginerr = "Invalid Username/Password.";
+        $loginerr ="Invalid Username/Password.";
     }
 }
 ?>

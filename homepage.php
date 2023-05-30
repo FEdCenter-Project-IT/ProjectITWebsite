@@ -1,6 +1,76 @@
+<?php
+session_start(); // Call session_start() before any output is sent
+
+// Connect to database
+$serverName = "TEPANYANG\SQLEXPRESS";
+$connectionOptions = [
+  "Database" => "DLSUD",
+  "UID" => "",
+  "PWD" => ""
+];
+$conn = sqlsrv_connect($serverName, $connectionOptions);
+
+// Check the connection
+if (!$conn) {
+  die("Connection failed: " . sqlsrv_errors());
+}
+
+// Tiff fixed the undefined array error
+$InternId = isset($_POST['InternId']) ? $_POST['InternId'] : '';
+$projects = isset($_POST['projects']) ? $_POST['projects'] : '';
+$actionitem = isset($_POST['actionitem']) ? $_POST['actionitem'] : '';
+$specialevents = isset($_POST['specialevent']) ? $_POST['specialevent'] : '';
+$timeout_InternId = isset($_POST['timeout_InternId']) ? $_POST['timeout_InternId'] : '';
+
+//Check if the time in button is pressed
+if (isset($_POST['ontime'])) {
+  // Insert date and time values into database
+  // Tiff added the time in functionality
+  $sql = "INSERT INTO FEDCENTER_INTERN_LOGS (INTERN_ID, DATE, TIME_IN, PROJECT, ACTION_ITEM, SPECIAL_EVENTS) VALUES ('$InternId', GETDATE(), (SELECT CONVERT(VARCHAR(8), GETDATE(), 108)), '$projects','$actionitem', '$specialevents' )";
+  $stmt = sqlsrv_query($conn, $sql);
+
+  if ($stmt) {
+    echo '<script>alert("Time-in Successful!")</script>';
+  } else {
+    echo '<script>alert("Server Error!")</script>';
+  }
+  sqlsrv_close($conn);
+} elseif (isset($_POST['time_out'])) {
+  //Check if time-in has been done before storing time-out
+  $sqlcheck = "SELECT TOP 1 * FROM FEDCENTER_INTERN_LOGS WHERE TIME_OUT IS NULL ";
+  $stmtcheck = sqlsrv_query($conn, $sqlcheck);
+  $row = sqlsrv_fetch_array($stmtcheck, SQLSRV_FETCH_ASSOC);
+
+  if ($row) {
+    // Update date and time values into database
+    $sqlto = "UPDATE FEDCENTER_INTERN_LOGS SET TIME_OUT = (SELECT CONVERT(VARCHAR(8), GETDATE(), 108)) WHERE INTERN_ID = ?";
+$stmtto = sqlsrv_prepare($conn, $sqlto, array(&$row['INTERN_ID']));
+if ($stmtto) {
+  if (sqlsrv_execute($stmtto)) {
+    // Calculate the number of hours and minutes
+    $sqlcalculate = "UPDATE FEDCENTER_INTERN_LOGS SET NO_HOURS = DATEDIFF(HOUR, TIME_IN, TIME_OUT), NO_MINUTES = DATEDIFF(MINUTE, TIME_IN, TIME_OUT) % 60 WHERE INTERN_ID = ?";
+    $stmtcalculate = sqlsrv_prepare($conn, $sqlcalculate, array(&$row['INTERN_ID']));
+    if ($stmtcalculate) {
+      if (sqlsrv_execute($stmtcalculate)) {
+        echo '<script>alert("Time-out Successful!")</script>';
+      } else {
+        echo "Error: ";
+      }
+    }
+  }
+}
+}
+
+  sqlsrv_close($conn);
+}
+
+?>
+
+
+
 <!DOCTYPE html>
 <html lang="en">
-  <!--comment-->
+<!--comment-->
 
 <head>
   <meta charset="UTF-8">
@@ -16,17 +86,54 @@
 
 <body onload="initClock()">
 
+<?php
+          //// THIS CODE IS FOR THE NAME IDENTITY
+            // Connect to the database
+        $serverName = "TEPANYANG\SQLEXPRESS";
+        $connectionOptions = array(
+            "Database" => "DLSUD",
+            "UID" => "",
+            "PWD" => ""
+        );
+        $conn = sqlsrv_connect($serverName, $connectionOptions);
+
+        // Check the connection
+        if (!$conn) {
+            die("Connection failed: " . print_r(sqlsrv_errors(), true));
+        }
+
+        // Assuming you have a database connection established
+        $user_pass_log = isset($_SESSION["user_pass_log"]) ? $_SESSION["user_pass_log"] : '';
+        $query = "SELECT NAME, INTERN_ID FROM FEDCENTER_INTERN_DATA WHERE INTERN_ID = '$user_pass_log'"; // Modify the query as per your database structure and requirements
+
+        // Execute the query and fetch the result
+        $results = sqlsrv_query($conn, $query);
+        if ($results === false) {
+            die("Query failed: " . print_r(sqlsrv_errors(), true));
+        }
+
+        // Fetch the name value
+        if ($row = sqlsrv_fetch_array($results, SQLSRV_FETCH_ASSOC)) {
+            $internid = $row['INTERN_ID'];
+            $name = $row['NAME'];
+        } else {
+            $name = "Unknown"; // Default value if no result is found
+            $internid = "Unknown";
+        }
+
+    ?>
+
   <!--DrowDown Menu Intern-->
   <nav>
     <ul>
-      <li>Hello, <b>Raffy</b><br> RAV(2023-32)</li>
+      <li>Hello, <b><?php echo $name ?></b><br> <?php echo $internid ?></li>
     </ul>
     <img src="img/zoomDP.jpg" class="user_pic" onclick="toggleMenu()">
     <div class="sub-menu-wrap" id="subMenu">
       <div class="sub-menu">
         <div class="user-info">
           <img src="img/zoomDP.jpg">
-          <h2>Raffy L. Veloria</h2>
+          <h2><?php echo $name ?></h2>
         </div>
         <hr>
         <a href="" class="sub-menu-link">
@@ -44,7 +151,7 @@
           <p>Help & Support</p>
           <span>></span>
         </a>
-        <a href="" class="sub-menu-link">
+        <a href="login_intern.php" class="sub-menu-link">
           <i class="fa-solid fa-right-from-bracket"></i>
           <p>Logout</p>
         </a>
@@ -52,8 +159,8 @@
     </div>
   </nav>
   <center>
-  <img src="img/FC Management Consulting.png" class="logo">
-</center>
+    <img src="img/FC Management Consulting.png" class="logo">
+  </center>
   <!-- Digital Clock Start -->
   <center>
     <div class="datetime">
@@ -68,204 +175,70 @@
         <span id="minutes"> 00</span>:
         <span id="seconds"> 00 </span>
         <span id="period">
+
         </span>
       </div>
     </div>
   </center>
-
-<?php
-
-// Connect to database
-$serverName = "TEPANYANG\SQLEXPRESS";
-$connectionOptions = [
-  "Database" => "DLSUD",
-  "Uid" => "",
-  "PWD" => ""
-];
-$conn = sqlsrv_connect($serverName, $connectionOptions);
-
-// Check the connection
-if (!$conn) {
-  die("Connection failed: " . sqlsrv_errors());
-}
-
-// Tiff fixed the undefined array error
-$InternId = isset($_POST['InternId']) ? $_POST['InternId'] : '';
-$projects = isset($_POST['projects']) ? $_POST['projects'] : '';
-$actionitem =  isset($_POST['actionitem']) ? $_POST['actionitem'] : '';
-$specialevents =  isset($_POST['specialevent']) ? $_POST['specialevent'] : ''; 
-
-//Check if the time in button is pressed
-if(isset($_POST['ontime'])){
-  // Insert date and time values into database
-  // Tiff added the time in functionality
-  $sql = "INSERT INTO FEDCENTER_INTERN_LOGS (INTERN_ID, DATE, TIME_IN, PROJECT, ACTION_ITEM, SPECIAL_EVENTS) VALUES
-   ('$InternId', GETDATE(), (SELECT CONVERT(VARCHAR(8), GETDATE(), 108)), '$projects','$actionitem', '$specialevents' )";
-  $stmt = sqlsrv_query($conn, $sql);
-
-  if ($stmt) {
-    echo '<script>alert("Time-in Successful!")</script>';
-  }
-  else {
-    echo '<script>alert("Server Error!")</script>';
-  }
-  sqlsrv_close($conn);
-}
-
-// Tiff added code to store time out time but it is not working
-if(isset($_POST['timeout'])){
-  if(empty($_POST['ontime'])){
-    $sqltwo = "UPDATE FEDCENTER_INTERN_LOGS 
-    SET TIME_OUT = (SELECT CONVERT(VARCHAR(8), GETDATE(), 108))
-    WHERE INTERN_ID = (
-      SELECT TOP 1 INTERN_ID
-      FROM FEDCENTER_INTERN_LOGS
-      WHERE INTERN_ID = '$InternId'
-      ORDER BY LOGS DESC
-    )";
-    $stmttwo = sqlsrv_query($conn,$sqltwo);
-
-    if($stmttwo){
-      echo "Data stored successfully.";
-    }
-    else{
-      echo "Error: " . $sqltwo . "<br>" . sqlsrv_errors();
-    }
-    sqlsrv_close($conn);
-  }
-  else{
-    echo "Error: Time-in First!";
-  }
-}
-
-?>
 
   <button type="submit" id="open" class="timein" name="time_in">Time in</button>
   <div class="modal-container" id="modal_container">
     <div class="modal">
       <h1>Action Item</i></h1>
       <form id="registration" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="POST">
-      <div class="Event">
-            <select name="projects"  id="projects" class="projects">
-              <option value="None">Select your Projects</option>
-              <option value="Human Resources">Human Resources</option>
-              <option value="Accounting">Accounting</option>
-              <option value="IT">IT</option>
-              <option value="Marketing">Marketing</option>
-              <option value="FIN ED/ CFAP">FIN ED/ CFAP</option>
-              <option value="JJCFAP/JAA">JJCFAP/JAA</option>
-              <option value="Training">Training</option>
-              <option value="Business Development">Business Development</option>
-              <option value="Alterna">Alterna</option>
-              <option value="Organization">Organization</option>
-              <option value="ADM/NDC">ADM/NDC</option>
-              <option value="IMG/ASTRA">IMG/ASTRA</option>
-            </select>
-            <br><br><br>
-        <div class="intern-id">
-        <input type="text" id="InternId" name="InternId" class="form__input" autocomplete="off" placeholder=" "> 
-        <label for="InternId" class="form__label">Intern ID </label> 
-        </div> 
-        <br><br><br>
-        <div class="action-item">
-        <input type="text" id="actionitem" name="actionitem" class="form-action" autocomplete="off" placeholder=" ">  
-        <label for="actionitem" class="form--action">Action Item </label> 
+        <div class="Event">
+          <select name="projects" id="projects" class="projects">
+            <option value="None">Select your Projects</option>
+            <option value="Human Resources">Human Resources</option>
+            <option value="Accounting">Accounting</option>
+            <option value="IT">IT</option>
+            <option value="Marketing">Marketing</option>
+            <option value="FIN ED/ CFAP">FIN ED/ CFAP</option>
+            <option value="JJCFAP/JAA">JJCFAP/JAA</option>
+            <option value="Training">Training</option>
+            <option value="Business Development">Business Development</option>
+            <option value="Alterna">Alterna</option>
+            <option value="Organization">Organization</option>
+            <option value="ADM/NDC">ADM/NDC</option>
+            <option value="IMG/ASTRA">IMG/ASTRA</option>
+          </select>
+          <br><br><br>
+          <div class="intern-id">
+            <input type="text" id="InternId" name="InternId" class="form__input" autocomplete="off" placeholder=" ">
+            <label for="InternId" class="form__label">Intern ID </label>
+          </div>
+          <br><br><br>
+          <div class="action-item">
+            <input type="text" id="actionitem" name="actionitem" class="form-action" autocomplete="off" placeholder=" ">
+            <label for="actionitem" class="form--action">Action Item </label>
+          </div>
+          <br><br><br>
+          <div class="special-event">
+            <input type="text" id="specialevent" name="specialevent" class="form-special" autocomplete="off"
+              placeholder=" ">
+            <label for="specialevent" class="form--special">Special Event </label>
+          </div>
+          <br><br><br>
         </div>
-        <br><br><br>
-        <div class="special-event">
-        <input type="text" id="specialevent" name="specialevent" class="form-special" autocomplete="off" placeholder=" ">  
-        <label for="specialevent" class="form--special">Special Event </label> 
-        </div>
-        <br><br><br>
-        </div>  
         <a href="#" id="close" class="btn-x">&times;</a>
         <button type="submit" id="ontime" name="ontime">Time in</button>
+
       </form>
+
     </div>
   </div>
-  <button type="submit" id="time_out" class="timeout" name="time_out">Time out</button>
-
- 
-
-
-
-
-  <!--Table For Intern-->
-  <main>
-  <table class="mytable" id="mytable">
-
-    <thead>
-      <tr>
-        <th>NO</th>
-        <th>DATE</th>
-        <th>IN</th>
-        <th>OUT</th>
-        <th>HOURS</th>
-        <th>MINUTES</th>
-        <th>SPECIAL EVENTS</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td>01</td>
-        <td>January 1, 2023</td>
-        <td>8:00AM</td>
-        <td>5:00PM</td>
-        <td>8</td>
-        <td>0</td>
-        <td>Typing test</td>
-      </tr>
-      <tr>
-        <td>02</td>
-        <td>January 2, 2023</td>
-        <td>8:00AM</td>
-        <td>5:00PM</td>
-        <td>8</td>
-        <td>0</td>
-        <td>Java</td>
-      </tr>
-      <tr>
-        <td>03</td>
-        <td>January 3, 2023</td>
-        <td>8:00AM</td>
-        <td>5:00PM</td>
-        <td>8</td>
-        <td>0</td>
-        <td>Php</td>
-      </tr>
-      <tr>
-        <td>04</td>
-        <td>January 4, 2023</td>
-        <td>8:00AM</td>
-        <td>5:00PM</td>
-        <td>8</td>
-        <td>0</td>
-        <td>Python</td>
-      </tr>
-      <tr>
-        <td>05</td>
-        <td>January 5, 2023</td>
-        <td>8:00AM</td>
-        <td>5:00PM</td>
-        <td>8</td>
-        <td>0</td>
-        <td>C++</td>
-      </tr>
-      
-    </tbody>
-  </table>    
+  <form id="registration" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="POST">
 
   
-</main>
-<br><br>
+  <button type="submit"  class="timeout" name="time_out">Time out</button>
+  
+  </form>
+
+    </div>
+  </div>
 
 
-
-    
-
-
-
-<script src="script.js"></script>
+  <script src="script.js"></script>
   <script>
     // pop-up messages
 
@@ -356,7 +329,105 @@ if(isset($_POST['timeout'])){
     }
   </script>
 
- 
+  <!--Table For Intern-->
+  <main>
+    <table class="mytable" id="mytable">
+
+      <thead>
+        <tr>
+        
+          <th>INTERN ID</th>
+          <th>DATE</th>
+          <th>IN</th>
+          <th>OUT</th>
+          <th>HOURS</th>
+          <th>MINUTES</th>
+          <th>PROJECT</th>
+          <th>ACTION ITEM</th>
+          <th>SPECIAL EVENTS</th>
+        </tr>
+      </thead>
+
+<?php ///php inside html
+$serverName = "TEPANYANG\SQLEXPRESS";
+$connectionOptions = [
+    "Database" => "DLSUD",
+    "Uid" => "",
+    "PWD" => ""
+];
+
+$conn = sqlsrv_connect($serverName, $connectionOptions);
+if ($conn === false) {
+    die(print_r(sqlsrv_errors(), true));
+}
+
+// Getting Total List
+
+$user_pass_log = isset($_SESSION["user_pass_log"]) ? $_SESSION["user_pass_log"] : '';
+$sql = "SELECT * FROM FEDCENTER_INTERN_LOGS WHERE INTERN_ID = '$user_pass_log'";
+
+    $result = sqlsrv_query($conn, $sql);
+
+    if ($result === false) {
+        die(print_r(sqlsrv_errors(), true));
+        
+    }
+    ?>
+
+   <table>
+                <tr>
+                    <th>INTERN_ID</th>
+                    <th>DATE</th>
+                    <th>TIME_IN</th>
+                    <th>TIME_OUT</th>
+                    <th>NO_HOURS</th>
+                    <th>NO_MINUTES</th>
+                    <th>PROJECT</th>
+                    <th>ACTION_ITEM</th>
+                    <th>SPECIAL_EVENTS</th>
+                </tr>';
+                <?php
+        while ($rows = sqlsrv_fetch_array($result)) {
+            $fieldname2 = $rows['INTERN_ID'];
+            $fieldname3 = $rows['DATE']->format('d/m/Y');
+            $fieldname4 = $rows['TIME_IN'];
+            $fieldname5 = $rows['TIME_OUT'];
+            $fieldname6 = $rows['NO_HOURS'];
+            $fieldname7 = $rows['NO_MINUTES'];
+            $fieldname8 = $rows['PROJECT'];
+            $fieldname9 = $rows['ACTION_ITEM'];
+            $fieldname10 = $rows['SPECIAL_EVENTS'];
+
+            echo '<tr>
+                    <td>'.$fieldname2.'</td>
+                    <td>'.$fieldname3.'</td>
+                    <td>'.$fieldname4.'</td>
+                    <td>'.$fieldname5.'</td>
+                    <td>'.$fieldname6.'</td>
+                    <td>'.$fieldname7.'</td>
+                    <td>'.$fieldname8.'</td>
+                    <td>'.$fieldname9.'</td>
+                    <td>'.$fieldname10.'</td>
+                </tr>';
+        }
+
+       
+
+?>
+
+
+
+     
+
+    </table>
+
+  </main>
+  <br><br>
+
+
+
+
+
 
   <!-- CAMERA VISION -->
 
