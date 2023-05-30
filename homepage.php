@@ -3,7 +3,7 @@
 session_start(); // Call session_start() before any output is sent
 
 // Connect to database
-$serverName = "LAPTOP-GBO9I3B3\SQL";
+$serverName = "TEPANYANG\SQLEXPRESS";
 $connectionOptions = [
   "Database" => "DLSUD",
   "UID" => "",
@@ -89,11 +89,10 @@ if ($stmtto) {
 
   <!--DrowDown Menu Intern-->
   <nav>
-    <ul>
   <?php
           //// THIS CODE IS FOR THE NAME IDENTITY
             // Connect to the database
-        $serverName = "LAPTOP-GBO9I3B3\SQL";
+        $serverName = "TEPANYANG\SQLEXPRESS";
         $connectionOptions = array(
             "Database" => "DLSUD",
             "UID" => "",
@@ -118,16 +117,20 @@ if ($stmtto) {
 
         // Fetch the name value
         if ($row = sqlsrv_fetch_array($results, SQLSRV_FETCH_ASSOC)) {
-            $internid = $row['INTERN_ID'];
+            $InternId = $row['INTERN_ID'];
             $name = $row['NAME'];
         } else {
             $name = "Unknown"; // Default value if no result is found
-            $internid = "Unknown";
+            $InternId = "Unknown";
         }
 
     ?>
 
-      <li>Hello, <b> <?php echo $name; ?></b><br> <?php echo $internid; ?></li>
+  <div class="toggle_btn">
+      <i class="fa-solid fa-bars"></i>
+      </div>
+    <ul>
+      <li>Hello, <b><?php echo $name; ?></b><br> <?php echo $InternId; ?></li>
     </ul>
     <img src="img/zoomDP.jpg" class="user_pic" onclick="toggleMenu()">
     <div class="sub-menu-wrap" id="subMenu">
@@ -157,6 +160,12 @@ if ($stmtto) {
           <p>Logout</p>
         </a>
       </div>
+    </div>
+    <div class="dropdown_menu">
+    <li><a href="#">View Profile</a></li>
+    <li><a href="#">Setting & Privacy</a></li>
+    <li><a href="#">Help & Support</a></li>
+    <li><a href="login_intern.php">Logout</a></li>
     </div>
   </nav>
   <center>
@@ -352,7 +361,7 @@ if ($stmtto) {
 
               <?php ///php inside html
 
-$serverName = "LAPTOP-GBO9I3B3\\SQL";
+$serverName = "TEPANYANG\SQLEXPRESS";
 $connectionOptions = [
     "Database" => "DLSUD",
     "Uid" => "",
