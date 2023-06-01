@@ -1,23 +1,9 @@
-
 <?php
-session_start(); // Call session_start() before any output is sent
-
-// Connect to database
-$serverName = "TEPANYANG\SQLEXPRESS";
-$connectionOptions = [
-  "Database" => "DLSUD",
-  "UID" => "",
-  "PWD" => ""
-];
-$conn = sqlsrv_connect($serverName, $connectionOptions);
-
-// Check the connection
-if (!$conn) {
-  die("Connection failed: " . sqlsrv_errors());
-}
+session_start();
+include "db.php";
 
 // Tiff fixed the undefined array error
-$InternId = isset($_POST['InternId']) ? $_POST['InternId'] : '';
+$intern_id = isset($_POST['Intern_id']) ? $_POST['Intern_id'] : '';
 $projects = isset($_POST['projects']) ? $_POST['projects'] : '';
 $actionitem = isset($_POST['actionitem']) ? $_POST['actionitem'] : '';
 $specialevents = isset($_POST['specialevent']) ? $_POST['specialevent'] : '';
@@ -27,42 +13,43 @@ $timeout_InternId = isset($_POST['timeout_InternId']) ? $_POST['timeout_InternId
 if (isset($_POST['ontime'])) {
   // Insert date and time values into database
   // Tiff added the time in functionality
-  $sql = "INSERT INTO FEDCENTER_INTERN_LOGS (INTERN_ID, DATE, TIME_IN, PROJECT, ACTION_ITEM, SPECIAL_EVENTS) VALUES ('$InternId', GETDATE(), (SELECT CONVERT(VARCHAR(8), GETDATE(), 108)), '$projects','$actionitem', '$specialevents' )";
-  $stmt = sqlsrv_query($conn, $sql);
+  $sql = "INSERT INTO fedcenter_intern_logs (Intern_Id, Date, Time_in, Project, Action_item, Special_events) VALUES ('$InternId', GETDATE(), (SELECT CONVERT(VARCHAR(8), GETDATE(), 108)), '$projects','$actionitem', '$specialevents' )";
+  $stmt = mysqli_query($conn, $sql);
 
   if ($stmt) {
     echo '<script>alert("Time-in Successful!")</script>';
   } else {
     echo '<script>alert("Server Error!")</script>';
   }
-  sqlsrv_close($conn);
+  mysqli_close($conn);
 } elseif (isset($_POST['time_out'])) {
   //Check if time-in has been done before storing time-out
-  $sqlcheck = "SELECT TOP 1 * FROM FEDCENTER_INTERN_LOGS WHERE TIME_OUT IS NULL ";
-  $stmtcheck = sqlsrv_query($conn, $sqlcheck);
-  $row = sqlsrv_fetch_array($stmtcheck, SQLSRV_FETCH_ASSOC);
+  $sqlcheck = "SELECT TOP 1 * FROM fedcenter_intern_logs WHERE TIME_OUT IS NULL ";
+  $stmtcheck = mysqli_query($conn, $sqlcheck);
+  $row = mysqli_fetch_array($result, MYSQLI_ASSOC);
 
   if ($row) {
     // Update date and time values into database
-    $sqlto = "UPDATE FEDCENTER_INTERN_LOGS SET TIME_OUT = (SELECT CONVERT(VARCHAR(8), GETDATE(), 108)) WHERE INTERN_ID = ?";
-$stmtto = sqlsrv_prepare($conn, $sqlto, array(&$row['INTERN_ID']));
-if ($stmtto) {
-  if (sqlsrv_execute($stmtto)) {
-    // Calculate the number of hours and minutes
-    $sqlcalculate = "UPDATE FEDCENTER_INTERN_LOGS SET NO_HOURS = DATEDIFF(HOUR, TIME_IN, TIME_OUT), NO_MINUTES = DATEDIFF(MINUTE, TIME_IN, TIME_OUT) % 60 WHERE INTERN_ID = ?";
-    $stmtcalculate = sqlsrv_prepare($conn, $sqlcalculate, array(&$row['INTERN_ID']));
-    if ($stmtcalculate) {
-      if (sqlsrv_execute($stmtcalculate)) {
-        echo '<script>alert("Time-out Successful!")</script>';
-      } else {
-        echo "Error: ";
+    $sqlto = "UPDATE fedcenter_intern_logs SET TIME_OUT = (SELECT CONVERT(VARCHAR(8), GETDATE(), 108)) WHERE INTERN_ID = ?";
+    $stmtto = mysqli_prepare($conn, $sqlto);
+    mysqli_stmt_bind_param($stmtto, 's', $row['INTERN_ID']);
+
+    if ($stmtto) {
+      if (mysqli_stmt_execute($stmtto)) {
+        // Calculate the number of hours and minutes
+        $sqlcalculate = "UPDATE fedcenter_intern_logs SET NO_HOURS = TIMESTAMPDIFF(HOUR, TIME_IN, TIME_OUT), NO_MINUTES = TIMESTAMPDIFF(MINUTE, TIME_IN, TIME_OUT) % 60 WHERE INTERN_ID = ?";
+        $stmtcalculate = mysqli_prepare($conn, $sqlcalculate);
+        mysqli_stmt_bind_param($stmtcalculate, 's', $row['INTERN_ID']);
+        if (mysqli_stmt_execute($stmtcalculate)) {
+          echo '<script>alert("Time-out Successful!")</script>';
+        } else {
+          echo "Error: ";
+        }
       }
     }
   }
-}
-}
 
-  sqlsrv_close($conn);
+  mysqli_close($conn);
 }
 
 ?>
@@ -78,9 +65,7 @@ if ($stmtto) {
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link rel="stylesheet" type="text/css" href="css/style.css">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.3.0/css/all.min.css"
-    integrity="sha512-SzlrxWUlpfuzQ+pcUCosxcglQRNAq/DZjVsC0lE40xsADsfeQoEypE+enwcOiGjk/bSuGGKHEyjSoQ1zVisanQ=="
-    crossorigin="anonymous" referrerpolicy="no-referrer" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.3.0/css/all.min.css" integrity="sha512-SzlrxWUlpfuzQ+pcUCosxcglQRNAq/DZjVsC0lE40xsADsfeQoEypE+enwcOiGjk/bSuGGKHEyjSoQ1zVisanQ==" crossorigin="anonymous" referrerpolicy="no-referrer" />
 </head>
 <title>FIS</title>
 </head>
@@ -89,46 +74,46 @@ if ($stmtto) {
 
   <!--DrowDown Menu Intern-->
   <nav>
-  <?php
-          //// THIS CODE IS FOR THE NAME IDENTITY
-            // Connect to the database
-        $serverName = "TEPANYANG\SQLEXPRESS";
-        $connectionOptions = array(
-            "Database" => "DLSUD",
-            "UID" => "",
-            "PWD" => ""
-        );
-        $conn = sqlsrv_connect($serverName, $connectionOptions);
+    <?php
+    // Connect to the database
+    $serverName = "";
+    $connectionOptions = array(
+      "Database" => "dlsud",
+      "UID" => "",
+      "PWD" => ""
+    );
+    $conn = mysqli_connect($serverName, $username, $password, $db);
 
-        // Check the connection
-        if (!$conn) {
-            die("Connection failed: " . print_r(sqlsrv_errors(), true));
-        }
+    // Check the connection
+    if (!$conn) {
+      die("Connection failed: " . mysqli_connect_error());
+    }
 
-        // Assuming you have a database connection established
-        $user_pass_log = isset($_SESSION["user_pass_log"]) ? $_SESSION["user_pass_log"] : '';
-        $query = "SELECT NAME, INTERN_ID FROM FEDCENTER_INTERN_DATA WHERE INTERN_ID = '$user_pass_log'"; // Modify the query as per your database structure and requirements
+    // Assuming you have a database connection established
+    $user_pass_log = isset($_SESSION["user_pass_log"]) ? $_SESSION["user_pass_log"] : '';
 
-        // Execute the query and fetch the result
-        $results = sqlsrv_query($conn, $query);
-        if ($results === false) {
-            die("Query failed: " . print_r(sqlsrv_errors(), true));
-        }
+    // Prepare and execute the query
+    $query = "SELECT NAME, INTERN_ID FROM fedcenter_intern_data WHERE INTERN_ID = ?";
+    $stmt = mysqli_prepare($conn, $query);
+    mysqli_stmt_bind_param($stmt, 's', $user_pass_log);
+    mysqli_stmt_execute($stmt);
 
-        // Fetch the name value
-        if ($row = sqlsrv_fetch_array($results, SQLSRV_FETCH_ASSOC)) {
-            $InternId = $row['INTERN_ID'];
-            $name = $row['NAME'];
-        } else {
-            $name = "Unknown"; // Default value if no result is found
-            $InternId = "Unknown";
-        }
+    // Fetch the result
+    $result = mysqli_stmt_get_result($stmt);
 
+    // Check if a row is found
+    if ($row = mysqli_fetch_array($result, MYSQLI_ASSOC)) {
+      $InternId = $row['INTERN_ID'];
+      $name = $row['NAME'];
+    } else {
+      $name = "Unknown"; // Default value if no result is found
+      $InternId = "Unknown";
+    }
     ?>
 
-  <div class="toggle_btn">
+    <div class="toggle_btn">
       <i class="fa-solid fa-bars"></i>
-      </div>
+    </div>
     <ul>
       <li>Hello, <b><?php echo $name; ?></b><br> <?php echo $InternId; ?></li>
     </ul>
@@ -162,10 +147,10 @@ if ($stmtto) {
       </div>
     </div>
     <div class="dropdown_menu">
-    <li><a href="#">View Profile</a></li>
-    <li><a href="#">Setting & Privacy</a></li>
-    <li><a href="#">Help & Support</a></li>
-    <li><a href="login_intern.php">Logout</a></li>
+      <li><a href="#">View Profile</a></li>
+      <li><a href="#">Setting & Privacy</a></li>
+      <li><a href="#">Help & Support</a></li>
+      <li><a href="login_intern.php">Logout</a></li>
     </div>
   </nav>
   <center>
@@ -224,8 +209,7 @@ if ($stmtto) {
           </div>
           <br><br><br>
           <div class="special-event">
-            <input type="text" id="specialevent" name="specialevent" class="form-special" autocomplete="off"
-              placeholder=" ">
+            <input type="text" id="specialevent" name="specialevent" class="form-special" autocomplete="off" placeholder=" ">
             <label for="specialevent" class="form--special">Special Event </label>
           </div>
           <br><br><br>
@@ -240,12 +224,12 @@ if ($stmtto) {
   </div>
   <form id="registration" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="POST">
 
-  
-  <button type="submit"  class="timeout" name="time_out">Time out</button>
-  
+
+    <button type="submit" class="timeout" name="time_out">Time out</button>
+
   </form>
 
-    </div>
+  </div>
   </div>
 
 
@@ -277,7 +261,7 @@ if ($stmtto) {
       subMenu.classList.toggle("open-menu");
     }
 
-    window.addEventListener('click', function (e) {
+    window.addEventListener('click', function(e) {
       if (!subMenu.contains(e.target) && !userPic.contains(e.target)) {
         subMenu.classList.remove("open-menu");
       }
@@ -303,7 +287,7 @@ if ($stmtto) {
         hou = hou - 12;
         pe = "PM";
       }
-      Number.prototype.pad = function (digits) {
+      Number.prototype.pad = function(digits) {
         for (var n = this.toString(); n.length < digits; n = 0 + n);
       }
       var months = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"]
@@ -316,7 +300,7 @@ if ($stmtto) {
       var xmlhttp = new XMLHttpRequest();
       xmlhttp.open("POST", "homepage.php", true);
       xmlhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
-      xmlhttp.onreadystatechange = function () {
+      xmlhttp.onreadystatechange = function() {
         if (this.readyState == 4 && this.status == 200) {
           console.log(this.responseText); // You can handle the response from PHP here
         }
@@ -324,7 +308,7 @@ if ($stmtto) {
       var xmlhttp = new XMLHttpRequest();
       xmlhttp.open("POST", "homepage.php", true);
       xmlhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
-      xmlhttp.onreadystatechange = function () {
+      xmlhttp.onreadystatechange = function() {
         if (this.readyState == 4 && this.status == 200) {
           console.log(this.responseText); // You can handle the response from PHP here
         }
@@ -346,7 +330,7 @@ if ($stmtto) {
 
       <thead>
         <tr>
-        
+
           <th>INTERN ID</th>
           <th>DATE</th>
           <th>IN</th>
@@ -359,79 +343,82 @@ if ($stmtto) {
         </tr>
       </thead>
 
-              <?php ///php inside html
+      <?php ///php inside html
 
-$serverName = "TEPANYANG\SQLEXPRESS";
-$connectionOptions = [
-    "Database" => "DLSUD",
-    "Uid" => "",
-    "PWD" => ""
-];
+      $serverName = "";
+      $connectionOptions = [
+        "Database" => "dlsud",
+        "Uid" => "",
+        "PWD" => ""
+      ];
 
-$conn = sqlsrv_connect($serverName, $connectionOptions);
-if ($conn === false) {
-    die(print_r(sqlsrv_errors(), true));
-}
+      $conn = mysqli_connect($serverName, $username, $password, $db);
 
-// Getting Total List
+      if (!$conn) {
+        die("Connection failed: " . mysqli_connect_error());
+      }
 
-$user_pass_log = isset($_SESSION["user_pass_log"]) ? $_SESSION["user_pass_log"] : '';
-$sql = "SELECT * FROM FEDCENTER_INTERN_LOGS WHERE INTERN_ID = '$user_pass_log'";
 
-    $result = sqlsrv_query($conn, $sql);
-   
-    if ($result === false) {
-        die(print_r(sqlsrv_errors(), true));
-        
-    }
-    ?>
+      // Getting Total List
 
-   <table>
-                <tr>
-                    <th>INTERN ID</th>
-                    <th>DATE</th>
-                    <th>TIME IN</th>
-                    <th>TIME OUT</th>
-                    <th>NO OF HOURS</th>
-                    <th>NO MINUTES</th>
-                    <th>PROJECT</th>
-                    <th>ACTION ITEM</th>
-                    <th>SPECIAL EVENTS</th>
-                </tr>';
-                <?php
-        while ($rows = sqlsrv_fetch_array($result)) {
-            $fieldname2 = $rows['INTERN_ID'];
-            $fieldname3 = $rows['DATE']->format('d/m/Y');
-            $fieldname4 = $rows['TIME_IN'];
-            $fieldname5 = $rows['TIME_OUT'];
-            $fieldname6 = $rows['NO_HOURS'];
-            $fieldname7 = $rows['NO_MINUTES'];
-            $fieldname8 = $rows['PROJECT'];
-            $fieldname9 = $rows['ACTION_ITEM'];
-            $fieldname10 = $rows['SPECIAL_EVENTS'];
+      $user_pass_log = isset($_SESSION["user_pass_log"]) ? $_SESSION["user_pass_log"] : '';
+      $sql = "SELECT * FROM fedcenter_intern_logs WHERE INTERN_ID = '$user_pass_log'";
 
-            echo '<tr>
-                    <td>'.$fieldname2.'</td>
-                    <td>'.$fieldname3.'</td>
-                    <td>'.$fieldname4.'</td>
-                    <td>'.$fieldname5.'</td>
-                    <td>'.$fieldname6.'</td>
-                    <td>'.$fieldname7.'</td>
-                    <td>'.$fieldname8.'</td>
-                    <td>'.$fieldname9.'</td>
-                    <td>'.$fieldname10.'</td>
-                </tr>';
+      $result = mysqli_query($conn, $sql);
+
+      if ($result === false) {
+        die("Query failed: " . mysqli_error($conn));
+      }
+
+      ?>
+
+      <table>
+        <tr>
+          <th>INTERN ID</th>
+          <th>DATE</th>
+          <th>TIME IN</th>
+          <th>TIME OUT</th>
+          <th>NO OF HOURS</th>
+          <th>NO MINUTES</th>
+          <th>PROJECT</th>
+          <th>ACTION ITEM</th>
+          <th>SPECIAL EVENTS</th>
+        </tr>';
+        <?php
+        while ($row = mysqli_fetch_array($result, MYSQLI_ASSOC)) {
+          $fieldname2 = $row['INTERN_ID'];
+          $fieldname3 = date('d/m/Y', strtotime($row['DATE']));
+          $fieldname4 = $row['TIME_IN'];
+          $fieldname5 = $row['TIME_OUT'];
+          $fieldname6 = $row['NO_HOURS'];
+          $fieldname7 = $row['NO_MINUTES'];
+          $fieldname8 = $row['PROJECT'];
+          $fieldname9 = $row['ACTION_ITEM'];
+          $fieldname10 = $row['SPECIAL_EVENTS'];
+
+          echo '<tr>
+                <td>' . $fieldname2 . '</td>
+                <td>' . $fieldname3 . '</td>
+                <td>' . $fieldname4 . '</td>
+                <td>' . $fieldname5 . '</td>
+                <td>' . $fieldname6 . '</td>
+                <td>' . $fieldname7 . '</td>
+                <td>' . $fieldname8 . '</td>
+                <td>' . $fieldname9 . '</td>
+                <td>' . $fieldname10 . '</td>
+            </tr>';
         }
 
-       
-
-?>
 
 
 
-     
+        ?>
 
-    </table>
+
+
+
+
+      </table>
 
   </main>
   <br><br>
