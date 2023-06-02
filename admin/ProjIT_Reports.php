@@ -1,13 +1,17 @@
 <?php
-include "header.php"
+include "header.php";
 ?>
 <!----------------------------- END OF ASIDE --------------------------->
 <main>
-    <h1>Interns</h1>
+    <h1>Reports/ Project IT</h1>
+
+    <div class="date">
+        <input type="date">
+    </div>
 
     <div class="subheader">
         <div class="dropdown">
-            <button class="dropbtn" onclick="myFunction()"> All Projects
+            <button class="dropbtn" onclick="myFunction()"> Projects
                 <i class="fa fa-caret-down"></i>
             </button>
             <div class="dropdown-content" id="myDropdown">
@@ -29,16 +33,20 @@ include "header.php"
         </div>
 
         <div class="Add">
-            <div class="Add Intern">
-                <a href="Add_account_form.php">
-                    <button class="addbtn"> + Add Intern</button>
+            <div class="Add Action Items">
+                <a href="Add Action Items.html">
+                    <button class="addbtn"> + Add Action Items</button>
                 </a>
             </div>
         </div>
 
+        <div class="Back">
+            <a href="Reports.html">
+                <button class="backbtn"> Back </button>
+            </a>
+        </div>
+
     </div>
-
-
 
     <script>
         function myFunction() {
@@ -60,52 +68,51 @@ include "header.php"
 
     <!--Table-->
     <div class="intern-list">
-        <h2>List of Interns</h2>
+        <h2>List of Action Items/Tasks</h2>
         <table>
             <thead>
                 <tr>
-                    <th>Intern No.</th>
-                    <th>Name</th>
-                    <th>Project</th>
+                    <th>Concern/Topic</th>
+                    <th>Action Item/Task</th>
                     <th>Status</th>
                     <th></th>
                 </tr>
             </thead>
             <tbody>
                 <tr>
-                    <td>ARE (2023-33)</td>
-                    <td>ARNOLD ESTEBAN</td>
-                    <td>Project IT</td>
-                    <td><b class="danger">Inactive</b></td>
-                    <td class="primary">View</td>
+
+                    <td>Monday Morning Meeting</td>
+                    <td>Present Progress</td>
+                    <td><b class="warning">Pending</b></td>
+
                 </tr>
                 <tr>
-                    <td>HAT (2023-42)</td>
-                    <td>HAZEL TIFFANY TAYLO</td>
-                    <td>Project IT</td>
-                    <td><b class="warning">Active</b></td>
-                    <td class="primary">View</td>
+
+                    <td>Internal Meeting</td>
+                    <td>Internal Meeting with Ms. Kris</td>
+                    <td><b class="danger">Open</b></td>
+
                 </tr>
                 <tr>
-                    <td>ZAM (2023-19)</td>
-                    <td>ZAIDEE MENDOZA</td>
-                    <td>Project IT</td>
-                    <td><b class="warning">Active</b></td>
-                    <td class="primary">View</td>
+
+                    <td>Team Meeting</td>
+                    <td>Coding Collaboration</td>
+                    <td><b class="success">Closed</b></td>
+
                 </tr>
                 <tr>
-                    <td>SAP (2023-41)</td>
-                    <td>SAMUEL PASTOLERO</td>
-                    <td>Project IT</td>
-                    <td><b class="warning">Active</b></td>
-                    <td class="primary">View</td>
+
+                    <td>Internal Meeting</td>
+                    <td>Internal Meeting with Sir Marc</td>
+                    <td><b class="warning">Pending</b></td>
+
                 </tr>
                 <tr>
-                    <td>ALD (2023-40)</td>
-                    <td>ALEXANDRA JULIAN DE GUZMAN</td>
-                    <td>Project IT</td>
-                    <td><b class="warning">Active</b></td>
-                    <td class="primary">View</td>
+
+                    <td>Team Meeting</td>
+                    <td>Coding Collaboration</td>
+                    <td><b class="success">Closed</b></td>
+
                 </tr>
             </tbody>
         </table>
@@ -118,6 +125,7 @@ include "header.php"
     </div>
 </div>
 </div>
+
 </body>
 
 </html>
