@@ -73,7 +73,7 @@ include "header.php";
             <tbody>
                 <tr>
 
-                    <td>ARNOLD ESTEBAN</td>
+                    <!-- <td>ARNOLD ESTEBAN</td>
                     <td>ARE (2023-33)</td>
                     <td>arnold.esteban2333@gmail.com</td>
 
@@ -107,7 +107,7 @@ include "header.php";
 
                     <td>SAMUEL PASTOLERO</td>
                     <td>SAP (2023-41)</td>
-                    <td>samuel.pastolero2341@gmail.com</td>
+                    <td>samuel.pastolero2341@gmail.com</td> -->
 
 
                 </tr>

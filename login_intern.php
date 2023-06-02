@@ -1,45 +1,33 @@
 <?php
 session_start(); // Call session_start() before any output is sent
-
-// Connect to the database
-$serverName = "TEPANYANG\SQLEXPRESS";
-$connectionOptions = [
-    "Database" => "DLSUD",
-    "Uid" => "",
-    "PWD" => ""
-];
-
-$conn = sqlsrv_connect($serverName, $connectionOptions);
-
-// Check the connection
-if (!$conn) {
-    die("Connection failed: " . sqlsrv_errors());
-}
+include "db.php";
 
 $loginerr = ''; // Initialize login error message
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    $form_id_log = isset($_POST["username"]) ? $_POST["username"] : '';
-    $user_pass_log = isset($_POST["userpassword"]) ? $_POST["userpassword"] : '';
+  $form_id_log = isset($_POST["email"]) ? $_POST["email"] : '';
+  $user_pass_log = isset($_POST["password"]) ? $_POST["password"] : '';
 
+  // Select the email and USER_PASSWORD from the FEDCENTER_INTERN_DATA table
+  $sql = "SELECT email, password FROM interns WHERE email=? AND password=?";
+  $params = array($form_id_log, $user_pass_log);
+  $result = mysqli_query($conn, $sql);
 
-    // Select the FORM_ID and USER_PASSWORD from the users table
-    $sql = "SELECT USERNAME, USER_PASSWORD FROM FEDCENTER_INTERN_DATA WHERE USERNAME=? AND USER_PASSWORD=?";
-    $params = array($form_id_log, $user_pass_log);
-    $result = sqlsrv_query($conn, $sql, $params);
-  
+  // Check if the query execution was successful
+  if ($result) {
+      // Fetch the data from the database
+      if (mysqli_num_rows($result) > 0) {
+          $_SESSION["user_pass_log"] = $user_pass_log; // Store the user password in the session
 
-    // Fetch the data from the database
- 
-    if (sqlsrv_has_rows($result) ) {
-      $_SESSION["user_pass_log"] = $user_pass_log; // Store the user password in the session
-
-        echo "<script>alert('WELCOME INTERN!');</script>";
-        header("Location: homepage.php");
-        exit();
-    } else {
-        $loginerr ="Invalid Username/Password.";
-    }
+          echo "<script>alert('WELCOME INTERN!');</script>";
+          header("Location: homepage.php");
+          exit();
+      } else {
+          $loginerr = "Invalid email/Password.";
+      }
+  } else {
+      die("Error: " . mysqli_error($conn));
+  }
 }
 ?>
 
