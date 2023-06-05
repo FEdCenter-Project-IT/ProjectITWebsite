@@ -497,7 +497,6 @@ b {
   z-index: -1;
   transition: transform 0.3s ease;
   }
-  
   .timein:hover {
   transform: translate(-12px, -12px);
   }
@@ -507,8 +506,6 @@ b {
   .timein:hover::before {
   transform: translate(12px, 12px);
   }
-  
-  
   .timeout {
   position: absolute;
   font-family: poppins, sans-serif;
@@ -538,7 +535,6 @@ b {
   z-index: -1;
   transition: transform 0.3s ease;
   }
-  
   .timeout:hover {
     transform: translate(12px, -12px);
   }
@@ -548,7 +544,6 @@ b {
   .timeout:hover::before {
     transform: translate(-12px, 12px);
   }
-
 /*The Modal*/
 .modal-container {
   z-index: 999;
@@ -566,7 +561,6 @@ b {
   transition: opacity 0.5s ease;
   overflow: auto; 
 }
-
 #close {
 position: absolute;
 top: 2%;
@@ -581,8 +575,6 @@ font-size: 1.5rem;
 color: black;
 background-color: transparent;
 }
-
-
 #ontime {
 transform: translate(70.5% , 0.5vh);
 font-family: poppins, sans-serif;
@@ -629,7 +621,6 @@ transition: .4s ease-in;
   font-weight: 900;
   font-family: inherit;
 }
-
 /* Table 2*/
 table {
   position: absolute;
@@ -663,6 +654,12 @@ td {
   text-align: center;
   padding: 20px;
 }
+.special-events-cell {
+  max-width: 4rem; /* I-adjust ang maximum na lapad ng cell depende sa iyong preference */
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
 table tbody tr:last-child td {
   border: none;
 }
@@ -675,18 +672,13 @@ table tbody td{
 .text-muted {
   color: var(--color-info-dark);
 }
-
 .Event {
   transform: translate(-1vh);
-
 }
-
 /*InterID*/
-
 .intern-id {
   position: relative;
   width: 15rem;
-
 }
 .intern-id .form__input {
   position: absolute;
@@ -737,7 +729,6 @@ table tbody td{
 
 }
 /*Select Projects*/
-
 select {
   position: absolute;
   left: 0;
@@ -751,12 +742,9 @@ select {
   font-weight: 600;
   font-family: inherit;
 }
-
 select:hover {
   border: 1px solid black;
 }
-
-
 /*Action Item*/
 .action-item {
   position: relative;
@@ -860,11 +848,9 @@ border-top: 0;
 border-bottom: 0;
 border-left: 2px solid black;
 border-right: 2px solid black;
-
 }
 
 /*Responsive*/
-
 @media only screen and (max-width: 1200px) {
   .timein {
  position: relative;
@@ -886,8 +872,7 @@ border-right: 2px solid black;
    position: relative;
    transform: translate(-50%);
  }
-
-table {
+table { 
  width: 80%;
  position: relative;
  left: 0;
@@ -918,7 +903,6 @@ nav ul li {
 .sub-menu-wrap.open-menu {    
  max-height: 280px;
 }
-
 .sub-menu {
  padding: 10px;
  margin: 9px;
@@ -952,8 +936,7 @@ nav ul li {
 #close {
  top: 3%;
  left: 23rem;
- transform: translate(-50%, -50%);
- 
+ transform: translate(-50%, -50%); 
 }
 .modal-container {
  align-items: flex-start; /* Adjust alignment for smaller viewports */
@@ -967,11 +950,7 @@ nav ul li {
  transform: translate(0, 50%);
 
 }
-
-
-
 }
-
 /*Tablet or ipad*/
 @media only screen and (max-width: 900px) {
   .timein {
@@ -980,7 +959,6 @@ nav ul li {
  left: 30%;
  top: 1rem;
  }
-
  .timeout {
    font-size: 15px;;
  width: 100px;
@@ -1010,7 +988,6 @@ td {
 .date {
  font-size: 15px;
 }
-
 .time {
  font-size: 35px;
 }
@@ -1041,7 +1018,6 @@ nav ul li {
 .sub-menu-wrap.open-menu {    
  max-height: 280px;
 }
-
 .sub-menu {
  padding: 10px;
  margin: 9px;
@@ -1083,31 +1059,24 @@ nav ul li {
 #close {
    top: 3%;
    left: 23rem;
-   transform: translate(-50%, -50%);
-   
+   transform: translate(-50%, -50%); 
  }
 option {
  font-size: 12px;
 }
-
 }
 /*Set up the mobile view start from this point*/
  @media (max-width: 768px) {
-   
    .timein, .timeout {
      position: relative;
      left: calc(50% - 50px); /* Adjust the value as needed */
    }
-   
    .timein {
      top: 5rem;
    }
-   
    .timeout {
      top: 6rem;
    }
- 
-
    .datetime {
      width: 260px;
      height: 85px;
@@ -1133,12 +1102,10 @@ option {
   th, td {
    padding-top: 10px;
  }
-
  .modal-container {
    align-items: flex-start; /* Adjust alignment for smaller viewports */
    justify-content: flex-start;
  }
-
  .modal {
    position: absolute;
    left: 0;
@@ -1222,8 +1189,6 @@ option {
   .dropdown_menu li a {
    color: white;
   }
-  
- 
  table {
    position: relative;
    top: 7rem;
@@ -1236,10 +1201,6 @@ option {
    top: 4rem;
   }
   }
-  
-
-
-
 @media only screen and (max-width: 400px) {
  .modal-container { 
    width: 100%;
@@ -1268,10 +1229,7 @@ table {
  position: relative;
  top: 7rem;
 }
-
 }
-
-
 /*Cellphone*/
 @media only screen and (max-width: 320px) {
   .timein, .timeout {
@@ -1312,4 +1270,10 @@ table {
   width: 250px;
   height: 82px;
 }
+.dropdown_menu {
+  font-size: 1rem;
 }
+}
+ 
+
+

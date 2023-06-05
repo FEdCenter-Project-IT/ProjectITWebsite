@@ -306,6 +306,10 @@ main .insights h3 {
     margin: 1rem 0 0.6rem;
     font-size: 1rem;
 }
+main .insights h1 {
+    font-size: 1rem;
+  
+}
 
 main .insights .progress {
     position: relative;
@@ -777,7 +781,7 @@ input[type=submit]
     margin-top: 1.8rem;
     background-color: #f1f1f1;
     width: 15rem;
-    color: var(--color-dark);
+    color: #202528;
     padding: 12px;
     font-size: 15px;
     border: none;

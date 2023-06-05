@@ -118,6 +118,9 @@ include "header.php"
     </div>
 </div>
 </div>
+
+<script src="./listOfInterns.js"></script>
+    <script src="./index.js"></script>
 </body>
 
 </html>

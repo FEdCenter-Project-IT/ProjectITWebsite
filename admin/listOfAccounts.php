@@ -120,3 +120,5 @@ include "header.php";
     </div>
 
 </main>
+<script src="./listOfInterns.js"></script>
+    <script src="./index.js"></script>

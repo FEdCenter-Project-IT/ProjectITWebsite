@@ -39,7 +39,7 @@ include "header.php";
                     <?php if ($totalcount > 0) { ?>
                         <h1><?php echo $totalcount; ?></h1>
                     <?php } else { ?>
-                        <h1>No interns found</h1>
+                        <h1>No Interns</h1>
                     <?php } ?>
                 </div>
                 <div class="progress">
@@ -53,7 +53,7 @@ include "header.php";
             </div>
             <small class="text-muted">Last update</small>
         </div>
-    </div>
+
 
     <!----------------------------- END OF TOTAL INTERNS <ARNOLD>--------------------------->
     <div class="active">

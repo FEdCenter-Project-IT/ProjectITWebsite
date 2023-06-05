@@ -157,7 +157,7 @@ if (isset($_POST['ontime'])) {
     <img src="img/FC Management Consulting.png" class="logo">
   </center>
   <!-- Digital Clock Start -->
-  <center>
+
     <div class="datetime">
       <div class="date">
         <span id="dayname"> Day </span>
@@ -174,7 +174,7 @@ if (isset($_POST['ontime'])) {
         </span>
       </div>
     </div>
-  </center>
+  
 
   <button type="submit" id="open" class="timein" name="time_in">Time in</button>
   <div class="modal-container" id="modal_container">
@@ -231,98 +231,6 @@ if (isset($_POST['ontime'])) {
 
   </div>
   </div>
-
-
-  <script src="script.js"></script>
-  <script>
-    // pop-up messages
-
-    const open = document.getElementById('open');
-    const modal_container = document.getElementById('modal_container');
-    const close = document.getElementById('close')
-
-    open.addEventListener('click', () => {
-      modal_container.classList.add('show');
-    });
-
-    close.addEventListener('click', () => {
-      modal_container.classList.remove('show');
-    });
-  </script>
-
-  <!--Profile Intern-->
-  <script>
-    //click outside and close
-
-    let subMenu = document.getElementById("subMenu");
-    let userPic = document.querySelector(".user_pic");
-
-    function toggleMenu() {
-      subMenu.classList.toggle("open-menu");
-    }
-
-    window.addEventListener('click', function(e) {
-      if (!subMenu.contains(e.target) && !userPic.contains(e.target)) {
-        subMenu.classList.remove("open-menu");
-      }
-    });
-  </script>
-
-  <!--Intern CLock-->
-  <script type="text/javascript">
-    function updateClock() {
-      var now = new Date();
-      var dname = now.getDay(),
-        mo = now.getMonth(),
-        dnum = now.getDate(),
-        yr = now.getFullYear();
-      var hou = now.getHours(),
-        min = now.getMinutes(),
-        sec = now.getSeconds();
-      var pe = "AM";
-      if (hou == 0) {
-        hou = 12;
-      }
-      if (hou > 12) {
-        hou = hou - 12;
-        pe = "PM";
-      }
-      Number.prototype.pad = function(digits) {
-        for (var n = this.toString(); n.length < digits; n = 0 + n);
-      }
-      var months = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"]
-      var week = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"]
-      var ids = ["dayname", "month", "daynum", "year", "hour", "minutes", "seconds", "period"]
-      var values = [week[dname], months[mo], dnum, yr, hou, min, sec, pe];
-      for (var i = 0; i < ids.length; i++)
-        document.getElementById(ids[i]).firstChild.nodeValue = values[i];
-      // Send date and time values to PHP script
-      var xmlhttp = new XMLHttpRequest();
-      xmlhttp.open("POST", "homepage.php", true);
-      xmlhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
-      xmlhttp.onreadystatechange = function() {
-        if (this.readyState == 4 && this.status == 200) {
-          console.log(this.responseText); // You can handle the response from PHP here
-        }
-      }
-      var xmlhttp = new XMLHttpRequest();
-      xmlhttp.open("POST", "homepage.php", true);
-      xmlhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
-      xmlhttp.onreadystatechange = function() {
-        if (this.readyState == 4 && this.status == 200) {
-          console.log(this.responseText); // You can handle the response from PHP here
-        }
-      }
-      var data = "dayname=" + week[dname] + "&month=" + months[mo] + "&daynum=" + dnum + "&year=" + yr + "&hour=" +
-        hou + "&minutes=" + min + "&seconds=" + sec + "&period=" + pe;
-      xmlhttp.send(data);
-    }
-
-    function initClock() {
-      updateClock();
-      window.setInterval("updateClock()", 1);
-    }
-  </script>
 
   <!--Table For Intern-->
   <main>
@@ -421,14 +329,111 @@ if (isset($_POST['ontime'])) {
       </table>
 
   </main>
-  <br><br>
 
+  <script>
+    // pop-up messages
 
+    const open = document.getElementById('open');
+    const modal_container = document.getElementById('modal_container');
+    const close = document.getElementById('close')
 
+    open.addEventListener('click', () => {
+      modal_container.classList.add('show');
+    });
 
+    close.addEventListener('click', () => {
+      modal_container.classList.remove('show');
+    });
+  </script>
 
+  <!--Profile Intern-->
+  <script>
+    let subMenu = document.getElementById("subMenu");
+    let userPic = document.querySelector(".user_pic");
+
+    function toggleMenu() {
+      subMenu.classList.toggle("open-menu");
+    }
+       //click outside and close
+    window.addEventListener('click', function (e) {
+      if (!subMenu.contains(e.target) && !userPic.contains(e.target)) {
+        subMenu.classList.remove("open-menu");
+      }
+    });
+  </script>
+  <!--For the hamburger menu-->
+  <script>
+
+    const toggleBtn = document.querySelector('.toggle_btn')
+    const toggleBtnIcon = document.querySelector('.toggle_btn i')
+    const dropDownMenu = document.querySelector('.dropdown_menu')
+
+    toggleBtn.onclick = function () {
+      dropDownMenu.classList.toggle('open')
+      const isOpen = dropDownMenu.classList.contains('open')
+
+      toggleBtnIcon.classList = isOpen
+      ? 'fa-solid fa-xmark'
+      : 'fa-solid fa-bars'
+    }
+
+  </script>
+  
+ 
+
+  <!--Intern CLock-->
+  <script type="text/javascript">
+  function updateClock() {
+    var now = new Date();
+    var dname = now.getDay(),
+      mo = now.getMonth(),
+      dnum = now.getDate(),
+      yr = now.getFullYear();
+    var hou = now.getHours(),
+      min = now.getMinutes(),
+      sec = now.getSeconds();
+    var pe = "AM";
+    if (hou == 0) {
+      hou = 12;
+    } else if (hou == 12) {
+      pe = "PM";
+    } else if (hou > 12) {
+      hou = hou - 12;
+      pe = "PM";
+    }
+    Number.prototype.pad = function (digits) {
+      for (var n = this.toString(); n.length < digits; n = 0 + n);
+    }
+    var months = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"]
+    var week = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"]
+    var ids = ["dayname", "month", "daynum", "year", "hour", "minutes", "seconds", "period"]
+    var values = [week[dname], months[mo], dnum, yr, hou, min, sec, pe];
+    for (var i = 0; i < ids.length; i++)
+      document.getElementById(ids[i]).firstChild.nodeValue = values[i];
+    // Send date and time values to PHP script
+    var xmlhttp = new XMLHttpRequest();
+    xmlhttp.open("POST", "homepage.php", true);
+    xmlhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+    xmlhttp.onreadystatechange = function () {
+      if (this.readyState == 4 && this.status == 200) {
+        console.log(this.responseText); // You can handle the response from PHP here
+      }
+    }
+    var data = "dayname=" + week[dname] + "&month=" + months[mo] + "&daynum=" + dnum + "&year=" + yr + "&hour=" +
+      hou + "&minutes=" + min + "&seconds=" + sec + "&period=" + pe;
+    xmlhttp.send(data);
+  }
+
+  function initClock() {
+    updateClock();
+    window.setInterval(updateClock, 1000); // Update every second
+  }
+  
+  initClock(); // Initialize the clock
+</script>
 
   <!-- CAMERA VISION -->
+
 
 </body>
 
