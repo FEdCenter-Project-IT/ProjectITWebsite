@@ -2,18 +2,16 @@
 session_start(); // Call session_start() before any output is sent
 
 // Connect to the database
-$serverName = "LAPTOP-GBO9I3B3\SQL";
-$connectionOptions = [
-    "Database" => "DLSUD",
-    "Uid" => "",
-    "PWD" => ""
-];
+$serverName = "localhost";
+$username = "root";
+$password = "";
+$db = "dlsud";
 
-$conn = sqlsrv_connect($serverName, $connectionOptions);
+$conn = mysqli_connect($serverName, $username, $password, $db);
 
 // Check the connection
 if (!$conn) {
-    die("Connection failed: " . sqlsrv_errors());
+    die("Connection failed: " . mysqli_connect_error());
 }
 
 $loginerr = ''; // Initialize login error message
@@ -21,21 +19,25 @@ $loginerr = ''; // Initialize login error message
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $form_id_log = isset($_POST["userEmail"]) ? $_POST["userEmail"] : '';
     $user_pass_log = isset($_POST["userPass"]) ? $_POST["userPass"] : '';
-    // Select the FORM_ID and USER_PASSWORD from the users table
-    $sql = "SELECT USER_NAME, USER_PASSWORD FROM ADMINLOGIN WHERE USER_NAME=? AND USER_PASSWORD=?";
-    $params = array($form_id_log, $user_pass_log);
-    $result = sqlsrv_query($conn, $sql, $params);
+    
+    // Select the User_Name and User_Password from the admin_login table, comparing case sensitively
+    $sql = "SELECT User_Name, User_Password FROM admin_login WHERE BINARY User_Name=? AND BINARY User_Password=?";
+    $stmt = mysqli_prepare($conn, $sql);
+    mysqli_stmt_bind_param($stmt, "ss", $form_id_log, $user_pass_log);
+    mysqli_stmt_execute($stmt);
+    $result = mysqli_stmt_get_result($stmt);
+
     // Fetch the data from the database
- 
-    if (sqlsrv_has_rows($result) ) {
+    if (mysqli_num_rows($result) > 0) {
         echo "<script>alert('WELCOME ADMIN!');</script>";
         header("Location: dashboard.php");
         exit();
     } else {
-        $loginerr ="Invalid Username/Password.";
+        $loginerr = "Invalid Username/Password.";
     }
 }
 ?>
+
 
 <!-- Samboy -->
 
