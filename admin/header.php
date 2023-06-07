@@ -23,6 +23,8 @@
     $reportsActive = '';
     $accountsActive = '';
     $loginActive = '';
+    $OTActive = '';
+
 
     if (strpos($currentFile, 'dashboard.php') !== false) {
       $dashboardActive = 'class="active"';
@@ -34,6 +36,8 @@
       $accountsActive = 'class="active"';
     } elseif (strpos($currentFile, 'login_admin.php') !== false) {
       $loginActive = 'class="active"';
+    } elseif (strpos($currentFile, 'OT.php') !== false) {
+      $OTActive = 'class="active"';
     }
     ?>
 
@@ -64,7 +68,7 @@
           <span class="material-icons-sharp">dashboard</span>
           <h3>List of Accounts</h3>
         </a>
-        <a href="#">
+        <a href="OT.php" <?php echo $OTActive; ?>>
           <span class="material-icons-sharp">assignment_ind</span>
           <h3>OT Request</h3>
           <span class="message-count">32</span>
