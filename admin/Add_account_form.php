@@ -45,7 +45,9 @@ include "header.php";
             <input type="date" name="Completion" id="Completion" required>
             <br>
 
-            <input type="submit" value="Add Intern">
+            <input type="submit" value="Register">
         </form>
     </div>
+    <script src="./listOfInterns.js"></script>
+    <script src="./index.js"></script>
 </main>

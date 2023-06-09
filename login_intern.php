@@ -1,35 +1,43 @@
 <?php
 session_start(); // Call session_start() before any output is sent
-include "db.php";
+
+// Connect to the database
+$serverName = "localhost";
+$username = "root";
+$password = "";
+$db = "dlsud";
+
+$conn = mysqli_connect($serverName, $username, $password, $db);
+
+// Check the connection
+if (!$conn) {
+    die("Connection failed: " . mysqli_connect_error());
+}
 
 $loginerr = ''; // Initialize login error message
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
-  $form_id_log = isset($_POST["email"]) ? $_POST["email"] : '';
-  $user_pass_log = isset($_POST["password"]) ? $_POST["password"] : '';
+    $form_id_log = isset($_POST["email"]) ? $_POST["email"] : '';
+    $user_pass_log = isset($_POST["password"]) ? $_POST["password"] : '';
+    
+    // Select the User_Name and User_Password from the admin_login table, comparing case sensitively
+    $sql = "SELECT email, password FROM interns WHERE BINARY email=? AND BINARY password=?";
+    $stmt = mysqli_prepare($conn, $sql);
+    mysqli_stmt_bind_param($stmt, "ss", $form_id_log, $user_pass_log);
+    mysqli_stmt_execute($stmt);
+    $result = mysqli_stmt_get_result($stmt);
 
-  // Select the email and USER_PASSWORD from the FEDCENTER_INTERN_DATA table
-  $sql = "SELECT email, password FROM interns WHERE email=? AND password=?";
-  $params = array($form_id_log, $user_pass_log);
-  $result = mysqli_query($conn, $sql);
-
-  // Check if the query execution was successful
-  if ($result) {
-      // Fetch the data from the database
-      if (mysqli_num_rows($result) > 0) {
-          $_SESSION["user_pass_log"] = $user_pass_log; // Store the user password in the session
-
-          echo "<script>alert('WELCOME INTERN!');</script>";
-          header("Location: homepage.php");
-          exit();
-      } else {
-          $loginerr = "Invalid email/Password.";
-      }
-  } else {
-      die("Error: " . mysqli_error($conn));
-  }
+    // Fetch the data from the database
+    if (mysqli_num_rows($result) > 0) {
+        echo "<script>alert('WELCOME ADMIN!');</script>";
+        header("Location: homepage.php");
+        exit();
+    } else {
+        $loginerr = "Invalid Username/Password.";
+    }
 }
 ?>
+
 
 <!-- Samboy -->
 
@@ -51,11 +59,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
       <img src="img/FedCenter_Wolf-removebg-preview.png" alt="">
       <h2>Intern Login</h2>
       <div class="input-group">
-        <input type="text" name="username" id="username" required>
+        <input type="text" name="email" id="email" required>
         <label for="username">User email</label>
       </div>
       <div class="input-group">
-        <input type="password" name="userpassword" id="userpassword" required>
+        <input type="password" name="password" id="password" required>
         <label for="userpassword">Password</label>
         <span class="eye" onclick="myFunction()">
         <i id="hide1" class="fa-solid fa-eye"></i>
