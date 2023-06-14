@@ -15,10 +15,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     // Connect to your MySQL database
     $servername = "localhost";
     $username = "root";
-    $password = "";
+    $dbPassword = "";
     $db = "dlsud";
 
-    $conn = new mysqli($servername, $username, $password, $db);
+    $conn = new mysqli($servername, $username, $dbPassword, $db);
 
     // Check the connection
     if ($conn->connect_error) {
@@ -62,3 +62,4 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 }
 
 ?>
+

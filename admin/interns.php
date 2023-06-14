@@ -1,5 +1,5 @@
 <?php
-include "header.php"
+include "header.php";
 ?>
 <!----------------------------- END OF ASIDE --------------------------->
 <main>
@@ -11,30 +11,33 @@ include "header.php"
                 <i class="fa fa-caret-down"></i>
             </button>
             <div class="dropdown-content" id="myDropdown">
-                <a href="#"> Project Accounting</a>
-                <a href="#">Project Alterna</a>
-                <a href="#">Project Astra</a>
-                <a href="#">Project Business Dev</a>
-                <a href="#">Project CEO</a>
-                <a href="#">Project Fin Ed</a>
-                <a href="#">Project GSG</a>
-                <a href="#">Project HR</a>
-                <a href="#">Project IMG</a>
-                <a href="#">Project IT</a>
-                <a href="#">Project IUS</a>
-                <a href="#">Project JCFAP</a>
-                <a href="#">Project Marketing</a>
-                <a href="#">Project Sales</a>
-            </div>
-        </div>
-
-        <div class="Add">
+            <div class="Add">
             <div class="Add Intern">
-                <a href="Add_account_form.php">
-                    <button class="addbtn"> + Add Intern</button>
+                <a href="Add_project_form.php">
+                    <button class="addbtn">Add Project</button>
                 </a>
             </div>
         </div>
+                <!-- <a>Project Accounting</a>
+                <a>Project Alterna</a>
+                <a>Project Astra</a>
+                <a>Project Business Dev</a>
+                <a>Project CEO</a>
+                <a>Project Fin Ed</a>
+                <a>Project GSG</a>
+                <a>Project HR</a>
+                <a>Project IMG</a>
+                <a>Project IT</a>
+                <a>Project IUS</a>
+                <a>Project JCFAP</a>
+                <a>Project Marketing</a>
+                <a>Project Sales</a> -->
+
+                
+            </div>
+        </div>
+
+        
 
     </div>
 
@@ -72,44 +75,46 @@ include "header.php"
                 </tr>
             </thead>
             <tbody>
-                <tr>
-                    <td>ARE (2023-33)</td>
-                    <td>ARNOLD ESTEBAN</td>
-                    <td>Project IT</td>
-                    <td><b class="danger">Inactive</b></td>
-                    <td class="primary">View</td>
-                </tr>
-                <tr>
-                    <td>HAT (2023-42)</td>
-                    <td>HAZEL TIFFANY TAYLO</td>
-                    <td>Project IT</td>
-                    <td><b class="warning">Active</b></td>
-                    <td class="primary">View</td>
-                </tr>
-                <tr>
-                    <td>ZAM (2023-19)</td>
-                    <td>ZAIDEE MENDOZA</td>
-                    <td>Project IT</td>
-                    <td><b class="warning">Active</b></td>
-                    <td class="primary">View</td>
-                </tr>
-                <tr>
-                    <td>SAP (2023-41)</td>
-                    <td>SAMUEL PASTOLERO</td>
-                    <td>Project IT</td>
-                    <td><b class="warning">Active</b></td>
-                    <td class="primary">View</td>
-                </tr>
-                <tr>
-                    <td>ALD (2023-40)</td>
-                    <td>ALEXANDRA JULIAN DE GUZMAN</td>
-                    <td>Project IT</td>
-                    <td><b class="warning">Active</b></td>
-                    <td class="primary">View</td>
-                </tr>
+                <?php
+                $servername = "localhost";
+                $username = "root";
+                $password = "";
+                $db = "dlsud";
+
+                // Create connection
+                $con = mysqli_connect($servername, $username, $password, $db);
+
+                // Check connection
+                if (!$con) {
+                    die("Connection failed: " . mysqli_connect_error());
+                }
+
+                // Fetch data from the 'interns' table
+                $sql = "SELECT fin, full_name, project FROM interns";
+                $result = mysqli_query($con, $sql);
+
+                // Display the fetched data in the table
+                if (mysqli_num_rows($result) > 0) {
+                    while ($row = mysqli_fetch_assoc($result)) {
+                        echo "<tr>";
+                        echo "<td>{$row['fin']}</td>";
+                        echo "<td>{$row['full_name']}</td>";
+                        echo "<td>{$row['project']}</td>";
+                        echo "<td>Status</td>";
+                        echo "<td></td>";
+                        echo "</tr>";
+                    }
+                } else {
+                    echo "<tr><td colspan='5'>No interns found.</td></tr>";
+                }
+
+                // Close the database connection
+                mysqli_close($con);
+                ?>
             </tbody>
         </table>
     </div>
+
 </main>
 <!----------------------------- END OF MAIN --------------------------->
 <div class="right">
@@ -120,7 +125,7 @@ include "header.php"
 </div>
 
 <script src="./listOfInterns.js"></script>
-    <script src="./index.js"></script>
+<script src="./index.js"></script>
 </body>
 
 </html>

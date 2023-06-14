@@ -2,6 +2,9 @@ const sideMenu = document.querySelector("aside");
 const menuBtn = document.querySelector("#menu-btn");
 const closeBtn = document.querySelector("#close-btn");
 const themeToggler = document.querySelector(".theme-toggler");
+// const body = document.body;
+// const darkThemeClass = 'dark-theme-variables';
+// const isDarkTheme = localStorage.getItem('isDarkTheme') === 'true';
 
 
 // show sidebar
@@ -16,11 +19,26 @@ closeBtn.addEventListener('click', () => {
 
 // theme
 themeToggler.addEventListener('click', () => {
-    document.body.classList.toggle('dark-theme-variables')
+  document.body.classList.toggle('dark-theme-variables')
 
-    themeToggler.querySelector('span:nth-child(1)').classList.toggle('active');
-    themeToggler.querySelector('span:nth-child(2)').classList.toggle('active');
+  themeToggler.querySelector('span:nth-child(1)').classList.toggle('active');
+  themeToggler.querySelector('span:nth-child(2)').classList.toggle('active');
 })
+
+// Set initial theme based on user preference
+// if (isDarkTheme) {
+//   body.classList.add(darkThemeClass);
+// }
+
+// // Toggle theme on click
+// themeToggler.addEventListener('click', () => {
+//   body.classList.toggle(darkThemeClass);
+//   const isCurrentlyDarkTheme = body.classList.contains(darkThemeClass);
+//   localStorage.setItem('isDarkTheme', isCurrentlyDarkTheme);
+//   themeToggler.querySelector('span:nth-child(1)').classList.toggle('active');
+//   themeToggler.querySelector('span:nth-child(2)').classList.toggle('active');
+// });
+
 
 // inside of List of Interns
 listOfInterns.forEach(listofintern => {

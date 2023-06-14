@@ -2,11 +2,11 @@
 
 $servername = "localhost";
 $username = "root";
-$password = "";
+$dbpassword = "";
 $db = "dlsud";
 
 // Create connection
-$con = mysqli_connect($servername, $username, $password,$db);
+$con = mysqli_connect($servername, $username, $dbpassword,$db);
 
 // Check connection
 if (!$con) {
