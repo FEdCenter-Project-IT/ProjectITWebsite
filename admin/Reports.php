@@ -2,7 +2,6 @@
 include "header.php";
 ?>
 
-<!----------------------------- END OF ASIDE --------------------------->
 <main>
     <h1>Reports</h1>
     <div class="project">

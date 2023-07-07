@@ -11,37 +11,47 @@ include "header.php";
                 <i class="fa fa-caret-down"></i>
             </button>
             <div class="dropdown-content" id="myDropdown">
-            <div class="Add">
-            <div class="Add Intern">
-                <a href="Add_project_form.php">
-                    <button class="addbtn">Add Project</button>
-                </a>
+                <div class="Add">
+                    <div class="Add Intern">
+                        <a href="Add_project_form.php">
+                            <button class="addbtn">Add Project</button>
+                        </a>
+                    </div>
+                </div>
+                <?php
+                $servername = "localhost";
+                $username = "root";
+                $password = "";
+                $db = "dlsud";
+
+                // Create connection
+                $con = mysqli_connect($servername, $username, $password, $db);
+
+                // Check connection
+                if (!$con) {
+                    die("Connection failed: " . mysqli_connect_error());
+                }
+
+                // Fetch cat_name from the 'projects' table
+                $sql = "SELECT cat_name FROM projects";
+                $result = mysqli_query($con, $sql);
+
+                // Display the fetched cat_name values as options in the dropdown menu
+                if (mysqli_num_rows($result) > 0) {
+                    while ($row = mysqli_fetch_assoc($result)) {
+                        $cat_name = $row['cat_name'];
+                        echo "<a href='#'>$cat_name</a>";
+                    }
+                } else {
+                    echo "No categories found.";
+                }
+
+                // Close the database connection
+                mysqli_close($con);
+                ?>
             </div>
         </div>
-                <!-- <a>Project Accounting</a>
-                <a>Project Alterna</a>
-                <a>Project Astra</a>
-                <a>Project Business Dev</a>
-                <a>Project CEO</a>
-                <a>Project Fin Ed</a>
-                <a>Project GSG</a>
-                <a>Project HR</a>
-                <a>Project IMG</a>
-                <a>Project IT</a>
-                <a>Project IUS</a>
-                <a>Project JCFAP</a>
-                <a>Project Marketing</a>
-                <a>Project Sales</a> -->
-
-                
-            </div>
-        </div>
-
-        
-
     </div>
-
-
 
     <script>
         function myFunction() {
@@ -60,6 +70,7 @@ include "header.php";
             }
         }
     </script>
+
 
     <!--Table-->
     <div class="intern-list">

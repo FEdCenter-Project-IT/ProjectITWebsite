@@ -1,63 +1,72 @@
 <?php
+$servername = "localhost";
+$username = "root";
+$dbpassword = "";
+$db = "dlsud";
+
+// Create connection
+$con = mysqli_connect($servername, $username, $dbpassword, $db);
+
+// Check connection
+if (!$con) {
+  die("Connection failed: " . mysqli_connect_error());
+}
 ini_set("display_errors", 1);
 ini_set("display_startup_errors", 1);
 error_reporting(E_ALL);
 session_start();
-include "db.php";
 
 // Tiff fixed the undefined array error
-$intern_id = isset($_POST['Intern_id']) ? $_POST['Intern_id'] : '';
-$projects = isset($_POST['projects']) ? $_POST['projects'] : '';
-$actionitem = isset($_POST['actionitem']) ? $_POST['actionitem'] : '';
-$specialevents = isset($_POST['specialevent']) ? $_POST['specialevent'] : '';
-$timeout_InternId = isset($_POST['timeout_InternId']) ? $_POST['timeout_InternId'] : '';
+$Time_out = isset($_POST['Time_out']) ? $_POST['Time_out'] : '';
 
-//Check if the time in button is pressed
+// Check if the time in button is pressed
 if (isset($_POST['ontime'])) {
+  // Get the Intern_Id based on the user ID (assuming it's stored in the session)
+  $user_id = $_SESSION['user_pass_log']; // Replace 'user_pass_log' with the actual session variable name
+
   // Insert date and time values into database
   // Tiff added the time in functionality
-  $sql = "INSERT INTO fedcenter_intern_logs (Intern_Id, Date, Time_in, Project, Action_item, Special_events) VALUES ('$InternId', GETDATE(), (SELECT CONVERT(VARCHAR(8), GETDATE(), 108)), '$projects','$actionitem', '$specialevents' )";
-  $stmt = mysqli_query($conn, $sql);
+  $sql = "INSERT INTO fedcenter_intern_logs (Intern_Id, Date, Time_in) VALUES (?, CURDATE(), CURTIME())";
+  $stmt = mysqli_prepare($con, $sql);
+  mysqli_stmt_bind_param($stmt, 's', $user_id);
 
-  if ($stmt) {
+  if (mysqli_stmt_execute($stmt)) {
     echo '<script>alert("Time-in Successful!")</script>';
   } else {
     echo '<script>alert("Server Error!")</script>';
   }
-  mysqli_close($conn);
-} elseif (isset($_POST['time_out'])) {
-  //Check if time-in has been done before storing time-out
-  $sqlcheck = "SELECT TOP 1 * FROM fedcenter_intern_logs WHERE TIME_OUT IS NULL ";
-  $stmtcheck = mysqli_query($conn, $sqlcheck);
-  $row = mysqli_fetch_array($result, MYSQLI_ASSOC);
+  mysqli_stmt_close($stmt);
+  mysqli_close($con);
+} elseif (isset($_POST['Time_out'])) {
+  // Get the Intern_Id based on the user ID (assuming it's stored in the session)
+  $user_id = $_SESSION['user_pass_log']; // Replace 'user_pass_log' with the actual session variable name
+
+  // Check if there is an active time-in for the Intern_Id
+  $sqlcheck = "SELECT * FROM fedcenter_intern_logs WHERE Intern_Id = ? AND Time_out IS NULL";
+  $stmtcheck = mysqli_prepare($con, $sqlcheck);
+  mysqli_stmt_bind_param($stmtcheck, 's', $user_id);
+  mysqli_stmt_execute($stmtcheck);
+  $resultcheck = mysqli_stmt_get_result($stmtcheck);
+  $row = mysqli_fetch_assoc($resultcheck);
 
   if ($row) {
     // Update date and time values into database
-    $sqlto = "UPDATE fedcenter_intern_logs SET TIME_OUT = (SELECT CONVERT(VARCHAR(8), GETDATE(), 108)) WHERE INTERN_ID = ?";
-    $stmtto = mysqli_prepare($conn, $sqlto);
-    mysqli_stmt_bind_param($stmtto, 's', $row['INTERN_ID']);
+    $sqlto = "UPDATE fedcenter_intern_logs SET Time_out = CURTIME(), No_hours = TIMESTAMPDIFF(HOUR, Time_in, CURTIME()), No_minutes = TIMESTAMPDIFF(MINUTE, Time_in, CURTIME()) % 60, Time_spent = TIMEDIFF(Time_out, Time_in) WHERE Intern_Id = ? AND Time_out IS NULL";
+    $stmtto = mysqli_prepare($con, $sqlto);
+    mysqli_stmt_bind_param($stmtto, 's', $user_id);
 
-    if ($stmtto) {
-      if (mysqli_stmt_execute($stmtto)) {
-        // Calculate the number of hours and minutes
-        $sqlcalculate = "UPDATE fedcenter_intern_logs SET NO_HOURS = TIMESTAMPDIFF(HOUR, TIME_IN, TIME_OUT), NO_MINUTES = TIMESTAMPDIFF(MINUTE, TIME_IN, TIME_OUT) % 60 WHERE INTERN_ID = ?";
-        $stmtcalculate = mysqli_prepare($conn, $sqlcalculate);
-        mysqli_stmt_bind_param($stmtcalculate, 's', $row['INTERN_ID']);
-        if (mysqli_stmt_execute($stmtcalculate)) {
-          echo '<script>alert("Time-out Successful!")</script>';
-        } else {
-          echo "Error: ";
-        }
-      }
+    if (mysqli_stmt_execute($stmtto)) {
+      echo '<script>alert("Time-out Successful!")</script>';
+    } else {
+      echo "Error: " . mysqli_error($con);
     }
+  } else {
+    echo '<script>alert("No active time-in found!")</script>';
   }
 
-  mysqli_close($conn);
+  mysqli_close($con);
 }
-
 ?>
-
-
 
 <!DOCTYPE html>
 <html lang="en">
@@ -78,17 +87,18 @@ if (isset($_POST['ontime'])) {
   <!--DrowDown Menu Intern-->
   <nav>
     <?php
-    // Connect to the database
-    $serverName = "";
-    $connectionOptions = array(
-      "Database" => "dlsud",
-      "UID" => "",
-      "PWD" => ""
-    );
-    $conn = mysqli_connect($serverName, $username, $password, $db);
 
-    // Check the connection
-    if (!$conn) {
+    // Connect to the database
+    $servername = "localhost";
+    $username = "root";
+    $dbpassword = "";
+    $db = "dlsud";
+
+    // Create connection
+    $con = mysqli_connect($servername, $username, $dbpassword, $db);
+
+    // Check connection
+    if (!$con) {
       die("Connection failed: " . mysqli_connect_error());
     }
 
@@ -96,24 +106,25 @@ if (isset($_POST['ontime'])) {
     $user_pass_log = isset($_SESSION["user_pass_log"]) ? $_SESSION["user_pass_log"] : '';
 
     // Prepare and execute the query
-    $query = "SELECT NAME, INTERN_ID FROM fedcenter_intern_data WHERE INTERN_ID = ?";
-    $stmt = mysqli_prepare($conn, $query);
+    $query = "SELECT full_name, fin FROM interns WHERE id = ?";
+    $stmt = mysqli_prepare($con, $query);
     mysqli_stmt_bind_param($stmt, 's', $user_pass_log);
     mysqli_stmt_execute($stmt);
 
+    // Bind the result variables
+    mysqli_stmt_bind_result($stmt, $name, $InternId);
+
     // Fetch the result
-    $result = mysqli_stmt_get_result($stmt);
+    mysqli_stmt_fetch($stmt);
 
     // Check if a row is found
-    if ($row = mysqli_fetch_array($result, MYSQLI_ASSOC)) {
-      $InternId = $row['INTERN_ID'];
-      $name = $row['NAME'];
+    if ($name !== null) {
+      // The row was found, do something with the values
     } else {
       $name = "Unknown"; // Default value if no result is found
       $InternId = "Unknown";
     }
     ?>
-
     <div class="toggle_btn">
       <i class="fa-solid fa-bars"></i>
     </div>
@@ -161,231 +172,164 @@ if (isset($_POST['ontime'])) {
   </center>
   <!-- Digital Clock Start -->
 
-    <div class="datetime">
-      <div class="date">
-        <span id="dayname"> Day </span>
-        <span id="month"> Month </span>
-        <span id="daynum"> 00 </span>,
-        <span id="year"> Year </span>
-      </div>
-      <div class="time">
-        <span id="hour"> 00 </span>:
-        <span id="minutes"> 00</span>:
-        <span id="seconds"> 00 </span>
-        <span id="period">
-
-        </span>
-      </div>
+  <div class="datetime">
+    <div class="date">
+      <span id="dayname"> Day </span>
+      <span id="month"> Month </span>
+      <span id="daynum"> 00 </span>,
+      <span id="year"> Year </span>
     </div>
-  
-
+    <div class="time">
+      <span id="hour"> 00 </span>:
+      <span id="minutes"> 00</span>:
+      <span id="seconds"> 00 </span>
+      <span id="period">
+      </span>
+    </div>
+  </div>
   <button type="submit" id="open" class="timein" name="time_in">Time in</button>
   <div class="modal-container" id="modal_container">
     <div class="modal">
-      <h1>Action Item</i></h1>
+      <h1>Confirm Time in</i></h1>
       <form id="registration" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="POST">
         <div class="Event">
-          <select name="projects" id="projects" class="projects">
-            <option value="None">Select your Projects</option>
-            <option value="Human Resources">Human Resources</option>
-            <option value="Accounting">Accounting</option>
-            <option value="IT">IT</option>
-            <option value="Marketing">Marketing</option>
-            <option value="FIN ED/ CFAP">FIN ED/ CFAP</option>
-            <option value="JJCFAP/JAA">JJCFAP/JAA</option>
-            <option value="Training">Training</option>
-            <option value="Business Development">Business Development</option>
-            <option value="Alterna">Alterna</option>
-            <option value="Organization">Organization</option>
-            <option value="ADM/NDC">ADM/NDC</option>
-            <option value="IMG/ASTRA">IMG/ASTRA</option>
-          </select>
-          <br><br><br>
-          <div class="intern-id">
-            <input type="text" id="InternId" name="InternId" class="form__input" autocomplete="off" placeholder=" ">
-            <label for="InternId" class="form__label">Intern ID </label>
-          </div>
-          <br><br><br>
-          <div class="action-item">
-            <input type="text" id="actionitem" name="actionitem" class="form-action" autocomplete="off" placeholder=" ">
-            <label for="actionitem" class="form--action">Action Item </label>
-          </div>
-          <br><br><br>
-          <div class="special-event">
-            <input type="text" id="specialevent" name="specialevent" class="form-special" autocomplete="off" placeholder=" ">
-            <label for="specialevent" class="form--special">Special Event </label>
-          </div>
-          <br><br><br>
         </div>
         <button type="submit" id="close" name="close">&times;</button>
-
         <button type="submit" id="ontime" name="ontime">Time in</button>
-
       </form>
-
     </div>
   </div>
   <form id="registration" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="POST">
-
-
-    <button type="submit" class="timeout" name="time_out">Time out</button>
-
+    <!-- Other input fields -->
+    <input type="hidden" name="Time_out" value="1">
+    <button type="submit" class="timeout" name="Time_out">Time Out</button>
   </form>
 
-  </div>
-  </div>
+  </div> <!-- Remove this extra closing div tag -->
+
+  </main> <!-- Adjust the closing tag for main -->
 
   <!--Table For Intern-->
   <main>
     <table class="mytable" id="mytable">
-
-      <thead>
-        <tr>
-
-          <th>INTERN ID</th>
-          <th>DATE</th>
-          <th>IN</th>
-          <th>OUT</th>
-          <th>HOURS</th>
-          <th>MINUTES</th>
-          <th>PROJECT</th>
-          <th>ACTION ITEM</th>
-          <th>SPECIAL EVENTS</th>
-        </tr>
-      </thead>
-
       <?php ///php inside html
+      $servername = "localhost";
+      $username = "root";
+      $dbpassword = "";
+      $db = "dlsud";
 
-      $serverName = "";
-      $connectionOptions = [
-        "Database" => "dlsud",
-        "Uid" => "",
-        "PWD" => ""
-      ];
+      // Create connection
+      $con = mysqli_connect($servername, $username, $dbpassword, $db);
 
-      $conn = mysqli_connect($serverName, $username, $password, $db);
-
-      if (!$conn) {
+      // Check connection
+      if (!$con) {
         die("Connection failed: " . mysqli_connect_error());
       }
-
-
       // Getting Total List
 
       $user_pass_log = isset($_SESSION["user_pass_log"]) ? $_SESSION["user_pass_log"] : '';
-      $sql = "SELECT * FROM fedcenter_intern_logs WHERE INTERN_ID = '$user_pass_log'";
+      $sql = "SELECT * FROM fedcenter_intern_logs WHERE Intern_Id = '$user_pass_log'";
 
-      $result = mysqli_query($conn, $sql);
+      $result = mysqli_query($con, $sql);
 
       if ($result === false) {
-        die("Query failed: " . mysqli_error($conn));
+        die("Query failed: " . mysqli_error($con));
       }
 
       ?>
 
-      <table>
+      <table class="mytable" id="mytable">
         <tr>
-          <th>INTERN ID</th>
           <th>DATE</th>
           <th>TIME IN</th>
           <th>TIME OUT</th>
+          <th> TIME SPENT</th>
           <th>NO OF HOURS</th>
           <th>NO MINUTES</th>
-          <th>PROJECT</th>
-          <th>ACTION ITEM</th>
-          <th>SPECIAL EVENTS</th>
         </tr>';
         <?php
         while ($row = mysqli_fetch_array($result, MYSQLI_ASSOC)) {
-          $fieldname2 = $row['INTERN_ID'];
-          $fieldname3 = date('d/m/Y', strtotime($row['DATE']));
-          $fieldname4 = $row['TIME_IN'];
-          $fieldname5 = $row['TIME_OUT'];
-          $fieldname6 = $row['NO_HOURS'];
-          $fieldname7 = $row['NO_MINUTES'];
-          $fieldname8 = $row['PROJECT'];
-          $fieldname9 = $row['ACTION_ITEM'];
-          $fieldname10 = $row['SPECIAL_EVENTS'];
-
-          echo '<tr>
-                <td>' . $fieldname2 . '</td>
-                <td>' . $fieldname3 . '</td>
-                <td>' . $fieldname4 . '</td>
-                <td>' . $fieldname5 . '</td>
-                <td>' . $fieldname6 . '</td>
-                <td>' . $fieldname7 . '</td>
-                <td>' . $fieldname8 . '</td>
-                <td>' . $fieldname9 . '</td>
-                <td>' . $fieldname10 . '</td>
-            </tr>';
+          $fieldname3 = date('d-M-Y', strtotime($row['Date']));
+          $fieldname4 = date('h:i A', strtotime($row['Time_in']));
+          $fieldname5 = date('h:i A', strtotime($row['Time_out']));
+          $fieldname6 = $row['Time_spent'];
+          $fieldname7 = $row['No_hours'];
+          $fieldname8 = $row['No_minutes'];
+          echo "<tr>";
+          echo "<td>" . $fieldname3 . "</td>";
+          echo "<td>" . $fieldname4 . "</td>";
+          echo "<td>" . $fieldname5 . "</td>";
+          echo "<td>" . $fieldname6 . "</td>";
+          echo "<td>" . $fieldname7 . "</td>";
+          echo "<td>" . $fieldname8 . "</td>";
+          echo "</tr>";
         }
-
-
-
-
         ?>
 
-
-
-
-
       </table>
-
+      <?php
+      mysqli_close($con);
+      ?>
+    </table>
   </main>
+  <script src="js/script.js"></script>
+  <!-- Digital Clock End -->
 
-  <script>
-    // pop-up messages
+</body>
 
-    const open = document.getElementById('open');
-    const modal_container = document.getElementById('modal_container');
-    const close = document.getElementById('close')
+</html>
 
-    open.addEventListener('click', () => {
-      modal_container.classList.add('show');
-    });
+<script>
+  // pop-up messages
 
-    close.addEventListener('click', () => {
-      modal_container.classList.remove('show');
-    });
-  </script>
+  const open = document.getElementById('open');
+  const modal_container = document.getElementById('modal_container');
+  const close = document.getElementById('close')
 
-  <!--Profile Intern-->
-  <script>
-    let subMenu = document.getElementById("subMenu");
-    let userPic = document.querySelector(".user_pic");
+  open.addEventListener('click', () => {
+    modal_container.classList.add('show');
+  });
 
-    function toggleMenu() {
-      subMenu.classList.toggle("open-menu");
+  close.addEventListener('click', () => {
+    modal_container.classList.remove('show');
+  });
+</script>
+
+<!--Profile Intern-->
+<script>
+  let subMenu = document.getElementById("subMenu");
+  let userPic = document.querySelector(".user_pic");
+
+  function toggleMenu() {
+    subMenu.classList.toggle("open-menu");
+  }
+  //click outside and close
+  window.addEventListener('click', function(e) {
+    if (!subMenu.contains(e.target) && !userPic.contains(e.target)) {
+      subMenu.classList.remove("open-menu");
     }
-       //click outside and close
-    window.addEventListener('click', function (e) {
-      if (!subMenu.contains(e.target) && !userPic.contains(e.target)) {
-        subMenu.classList.remove("open-menu");
-      }
-    });
-  </script>
-  <!--For the hamburger menu-->
-  <script>
+  });
+</script>
+<!--For the hamburger menu-->
+<script>
+  const toggleBtn = document.querySelector('.toggle_btn')
+  const toggleBtnIcon = document.querySelector('.toggle_btn i')
+  const dropDownMenu = document.querySelector('.dropdown_menu')
 
-    const toggleBtn = document.querySelector('.toggle_btn')
-    const toggleBtnIcon = document.querySelector('.toggle_btn i')
-    const dropDownMenu = document.querySelector('.dropdown_menu')
+  toggleBtn.onclick = function() {
+    dropDownMenu.classList.toggle('open')
+    const isOpen = dropDownMenu.classList.contains('open')
 
-    toggleBtn.onclick = function () {
-      dropDownMenu.classList.toggle('open')
-      const isOpen = dropDownMenu.classList.contains('open')
+    toggleBtnIcon.classList = isOpen ?
+      'fa-solid fa-xmark' :
+      'fa-solid fa-bars'
+  }
+</script>
 
-      toggleBtnIcon.classList = isOpen
-      ? 'fa-solid fa-xmark'
-      : 'fa-solid fa-bars'
-    }
 
-  </script>
-  
- 
 
-  <!--Intern CLock-->
-  <script type="text/javascript">
+<!--Intern CLock-->
+<script type="text/javascript">
   function updateClock() {
     var now = new Date();
     var dname = now.getDay(),
@@ -404,7 +348,7 @@ if (isset($_POST['ontime'])) {
       hou = hou - 12;
       pe = "PM";
     }
-    Number.prototype.pad = function (digits) {
+    Number.prototype.pad = function(digits) {
       for (var n = this.toString(); n.length < digits; n = 0 + n);
     }
     var months = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"]
@@ -417,7 +361,7 @@ if (isset($_POST['ontime'])) {
     var xmlhttp = new XMLHttpRequest();
     xmlhttp.open("POST", "homepage.php", true);
     xmlhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
-    xmlhttp.onreadystatechange = function () {
+    xmlhttp.onreadystatechange = function() {
       if (this.readyState == 4 && this.status == 200) {
         console.log(this.responseText); // You can handle the response from PHP here
       }
@@ -431,11 +375,11 @@ if (isset($_POST['ontime'])) {
     updateClock();
     window.setInterval(updateClock, 1000); // Update every second
   }
-  
+
   initClock(); // Initialize the clock
 </script>
 
-  <!-- CAMERA VISION -->
+<!-- CAMERA VISION -->
 
 
 </body>
