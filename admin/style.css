@@ -406,6 +406,180 @@ main .intern-list a {
     margin: 1rem auto;  
     color: var(--color-primary);
 }
+main table tbody td button {
+    cursor: pointer;
+    background: transparent;
+    color: var(--color-info-dark);
+    font-weight: 600;
+}
+.popup .overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background-color: rgba(0, 0, 0, 0.7);
+    z-index: 1;
+    display: none;
+}
+.popup .content {
+    position: absolute;
+    top: 50%; 
+    left: 50%;
+    transform: translate(-50%, -50%) scale(0);
+    background-color: aliceblue;
+    border-radius: 15px;
+    height: 40rem;
+    width: 60rem;
+    z-index: 2;
+    text-align: center;
+    box-sizing: border-box;
+}
+.popup h1 {
+    position: absolute;
+    top: 3rem;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    color: var(--color-primary);
+}
+
+.popup .close-btn {
+    position: absolute;
+    cursor: pointer;
+    right: 1rem;
+    top: .5rem;
+    width: 30px;
+    height: 30px;
+    background: black;
+    color: white;
+    font-size: 25px;
+    font-weight: 600;
+    line-height: 30px;
+    text-align: center;
+    border-radius: 50%;
+    transition: 0.4s;
+}
+.close-btn:hover {
+    transform: scale(1.2);
+}
+.popup.active .overlay {
+    display: block;
+}
+.popup.active .content {
+    transition: all 300ms ease-in-out;
+    transform: translate(-50%, -50%) scale(1);
+}
+.table101 {
+    position: absolute;
+    left: 50%;
+    top: 30%;
+    transform: translate(-50%, -50%);
+    width: 90%;
+    border-collapse: collapse;
+    border-spacing: 0;
+    border-radius: var(--card-border-radius);
+    overflow: hidden;
+    box-shadow: var(--box-shadow);
+    text-align: center;
+    background-color: white;
+    transition: all 300ms ease;
+    overflow: hidden;
+  }
+  .table101:hover{
+    box-shadow: none;
+  }
+  .table101 th, td {
+    padding-top: 20px;
+  }
+  .table101 th {
+    background-color: white;
+    color: #181a1e;
+    text-transform: capitalize;
+    font-family: poppins, sans-serif;
+  }
+  .table101  td {
+    font-family: system-ui;
+    text-align: center;
+    padding: 20px;
+  }
+  
+  .table101 tbody tr:last-child td {
+    border: none;
+  }
+  .table101 tbody td{
+    height: 2.8rem;
+    width: 20rem;
+    border-bottom: 1px solid transparent;
+    color: var(--color-info-dark);
+  }
+  .popup .item {
+    position: absolute;
+    font-weight: 900;
+    top: 20rem;
+  }
+  .table102 {
+    position: absolute;
+    left: 50%;
+    top: 70%;
+    transform: translate(-50%, -50%);
+    width: 95%;
+    border-collapse: collapse;
+    border-spacing: 0;
+    border-radius: var(--card-border-radius);
+    overflow: hidden;
+    box-shadow: var(--box-shadow);
+    text-align: center;
+    background-color: white;
+    transition: all 300ms ease;
+    overflow: hidden;
+  }
+  .table102:hover{
+    box-shadow: none;
+  }
+  .table102 th, td {
+    padding-top: 20px;
+  }
+  .table102 th {
+    background-color: white;
+    color: #181a1e;
+    text-transform: capitalize;
+    font-family: poppins, sans-serif;
+  }
+  .table102 td {
+    font-family: system-ui;
+    text-align: center;
+    padding: 20px;
+  }
+  
+  .table102 tbody tr:last-child td {
+    border: none;
+  }
+  .table102 tbody td{
+    height: 2.8rem;
+    width: 15rem;
+    border-bottom: 1px solid transparent;
+    color: var(--color-info-dark);
+  }
+  .special-events-cell {
+    max-width: 20rem;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    cursor: pointer;
+  }
+  
+  .tooltip {
+    position: absolute;
+    transform: translate(2rem, 15rem);
+    display: none;
+    color: #181a1e;
+    border-radius: 8px;
+    background-color: #fff;
+    border: 1px solid #ccc;
+    padding: 5px;
+    z-index: 1;
+  }
+  
 
 /* ============ RIGHT <ARNOLD>============ */
 .right {

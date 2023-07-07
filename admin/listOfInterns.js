@@ -30,3 +30,28 @@
 //         status: 'Inactive'
 //     }
 // ]
+
+function togglePopup(){
+    document.getElementById("popup-1").classList.toggle("active");
+};
+
+//view the "....."
+const cell = document.querySelector('.special-events-cell');
+const tooltip = document.querySelector('.tooltip');
+
+cell.addEventListener('mouseover', showTooltip);
+cell.addEventListener('mouseout', hideTooltip);
+
+function showTooltip() {
+  const fullText = cell.innerText;
+  tooltip.textContent = fullText;
+  tooltip.style.display = 'block';
+  tooltip.style.top = (cell.offsetTop + cell.offsetHeight) + 'px';
+  tooltip.style.left = cell.offsetLeft + 'px';
+}
+
+function hideTooltip() {
+  tooltip.style.display = 'none';
+}
+
+  

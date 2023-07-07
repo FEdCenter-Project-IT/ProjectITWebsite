@@ -11,47 +11,37 @@ include "header.php";
                 <i class="fa fa-caret-down"></i>
             </button>
             <div class="dropdown-content" id="myDropdown">
-                <div class="Add">
-                    <div class="Add Intern">
-                        <a href="Add_project_form.php">
-                            <button class="addbtn">Add Project</button>
-                        </a>
-                    </div>
-                </div>
-                <?php
-                $servername = "localhost";
-                $username = "root";
-                $password = "";
-                $db = "dlsud";
-
-                // Create connection
-                $con = mysqli_connect($servername, $username, $password, $db);
-
-                // Check connection
-                if (!$con) {
-                    die("Connection failed: " . mysqli_connect_error());
-                }
-
-                // Fetch cat_name from the 'projects' table
-                $sql = "SELECT cat_name FROM projects";
-                $result = mysqli_query($con, $sql);
-
-                // Display the fetched cat_name values as options in the dropdown menu
-                if (mysqli_num_rows($result) > 0) {
-                    while ($row = mysqli_fetch_assoc($result)) {
-                        $cat_name = $row['cat_name'];
-                        echo "<a href='#'>$cat_name</a>";
-                    }
-                } else {
-                    echo "No categories found.";
-                }
-
-                // Close the database connection
-                mysqli_close($con);
-                ?>
+            <div class="Add">
+            <div class="Add Intern">
+                <a href="Add_project_form.php">
+                    <button class="addbtn">Add Project</button>
+                </a>
             </div>
         </div>
+                <!-- <a>Project Accounting</a>
+                <a>Project Alterna</a>
+                <a>Project Astra</a>
+                <a>Project Business Dev</a>
+                <a>Project CEO</a>
+                <a>Project Fin Ed</a>
+                <a>Project GSG</a>
+                <a>Project HR</a>
+                <a>Project IMG</a>
+                <a>Project IT</a>
+                <a>Project IUS</a>
+                <a>Project JCFAP</a>
+                <a>Project Marketing</a>
+                <a>Project Sales</a> -->
+
+                
+            </div>
+        </div>
+
+        
+
     </div>
+
+
 
     <script>
         function myFunction() {
@@ -70,7 +60,6 @@ include "header.php";
             }
         }
     </script>
-
 
     <!--Table-->
     <div class="intern-list">
@@ -112,7 +101,7 @@ include "header.php";
                         echo "<td>{$row['full_name']}</td>";
                         echo "<td>{$row['project']}</td>";
                         echo "<td>Status</td>";
-                        echo "<td></td>";
+                        echo "<td><button onclick=\"togglePopup()\">Click Here</button></td>";
                         echo "</tr>";
                     }
                 } else {
@@ -125,8 +114,67 @@ include "header.php";
             </tbody>
         </table>
     </div>
-
 </main>
+<div class="popup" id="popup-1">
+    <div class="overlay"></div>
+    <div class="content">
+        <div class="close-btn" onclick="togglePopup()">&times;</div>
+        
+        <h1>LogSheet</h1> 
+
+<table class="table101">
+<thead>
+  <tr>
+    <th>NO</th>
+    <th>DATE</th>
+    <th>IN</th>
+    <th>OUT</th>
+    <th>HOURS</th>
+    <th>MINS</th>
+  </tr>
+</thead>
+
+ <tbody>
+  <tr>
+    <td>01</td>
+    <td>January 1, 2023</td>
+    <td>8:00AM</td>
+    <td>5:00PM</td>
+    <td>8</td>
+    <td>0</td>
+  </tr>  
+ </tbody>
+</table>     
+
+<h1 class="item">Action Item</h1>
+
+  <table class="table102">
+    <thead>
+      <tr>
+        <th>ACTION ITEM</th>
+        <th>DATE</th>
+        <th>TIMEFRAME</th>
+        <th>STATUS</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+      <td class="special-events-cell" onmouseover="showTooltip(this)">Creating Background of the sunshine and earth and</td>
+        <td>june 15, 2023</td>
+        <td>8:00am - 12:00pm</td>
+        <td>Pending</td>
+      </tr>  
+    </tbody>
+  </table>
+  <div class="tooltip"></div>
+   
+
+
+
+
+    </div>
+</div>
+
 <!----------------------------- END OF MAIN --------------------------->
 <div class="right">
     <div class="top">
@@ -137,6 +185,7 @@ include "header.php";
 
 <script src="./listOfInterns.js"></script>
 <script src="./index.js"></script>
+
 </body>
 
 </html>
